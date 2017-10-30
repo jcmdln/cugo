@@ -35,24 +35,36 @@ func init() {
 
 func Mkdir(args ...string) {
 	for _, dir := range args {
-		if _, err := os.Stat(dir); os.IsNotExist(err) {
-			if mkdirParents == false {
-				if !strings.Contains(dir, "/") {
-					os.Mkdir(dir, os.FileMode(mkdirMode))
-					if mkdirVerbose == true {
-						fmt.Println("Created directory", "'"+dir+"'",
-							"with permissions", os.FileMode(mkdirMode))
-					}
-				} else {
-					fmt.Println("cugo: mkdir:", err)
-				}
-			} else {
-				os.MkdirAll(dir, os.FileMode(mkdirMode))
+		_, err := os.Stat(dir)
+		exists := os.IsNotExist(err)
+
+		if err != nil && !exists {
+			fmt.Println("cugo: mkdir:", err)
+			return
+		}
+
+		if !exists {
+			fmt.Println("cugo: mkdir: Directory exists")
+			return
+		}
+
+		if mkdirParents == false {
+			if !strings.Contains(dir, "/") {
+				os.Mkdir(dir, os.FileMode(mkdirMode))
 				if mkdirVerbose == true {
 					fmt.Println("Created directory", "'"+dir+"'",
 						"with permissions", os.FileMode(mkdirMode))
 				}
+			} else {
+				fmt.Println("cugo: mkdir:", err)
+			}
+		} else {
+			os.MkdirAll(dir, os.FileMode(mkdirMode))
+			if mkdirVerbose == true {
+				fmt.Println("Created directory", "'"+dir+"'",
+					"with permissions", os.FileMode(mkdirMode))
 			}
 		}
+
 	}
 }
