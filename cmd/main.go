@@ -2,23 +2,28 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 )
 
 type Commander interface {
-	Init()     // Initialization
-	Main() int // Execution
+	Init(flag []string)
+	Main() int
 }
 
 type Command struct {
-	Name string
-	Use  string
+	Data []string
+
+	Name  string
+	Use   string
+	About string
+	Man   string
 }
 
-func (c Command) Args(index int, numFlags int) bool {
-	if numFlags < index {
+func (c Command) Args() bool {
+	if len(os.Args[2:]) < 1 {
 		fmt.Println(c.Name+":", "Not enough operands")
 		fmt.Println("Usage:", c.Name, c.Use)
-		return false
+		os.Exit(0)
 	}
 	return true
 }

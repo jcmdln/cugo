@@ -8,22 +8,23 @@ import (
 )
 
 type RM struct {
-	Commander          // Parent interface
-	Data      []string // Remaining data in args after flagit.Parse()
+	Command
+	Data []string
 
-	// Local Flags
-	Name        string
-	About       string
+	Help        bool
+	Force       bool
 	Interactive bool
+	Recursive   bool
 	Verbose     bool
 }
 
 func (c *RM) Init() {
-	var (
-		Name = "rm"
-		//About = "Creates the specified directories if they do not already exist"
+	c.Name = "rm"
+	c.About = "Creates the specified directories if they do not already exist"
 
+	var (
 		Force       = false
+		Help        = false
 		Interactive = false
 		Recursive   = false
 		Verbose     = false
@@ -33,6 +34,8 @@ func (c *RM) Init() {
 
 	// Start new instance of and declare flags
 	flags := flagit.NewFlag()
+	flags.Bool(&Help, []string{"-h", "--help"},
+		"Prints this text")
 	flags.Bool(&Force, []string{"-f", "--force"},
 		"Skip prompts and ignore warnings")
 	flags.Bool(&Interactive, []string{"-i", "--interactive"},
@@ -43,14 +46,17 @@ func (c *RM) Init() {
 		"Print a message when actions are taken")
 
 	c.Data, err = flags.Parse(os.Args[2:])
-	if err != nil {
-		fmt.Println("cugo: mkdir:", err)
-	}
-
-	if len(os.Args) <= 2 {
-		fmt.Println("cugo:", Name+":", "missing operand")
+	a := func() {
+		fmt.Println()
 		flags.PrintUsage()
 		os.Exit(0)
+	}
+	if !c.Args() || Help == true {
+		fmt.Println(c.Name, "-", c.About)
+		a()
+	} else if err != nil {
+		fmt.Println(c.Name+":", err)
+		a()
 	}
 }
 
@@ -61,7 +67,7 @@ func (c RM) Main() int {
 			}
 			//os.RemoveAll(target)
 			if c.Verbose == true {
-				fmt.Println("Deleting", target)
+				fmt.Println("Pretending to delete", target)
 			}
 		}
 	}

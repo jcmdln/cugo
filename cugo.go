@@ -9,15 +9,17 @@ import (
 	"github.com/jcmdln/cugo/cmd"
 )
 
-func init() {
-	// Disable GC by default
-	debug.SetGCPercent(-1)
+var (
+	Name  = "cugo"
+	Use   = "[COMMAND] [OPTIONS]... ARGUMENTS..."
+	Utils = "mkdir"
+)
 
-	// If no flags or args passed, print basic info
-	if len(os.Args) <= 1 {
-		fmt.Println("cugo", "v0.0.0-alpha", "-",
-			"Core utilities as a multi-call binary written in Go")
-		fmt.Println("Available commands: mkdir")
+func init() {
+	debug.SetGCPercent(-1)
+	if len(os.Args[1:]) < 1 {
+		fmt.Println(Name+":", "not enough operands")
+		fmt.Println(Name+":", Use)
 		os.Exit(0)
 	}
 }
@@ -26,11 +28,12 @@ func main() {
 	call := os.Args[1]
 	c, ok := cmd.Cmds[call]
 	if !ok {
-		fmt.Printf("Unable to call %s\n", call)
+		fmt.Printf("cugo: '%s' is not a defined utility.\n", call)
+		fmt.Printf("Available utilities: %s\n", Utils)
 		os.Exit(0)
 	} else {
 		runtime.GC()
-		c.Init()
+		c.Init(os.Args[2:])
 		retVal := c.Main()
 		os.Exit(retVal)
 	}
