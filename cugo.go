@@ -12,14 +12,14 @@ import (
 var (
 	Name  = "cugo"
 	Use   = "[COMMAND] [OPTIONS]... ARGUMENTS..."
-	Utils = "mkdir"
+	Utils = "mkdir rm"
 )
 
 func init() {
 	debug.SetGCPercent(-1)
 	if len(os.Args[1:]) < 1 {
 		fmt.Println(Name+":", "not enough operands")
-		fmt.Println(Name+":", Use)
+		fmt.Println("Usage:", Name, Use)
 		os.Exit(0)
 	}
 }
