@@ -38,8 +38,7 @@ func (c *MKDIR) Init(flag []string) {
 func (c MKDIR) Main() int {
 	for _, dir := range c.Data {
 		_, err := os.Stat(dir)
-		exists := !os.IsNotExist(err)
-		if exists {
+		if !os.IsNotExist(err) {
 			fmt.Println(c.Name+":", "'"+dir+"'", "already exists!")
 			return 0
 		}
@@ -48,7 +47,7 @@ func (c MKDIR) Main() int {
 			os.MkdirAll(dir, os.FileMode(c.Mode))
 		} else if !c.Parents && !strings.Contains(dir, "/") {
 			os.Mkdir(dir, os.FileMode(uint32(c.Mode)))
-		} else if strings.Contains(dir, "/"); err != nil {
+		} else if strings.Contains(dir, "/") || err != nil {
 			fmt.Println(c.Name+":", err)
 			return 0
 		}

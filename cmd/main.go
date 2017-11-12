@@ -22,21 +22,20 @@ type Command struct {
 	Data  []string
 }
 
-func (c Command) Args(opt int) {
+func (c *Command) Args(opt int) {
 	var err error
 	c.Data, err = c.Flags.Parse(os.Args[2:])
+
 	if len(os.Args[opt:]) < 1 {
 		fmt.Println(c.Name+":", "Not enough operands")
 		fmt.Println("Usage:", c.Name, c.Use)
 		os.Exit(0)
-	}
-	if err != nil {
+	} else if err != nil {
 		fmt.Println(c.Name+":", err)
 		fmt.Println()
 		c.Flags.PrintUsage()
 		os.Exit(0)
 	}
-	return
 }
 
 var Cmds map[string]Commander
