@@ -18,8 +18,8 @@ type MKDIR struct {
 
 func (c *MKDIR) Init(flag []string) {
 	c.Name = "mkdir"
-	c.Use = "[OPTION]... DIRECTORY..."
 	c.About = "Creates the specified directories if they do not already exist"
+	c.Use = "[-vp] [-m MODE] TARGETS..."
 
 	c.Mode = 0777
 	c.Parents = false
@@ -32,7 +32,7 @@ func (c *MKDIR) Init(flag []string) {
 		"Create missing parent directories")
 	c.Flags.Bool(&c.Verbose, []string{"-v", "--verbose"},
 		"Print a message when actions are taken")
-	c.Args(2)
+	c.ArgParse(2)
 }
 
 func (c MKDIR) Main() int {

@@ -18,8 +18,8 @@ type RM struct {
 
 func (c *RM) Init(flag []string) {
 	c.Name = "rm"
-	c.Use = "[OPTION]... TARGETS..."
 	c.About = "Creates the specified directories if they do not already exist"
+	c.Use = "[-f] [-iRr] TARGETS..."
 
 	c.Force = false
 	c.Interactive = false
@@ -35,7 +35,7 @@ func (c *RM) Init(flag []string) {
 		"Remove directories and their contents recursively")
 	c.Flags.Bool(&c.Verbose, []string{"-v", "--verbose"},
 		"Print a message when actions are taken")
-	c.Args(2)
+	c.ArgParse(2)
 }
 
 func (c RM) Main() int {
@@ -44,6 +44,7 @@ func (c RM) Main() int {
 			if c.Interactive == true {
 				//
 			}
+			//os.Remove(target)
 			//os.RemoveAll(target)
 			if c.Verbose == true {
 				fmt.Println("Pretending to delete", target)
