@@ -5,7 +5,7 @@ Note: This is a for-fun project that may change rapidly, though is intended to i
 Cugo is a set of core utilities for Unix-like systems in the form of a multi-call binary with the aim of being standards compliant. Much of the direction of Cugo will take inspiration from Rob Landley's project Toybox such as choice of reference `man` pages and utilities to implement, though special consideration of any missing features will be made when comparing `man` pages of various implementations of utilities.
 
 
-## Design Methodology.
+## Design Methodology
 All utilities should be simply correct, meaning that the contained implementations should focus on being written in a simple, readable manner and be reviewed for correctness. Additional focus on debugging and performance optimization is still in progress, though should not obfuscate what is occurring arbitrarily.
 
 Go's standard library is feature complete enough to make many utilities trivial to implement and should be used as often as possible in place of third-party applications or libraries.
