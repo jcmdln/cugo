@@ -5,7 +5,7 @@ import (
 	"os"
 	"runtime/debug"
 
-	"github.com/jcmdln/cugo-cobra/cmd"
+	"github.com/jcmdln/cugo/cmd"
 )
 
 func init() {
