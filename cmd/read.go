@@ -15,7 +15,13 @@ var (
 		Short: "read from standard input into shell variables",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			//
+			if len(os.Args) <= 2 {
+				fmt.Println("cugo: read: No operands passed")
+				fmt.Println("Usage: read [-epr] TARGETS...")
+				os.Exit(0)
+			} else {
+				Read(args)
+			}
 		},
 	}
 )
@@ -24,15 +30,8 @@ func init() {
 	RootCmd.AddCommand(readCmd)
 }
 
-func Read(msg string) {
-	// Read still needs a lengthy cleanup
-	// if len(os.Args) <= 2 {
-	// 	fmt.Println("cugo: mkdir: No operands passed")
-	// 	fmt.Println("Usage: mkdir [-pv] [-m MODE] TARGETS...")
-	//  os.Exit(0)
-	// }
-
-	fmt.Printf(msg)
+func Read(args []string) {
+	fmt.Printf(strings.Join(args, " "))
 
 	input := bufio.NewScanner(os.Stdin)
 	for input.Scan() {

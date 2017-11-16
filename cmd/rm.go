@@ -15,7 +15,13 @@ var (
 		Short: "Remove directory entries",
 		Long:  "Remove the directory entry specified by each file argument",
 		Run: func(cmd *cobra.Command, args []string) {
-			Rm(args)
+			if len(os.Args) <= 2 {
+				fmt.Println("cugo: rm: No operands passed")
+				fmt.Println("Usage: rm [-f|-i] [-r] TARGETS...")
+				os.Exit(0)
+			} else {
+				Rm(args)
+			}
 		},
 	}
 
@@ -38,12 +44,6 @@ func init() {
 }
 
 func Rm(args []string) {
-	if len(os.Args) <= 2 {
-		fmt.Println("cugo: rm: No operands passed")
-		fmt.Println("Usage: rm [-f|-i] [-r] TARGETS...")
-		os.Exit(0)
-	}
-
 	for _, target := range args {
 		_, err := os.Stat(target)
 		if os.IsNotExist(err) {
@@ -53,7 +53,7 @@ func Rm(args []string) {
 		}
 
 		if rmInteractive == true && rmForce == false {
-			Read("cugo: Remove " + target + "? [Y/N]: ")
+			Read([]string{"cugo: Remove " + target + "? [Y/N]: "})
 		}
 
 		if rmForce == true {
@@ -62,7 +62,7 @@ func Rm(args []string) {
 			filepath.Walk(target,
 				func(t string, info os.FileInfo, err error) error {
 					if info.IsDir() {
-						Read("cugo: Descend into '" + info.Name() + "'?: ")
+						Read([]string{"cugo: Descend into '" + info.Name() + "'?: "})
 						return nil
 					}
 					fmt.Println("pretend to delete", t)
