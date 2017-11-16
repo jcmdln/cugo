@@ -52,27 +52,33 @@ func Rm(args []string) {
 			return
 		}
 
-		if rmInteractive == true && rmForce == false {
+		// '-i' is ignored if '-f' is passed
+		if rmInteractive == true && !rmForce {
 			Read([]string{"cugo: Remove " + target + "? [Y/N]: "})
 		}
 
-		if rmForce == true {
-			os.RemoveAll(target)
-		} else if rmRecursive == true && rmForce == false {
+		// '-r' walks the path if '-f' is not passed to the inner-most target.
+		if rmRecursive == true && !rmForce {
 			filepath.Walk(target,
 				func(t string, info os.FileInfo, err error) error {
 					if info.IsDir() {
 						Read([]string{"cugo: Descend into '" + info.Name() + "'?: "})
 						return nil
+					} else if !info.IsDir() {
+						Read([]string{"cugo: Delete '" + info.Name() + "'?: "})
+						fmt.Println("pretend to delete", t)
+						return nil
 					}
 					fmt.Println("pretend to delete", t)
 					return nil
 				})
-		} else if !rmRecursive && !strings.Contains(target, "/") {
-			fmt.Println("cugo:", "Cannot remove the directory",
-				"'"+target+"'")
-		} else {
-			os.Remove(target)
+		}
+
+		// '-f' cannot recursively descend unless '-r' is passed
+		if rmForce == true && !rmRecursive && !strings.Contains(target, "/") {
+			os.RemoveAll(target)
+		} else if strings.Contains(target, "/") {
+			fmt.Println("cugo:", "Cannot remove the target", "'"+target+"'")
 		}
 
 		if rmVerbose == true {
