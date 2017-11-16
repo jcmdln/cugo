@@ -76,7 +76,7 @@ func Rm(args []string) {
 
 		// '-f' cannot recursively descend unless '-r' is passed
 		if rmForce == true && !rmRecursive && !strings.Contains(target, "/") {
-			os.RemoveAll(target)
+			fmt.Println("pretend to delete", target)
 		} else if strings.Contains(target, "/") {
 			fmt.Println("cugo:", "Cannot remove the target", "'"+target+"'")
 		}
