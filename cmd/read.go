@@ -12,7 +12,7 @@ import (
 var (
 	readCmd = &cobra.Command{
 		Use:   "read",
-		Short: "",
+		Short: "read from standard input into shell variables",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
 			//
@@ -25,6 +25,13 @@ func init() {
 }
 
 func Read(msg string) {
+	// Read still needs a lengthy cleanup
+	// if len(os.Args) <= 2 {
+	// 	fmt.Println("cugo: mkdir: No operands passed")
+	// 	fmt.Println("Usage: mkdir [-pv] [-m MODE] TARGETS...")
+	//  os.Exit(0)
+	// }
+
 	fmt.Printf(msg)
 
 	input := bufio.NewScanner(os.Stdin)

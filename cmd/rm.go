@@ -7,14 +7,13 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/spf13/pflag"
 )
 
 var (
 	rmCmd = &cobra.Command{
 		Use:   "rm",
-		Short: "",
-		Long:  "",
+		Short: "Remove directory entries",
+		Long:  "Remove the directory entry specified by each file argument",
 		Run: func(cmd *cobra.Command, args []string) {
 			Rm(args)
 		},
@@ -39,6 +38,12 @@ func init() {
 }
 
 func Rm(args []string) {
+	if len(os.Args) <= 2 {
+		fmt.Println("cugo: rm: No operands passed")
+		fmt.Println("Usage: rm [-f|-i] [-r] TARGETS...")
+		os.Exit(0)
+	}
+
 	for _, target := range args {
 		_, err := os.Stat(target)
 		if os.IsNotExist(err) {
