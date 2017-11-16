@@ -1,41 +1,37 @@
 package cmd
 
 import (
-	"github.com/markedhero/flagit"
+	"github.com/spf13/cobra"
 )
 
-type TOUCH struct {
-	Command
+var (
+	touchCmd = &cobra.Command{
+		Use:   "touch",
+		Short: "",
+		Long:  "",
+		Run: func(cmd *cobra.Command, args []string) {
+			Touch()
+		},
+	}
 
-	AccessTime   bool
-	Create       bool
-	DateTime     string
-	ModifiedTime bool
-	Time         int
-}
+	touchAccess   bool
+	touchCreate   bool
+	touchDate     string
+	touchModified int
+)
 
-func (c *TOUCH) Init(flag []string) {
-	c.Name = "touch"
-	c.About = ""
-	c.Use = "[-acm] [-r ref_file|-t TIME|-d date_time] FILES..."
-
-	c.AccessTime = false
-	c.Create = true
-	c.ModifiedTime = false
-	c.DateTime = ""
-	c.Time = 0
-
-	c.Flags = flagit.NewFlag()
-	c.Flags.Bool(&c.AccessTime, []string{"-a"},
+func init() {
+	RootCmd.AddCommand(touchCmd)
+	touchCmd.Flags().BoolVarP(&touchAccess, "access", "a", false,
 		"Change the access time of a file if -m is also specified")
-	c.Flags.Bool(&c.Create, []string{"-c"},
+	touchCmd.Flags().BoolVarP(&touchCreate, "create", "c", false,
 		"Do not create the specified file if it doesn't exist")
-	c.Flags.String(&c.DateTime, []string{"-d"},
+	touchCmd.Flags().StringVarP(&touchDate, "date", "d", "",
 		"")
-	c.Flags.Bool(&c.ModifiedTime, []string{"m"},
+	touchCmd.Flags().IntVarP(&touchModified, "modified", "m", 0,
 		"Changed the modification time of a file if -a is also specified")
 }
 
-func (c *TOUCH) Main() int {
-	return 0
+func Touch() {
+	return
 }

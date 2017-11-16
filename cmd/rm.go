@@ -3,54 +3,77 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"path/filepath"
+	"strings"
 
-	"github.com/markedhero/flagit"
+	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 )
 
-type RM struct {
-	Command
+var (
+	rmCmd = &cobra.Command{
+		Use:   "rm",
+		Short: "",
+		Long:  "",
+		Run: func(cmd *cobra.Command, args []string) {
+			Rm(args)
+		},
+	}
 
-	Force       bool
-	Interactive bool
-	Recursive   bool
-	Verbose     bool
-}
+	rmForce       bool
+	rmInteractive bool
+	rmRecursive   bool
+	rmVerbose     bool
+)
 
-func (c *RM) Init(flag []string) {
-	c.Name = "rm"
-	c.About = "Creates the specified directories if they do not already exist"
-	c.Use = "[-f] [-iRr] TARGETS..."
-
-	c.Force = false
-	c.Interactive = false
-	c.Recursive = false
-	c.Verbose = false
-
-	c.Flags = flagit.NewFlag()
-	c.Flags.Bool(&c.Force, []string{"-f", "--force"},
+func init() {
+	RootCmd.AddCommand(rmCmd)
+	rmCmd.Flags().BoolVarP(&rmForce, "force", "f", false,
 		"Skip prompts and ignore warnings")
-	c.Flags.Bool(&c.Interactive, []string{"-i", "--interactive"},
+	rmCmd.Flags().BoolVarP(&rmInteractive, "interactive", "i", false,
 		"Prompt before performing each action")
-	c.Flags.Bool(&c.Recursive, []string{"-r", "-R", "--recursive"},
+	rmCmd.Flags().BoolVarP(&rmRecursive, "recursive", "r", false,
 		"Remove directories and their contents recursively")
-	c.Flags.Bool(&c.Verbose, []string{"-v", "--verbose"},
+	rmCmd.Flags().BoolVarP(&rmVerbose, "verbose", "v", false,
 		"Print a message when actions are taken")
-	c.ArgParse(2)
 }
 
-func (c RM) Main() int {
-	for _, target := range c.Data {
-		if _, err := os.Stat(target); err == nil {
-			if c.Interactive == true {
-				//
-			}
-			//os.Remove(target)
-			//os.RemoveAll(target)
-			if c.Verbose == true {
-				fmt.Println("Pretending to delete", target)
-			}
+func Rm(args []string) {
+	for _, target := range args {
+		_, err := os.Stat(target)
+		if os.IsNotExist(err) {
+			fmt.Println("cugo:", "Cannot remove '"+target+"':",
+				"no such file or directory")
+			return
+		}
+
+		if rmInteractive == true && rmForce == false {
+			Read("cugo: Remove " + target + "? [Y/N]: ")
+		}
+
+		if rmForce == true {
+			os.RemoveAll(target)
+		} else if rmRecursive == true && rmForce == false {
+			filepath.Walk(target,
+				func(t string, info os.FileInfo, err error) error {
+					if info.IsDir() {
+						Read("cugo: Descend into '" + info.Name() + "'?: ")
+						return nil
+					}
+					fmt.Println("pretend to delete", t)
+					return nil
+				})
+		} else if !rmRecursive && !strings.Contains(target, "/") {
+			fmt.Println("cugo:", "Cannot remove the directory",
+				"'"+target+"'")
+		} else {
+			os.Remove(target)
+		}
+
+		if rmVerbose == true {
+			fmt.Println("cugo:", "Removed '"+target+"'")
 		}
 	}
 
-	return 0
+	return
 }

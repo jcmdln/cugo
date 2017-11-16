@@ -5,58 +5,56 @@ import (
 	"os"
 	"strings"
 
-	"github.com/markedhero/flagit"
+	"github.com/spf13/cobra"
 )
 
-type MKDIR struct {
-	Command
+var (
+	mkdirCmd = &cobra.Command{
+		Use:   "mkdir",
+		Short: "Creates the specified directories if they do not already exist",
+		Long:  "",
+		Run: func(cmd *cobra.Command, args []string) {
+			Mkdir(args)
+		},
+	}
 
-	Mode    int
-	Parents bool
-	Verbose bool
-}
+	mkdirMode    uint32
+	mkdirParents bool
+	mkdirVerbose bool
+)
 
-func (c *MKDIR) Init(flag []string) {
-	c.Name = "mkdir"
-	c.About = "Creates the specified directories if they do not already exist"
-	c.Use = "[-vp] [-m MODE] TARGETS..."
-
-	c.Mode = 0777
-	c.Parents = false
-	c.Verbose = false
-
-	c.Flags = flagit.NewFlag()
-	c.Flags.Int(&c.Mode, []string{"-m", "--mode"},
+func init() {
+	RootCmd.AddCommand(mkdirCmd)
+	mkdirCmd.Flags().Uint32VarP(&mkdirMode, "mode", "m", 0777,
 		"Set folder permissions to specified MODE value")
-	c.Flags.Bool(&c.Parents, []string{"-p", "--parents"},
+	mkdirCmd.Flags().BoolVarP(&mkdirParents, "parents", "p", false,
 		"Create missing parent directories")
-	c.Flags.Bool(&c.Verbose, []string{"-v", "--verbose"},
+	mkdirCmd.Flags().BoolVarP(&mkdirVerbose, "verbose", "v", false,
 		"Print a message when actions are taken")
-	c.ArgParse(2)
 }
 
-func (c MKDIR) Main() int {
-	for _, dir := range c.Data {
-		_, err := os.Stat(dir)
+func Mkdir(args []string) {
+	for _, target := range args {
+		_, err := os.Stat(target)
 		if !os.IsNotExist(err) {
-			fmt.Println(c.Name+":", "'"+dir+"'", "already exists!")
-			return 0
+			fmt.Println("cugo:", "'"+target+"'", "already exists!")
+			return
 		}
 
-		if c.Parents == true {
-			os.MkdirAll(dir, os.FileMode(c.Mode))
-		} else if !c.Parents && !strings.Contains(dir, "/") {
-			os.Mkdir(dir, os.FileMode(uint32(c.Mode)))
-		} else if strings.Contains(dir, "/") || err != nil {
-			fmt.Println(c.Name+":", err)
-			return 0
+		if mkdirParents == true {
+			os.MkdirAll(target, os.FileMode(mkdirMode))
+		} else if !mkdirParents && !strings.Contains(target, "/") {
+			os.Mkdir(target, os.FileMode(mkdirMode))
+		} else if strings.Contains(target, "/") || err != nil {
+			fmt.Println("cugo:", err)
+			return
 		}
 
-		if c.Verbose == true {
-			fmt.Println("Created", "'"+dir+"'", "with permissions",
-				os.FileMode(uint32(c.Mode)))
+		if mkdirVerbose == true {
+			fmt.Println("Created", "'"+target+"'", "with permissions",
+				os.FileMode(mkdirMode))
 		}
 	}
 
-	return 0
+	return
 }
