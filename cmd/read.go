@@ -15,7 +15,7 @@ var (
 		Short: "read from standard input into shell variables",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			if len(os.Args) <= 2 {
+			if len(args) < 1 {
 				fmt.Println("cugo: read: No operands passed")
 				fmt.Println("Usage: read [-epr] TARGETS...")
 				os.Exit(0)

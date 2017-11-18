@@ -14,7 +14,7 @@ var (
 		Short: "Creates the specified directories if they do not already exist",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			if len(os.Args) <= 2 {
+			if len(args) < 1 {
 				fmt.Println("cugo: mkdir: No operands passed")
 				fmt.Println("Usage: mkdir [-pv] [-m MODE] TARGETS...")
 				os.Exit(0)

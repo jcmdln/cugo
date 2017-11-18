@@ -13,7 +13,7 @@ var (
 		Short: "Change file access and modification times",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			if len(os.Args) <= 2 {
+			if len(args) < 1 {
 				fmt.Println("cugo: touch: No operands passed")
 				fmt.Println("Usage: touch [-acm] [-r ref_file|-t time|-d date_time] TARGETS...")
 				os.Exit(0)

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -15,7 +14,7 @@ var (
 		Short: "Remove directory entries",
 		Long:  "Remove the directory entry specified by each file argument",
 		Run: func(cmd *cobra.Command, args []string) {
-			if len(os.Args) <= 2 {
+			if len(args) < 1 {
 				fmt.Println("cugo: rm: No operands passed")
 				fmt.Println("Usage: rm [-f|-i] [-r] TARGETS...")
 				os.Exit(0)
@@ -45,7 +44,7 @@ func init() {
 
 func Rm(args []string) {
 	for _, target := range args {
-		_, err := os.Stat(target)
+		t, err := os.Stat(target)
 		if os.IsNotExist(err) {
 			fmt.Println("cugo:", "Cannot remove '"+target+"':",
 				"no such file or directory")
@@ -72,17 +71,18 @@ func Rm(args []string) {
 					fmt.Println("pretend to delete", t)
 					return nil
 				})
+		} else if !rmRecursive && t.IsDir() {
+			fmt.Println("cugo: Cannot remove the directory", "'"+target+"'")
+			os.Exit(0)
 		}
 
 		// '-f' cannot recursively descend unless '-r' is passed
-		if rmForce == true && !rmRecursive && !strings.Contains(target, "/") {
-			fmt.Println("pretend to delete", target)
-		} else if strings.Contains(target, "/") {
-			fmt.Println("cugo:", "Cannot remove the target", "'"+target+"'")
+		if rmForce == true && !rmRecursive {
+			fmt.Println("pretend to delete", "'"+target+"'")
 		}
 
 		if rmVerbose == true {
-			fmt.Println("cugo:", "Removed '"+target+"'")
+			fmt.Println("cugo: Removed '" + target + "'")
 		}
 	}
 
