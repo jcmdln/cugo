@@ -42,18 +42,15 @@ func init() {
 func Mkdir(args []string) {
 	for _, target := range args {
 		_, err := os.Stat(target)
-		if !os.IsNotExist(err) {
+		if os.IsExist(err) {
 			fmt.Println("cugo:", "'"+target+"'", "already exists!")
 			return
 		}
 
-		if mkdirParents == true {
+		if !mkdirParents && strings.Contains(target, "/") {
+			fmt.Println("cugo: Can't create", "'"+target+"'")
+		} else if mkdirParents == true {
 			os.MkdirAll(target, os.FileMode(mkdirMode))
-		} else if !mkdirParents && !strings.Contains(target, "/") {
-			os.Mkdir(target, os.FileMode(mkdirMode))
-		} else if strings.Contains(target, "/") || err != nil {
-			fmt.Println("cugo:", err)
-			return
 		}
 
 		if mkdirVerbose == true {

@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 
@@ -42,6 +43,18 @@ func init() {
 		"Print a message when actions are taken")
 }
 
+func isEmpty(name string) (bool, error) {
+	target, err := os.Open(name)
+	defer target.Close()
+
+	_, err = target.Readdirnames(1)
+	if err == io.EOF {
+		return true, nil
+	}
+
+	return false, err
+}
+
 func Rm(args []string) {
 	for _, target := range args {
 		t, err := os.Stat(target)
@@ -51,37 +64,46 @@ func Rm(args []string) {
 			return
 		}
 
-		// '-i' is ignored if '-f' is passed
-		if rmInteractive == true && !rmForce {
-			Read([]string{"cugo: Remove " + target + "? [Y/N]: "})
+		// Exit if '-r' isn't passed and the target is a directory
+		if !rmRecursive && t.IsDir() {
+			fmt.Println("cugo: Can't remove directory '" + target + "'")
+			return
 		}
 
-		// '-r' walks the path if '-f' is not passed to the inner-most target.
-		if rmRecursive == true && !rmForce {
+		// '-i' is ignored if '-f' is passed
+		if rmForce {
+			if !rmInteractive || rmInteractive {
+				os.RemoveAll(target)
+				return
+			}
+		}
+
+		// '-r' walks the path if '-f' is not passed.
+		if rmRecursive && !rmForce {
 			filepath.Walk(target,
 				func(t string, info os.FileInfo, err error) error {
+					empty, _ := isEmpty(t)
+
 					if info.IsDir() {
-						Read([]string{"cugo: Descend into '" + info.Name() + "'?: "})
-						return nil
+						if !empty {
+							Read([]string{"cugo: Descend into '" +
+								info.Name() + "'?: "})
+						} else if empty {
+							Read([]string{"cugo: Remove directory '" +
+								info.Name() + "'?: "})
+							os.Remove(t)
+						}
 					} else if !info.IsDir() {
-						Read([]string{"cugo: Delete '" + info.Name() + "'?: "})
-						fmt.Println("pretend to delete", t)
-						return nil
+						Read([]string{"cugo: Remove file '" +
+							info.Name() + "'?: "})
+						os.Remove(t)
 					}
-					fmt.Println("pretend to delete", t)
+
 					return nil
 				})
-		} else if !rmRecursive && t.IsDir() {
-			fmt.Println("cugo: Cannot remove the directory", "'"+target+"'")
-			os.Exit(0)
 		}
 
-		// '-f' cannot recursively descend unless '-r' is passed
-		if rmForce == true && !rmRecursive {
-			fmt.Println("pretend to delete", "'"+target+"'")
-		}
-
-		if rmVerbose == true {
+		if rmVerbose {
 			fmt.Println("cugo: Removed '" + target + "'")
 		}
 	}

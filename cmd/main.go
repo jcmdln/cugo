@@ -22,10 +22,6 @@ var RootCmd = &cobra.Command{
 	},
 }
 
-/* TODO
-- Install utilities via symbolic links
-*/
-
 func init() {
 	//
 }
