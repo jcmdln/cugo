@@ -10,21 +10,6 @@ import (
 )
 
 var (
-	rmCmd = &cobra.Command{
-		Use:   "rm",
-		Short: "Remove directory entries",
-		Long:  "Remove the directory entry specified by each file argument",
-		Run: func(cmd *cobra.Command, args []string) {
-			if len(args) < 1 {
-				fmt.Println("cugo: rm: No operands passed")
-				fmt.Println("Usage: rm [-f|-i] [-r] TARGETS...")
-				os.Exit(0)
-			} else {
-				Rm(args)
-			}
-		},
-	}
-
 	rmForce       bool
 	rmInteractive bool
 	rmRecursive   bool
@@ -32,7 +17,25 @@ var (
 )
 
 func init() {
+	var (
+		rmCmd = &cobra.Command{
+			Use:   "rm",
+			Short: "Remove directory entries",
+			Long:  "Remove the directory entry specified by each file argument",
+			Run: func(cmd *cobra.Command, args []string) {
+				if len(args) < 1 {
+					fmt.Printf("cugo: rm: No operands passed\n" +
+						"Usage: rm [-f|-i] [-r] TARGETS...")
+					os.Exit(0)
+				} else {
+					Rm(args)
+				}
+			},
+		}
+	)
+
 	RootCmd.AddCommand(rmCmd)
+	rmCmd.Flags().SortFlags = false
 	rmCmd.Flags().BoolVarP(&rmForce, "force", "f", false,
 		"Skip prompts and ignore warnings")
 	rmCmd.Flags().BoolVarP(&rmInteractive, "interactive", "i", false,
@@ -64,13 +67,11 @@ func Rm(args []string) {
 			return
 		}
 
-		// Exit if '-r' isn't passed and the target is a directory
 		if !rmRecursive && t.IsDir() {
 			fmt.Println("cugo: Can't remove directory '" + target + "'")
 			return
 		}
 
-		// '-i' is ignored if '-f' is passed
 		if rmForce {
 			if !rmInteractive || rmInteractive {
 				os.RemoveAll(target)
@@ -78,7 +79,6 @@ func Rm(args []string) {
 			}
 		}
 
-		// '-r' walks the path if '-f' is not passed.
 		if rmRecursive && !rmForce {
 			filepath.Walk(target,
 				func(t string, info os.FileInfo, err error) error {
