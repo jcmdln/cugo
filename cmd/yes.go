@@ -9,29 +9,32 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	yesCmd = &cobra.Command{
-		Use:   "yes",
-		Short: "Echoes 'y' or the provided string until killed.",
-		Long:  "",
-		Run: func(cmd *cobra.Command, args []string) {
-			Yes(args)
-		},
-	}
-)
-
 func init() {
+	var (
+		yesCmd = &cobra.Command{
+			Use:   "yes",
+			Short: "Repeatedly output specified string(s), or 'y'",
+			Long:  "",
+			Run: func(cmd *cobra.Command, args []string) {
+				Yes(args)
+			},
+		}
+	)
+
 	RootCmd.AddCommand(yesCmd)
 }
 
 func Yes(args []string) {
 	if len(args) == 0 {
 		for true {
-			io.WriteString(os.Stdout, "y")
+			io.WriteString(os.Stdout, "y\n")
 		}
 	} else {
 		for true {
-			io.WriteString(os.Stdout, strings.Join(args, " "))
+			out := strings.Join(args, " ") + "\n"
+			io.WriteString(os.Stdout, out)
 		}
 	}
+
+	return
 }
