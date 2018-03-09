@@ -14,7 +14,7 @@ var RootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 1 {
 			fmt.Println("cugo: No operands passed\n" +
-				"Usage: cugo [COMMAND] [OPTIONS]... ARGUMENTS...")
+				"Usage: cugo [COMMAND] [OPTIONS] ARGUMENTS ...\n")
 			os.Exit(0)
 		}
 	},

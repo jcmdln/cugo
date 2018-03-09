@@ -25,7 +25,7 @@ func init() {
 			Run: func(cmd *cobra.Command, args []string) {
 				if len(args) < 1 {
 					fmt.Printf("cugo: rm: No operands passed\n" +
-						"Usage: rm [-f|-i] [-r] TARGETS...")
+						"Usage: rm [-f|-i] [-r] TARGETS ...\n")
 					os.Exit(0)
 				} else {
 					Rm(args)

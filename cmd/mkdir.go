@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"strings"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 )
@@ -23,7 +23,7 @@ func init() {
 			Run: func(cmd *cobra.Command, args []string) {
 				if len(args) < 1 {
 					fmt.Printf("cugo: mkdir: No operands passed\n" +
-						"Usage: mkdir [-pv] [-m MODE] DIRECTORIES ...")
+						"Usage: mkdir [-pv] [-m MODE] DIRECTORIES ...\n")
 					os.Exit(0)
 				} else {
 					Mkdir(args)
@@ -46,19 +46,24 @@ func Mkdir(args []string) {
 	for _, target := range args {
 		_, err := os.Stat(target)
 		if os.IsExist(err) {
-			fmt.Println("cugo: mkdir:", "'"+target+"'",
-				"already exists!")
+			fmt.Println("cugo: mkdir: '" + target + "' already exists!")
 			return
 		}
 
-		if !mkdirParents && strings.Contains(target, "/") {
-			fmt.Println("cugo: mkdir: Can't create", "'"+target+"'")
-		} else if mkdirParents == true {
+		if mkdirParents == true {
 			os.MkdirAll(target, os.FileMode(mkdirMode))
+		} else {
+			dir, err := filepath.Abs(target)
+			if err == nil {
+				fmt.Println("cugo: mkdir: Cannot create '" + dir +
+					"', missing parent directory.")
+			} else {
+				os.Mkdir(dir, os.FileMode(mkdirMode))
+			}
 		}
 
 		if mkdirVerbose == true {
-			fmt.Println("Created", "'"+target+"'", "with permissions",
+			fmt.Println("Created '"+target+"' with permissions",
 				os.FileMode(mkdirMode))
 		}
 	}

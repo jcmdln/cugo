@@ -24,7 +24,7 @@ func init() {
 				if len(args) < 1 {
 					fmt.Printf("cugo: touch: No operands passed\n" +
 						"Usage: touch [-acm] " +
-						"[-r ref_file|-t time|-d date_time] TARGETS...")
+						"[-r REF_FILE|-t TIME|-d DATETIME] TARGETS...\n")
 					os.Exit(0)
 				} else {
 					Touch()
