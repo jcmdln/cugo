@@ -28,6 +28,7 @@ var (
 	touchCreate   bool
 	touchDate     string
 	touchModified int
+	touchVerbose  bool
 )
 
 func init() {
@@ -41,9 +42,24 @@ func init() {
 		"")
 	touchCmd.Flags().IntVarP(&touchModified, "modified", "m", 0,
 		"Change the modified time of a file if -a is also specified")
+	touchCmd.Flags().BoolVarP(&touchVerbose, "verbose", "v", false,
+		"Verbose")
 }
 
 func Touch(args []string) {
-	fmt.Println("cugo: touch: Not yet implemented.")
+	for _, target := range args {
+		if _, err := os.Stat(target); !os.IsNotExist(err) {
+			fmt.Println("cugo: touch: '" + target + "' already exists!")
+			return
+		}
+
+		os.Create(target)
+
+		if touchVerbose {
+			fmt.Println("Created '"+target+"' with permissions",
+				os.FileMode(mkdirMode))
+		}
+	}
+
 	return
 }
