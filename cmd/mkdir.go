@@ -44,25 +44,29 @@ func init() {
 
 func Mkdir(args []string) {
 	for _, target := range args {
-		_, err := os.Stat(target)
-		if os.IsExist(err) {
+		if _, err := os.Stat(target); !os.IsNotExist(err) {
 			fmt.Println("cugo: mkdir: '" + target + "' already exists!")
 			return
 		}
 
-		if mkdirParents == true {
+		if mkdirParents {
 			os.MkdirAll(target, os.FileMode(mkdirMode))
 		} else {
-			dir, err := filepath.Abs(target)
-			if err == nil {
-				fmt.Println("cugo: mkdir: Cannot create '" + dir +
-					"', missing parent directory.")
-			} else {
-				os.Mkdir(dir, os.FileMode(mkdirMode))
-			}
+			filepath.Walk(filepath.Dir(target),
+				func(path string, info os.FileInfo, err error) error {
+					if err != nil {
+						fmt.Println("cugo: mkdir: cannot create",
+							"'"+target+"':",
+							"missing parent directories")
+						return err
+					} else {
+						os.Mkdir(target, os.FileMode(mkdirMode))
+					}
+					return nil
+				})
 		}
 
-		if mkdirVerbose == true {
+		if mkdirVerbose {
 			fmt.Println("Created '"+target+"' with permissions",
 				os.FileMode(mkdirMode))
 		}
