@@ -9,29 +9,27 @@ import (
 )
 
 var (
+	mkdirCmd = &cobra.Command{
+		Use:   "mkdir",
+		Short: "Create directories",
+		Long:  "",
+		Run: func(cmd *cobra.Command, args []string) {
+			if len(args) < 1 {
+				fmt.Printf("cugo: mkdir: No operands passed\n" +
+					"Usage: mkdir [-pv] [-m MODE] DIRECTORIES ...\n")
+				os.Exit(0)
+			} else {
+				Mkdir(args)
+			}
+		},
+	}
+
 	mkdirMode    uint32
 	mkdirParents bool
 	mkdirVerbose bool
 )
 
 func init() {
-	var (
-		mkdirCmd = &cobra.Command{
-			Use:   "mkdir",
-			Short: "Create directories",
-			Long:  "",
-			Run: func(cmd *cobra.Command, args []string) {
-				if len(args) < 1 {
-					fmt.Printf("cugo: mkdir: No operands passed\n" +
-						"Usage: mkdir [-pv] [-m MODE] DIRECTORIES ...\n")
-					os.Exit(0)
-				} else {
-					Mkdir(args)
-				}
-			},
-		}
-	)
-
 	RootCmd.AddCommand(mkdirCmd)
 	mkdirCmd.Flags().SortFlags = false
 	mkdirCmd.Flags().Uint32VarP(&mkdirMode, "mode", "m", 0777,
@@ -63,7 +61,8 @@ func Mkdir(args []string) {
 						os.Mkdir(target, os.FileMode(mkdirMode))
 					}
 					return nil
-				})
+				},
+			)
 		}
 
 		if mkdirVerbose {

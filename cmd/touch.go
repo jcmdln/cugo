@@ -8,6 +8,22 @@ import (
 )
 
 var (
+	touchCmd = &cobra.Command{
+		Use:   "touch",
+		Short: "Change file access and modification times",
+		Long:  "",
+		Run: func(cmd *cobra.Command, args []string) {
+			if len(args) < 1 {
+				fmt.Printf("cugo: touch: No operands passed\n" +
+					"Usage: touch [-acm] " +
+					"[-r REF_FILE|-t TIME|-d DATETIME] TARGETS...\n")
+				os.Exit(0)
+			} else {
+				Touch(args)
+			}
+		},
+	}
+
 	touchAccess   bool
 	touchCreate   bool
 	touchDate     string
@@ -15,24 +31,6 @@ var (
 )
 
 func init() {
-	var (
-		touchCmd = &cobra.Command{
-			Use:   "touch",
-			Short: "Change file access and modification times",
-			Long:  "",
-			Run: func(cmd *cobra.Command, args []string) {
-				if len(args) < 1 {
-					fmt.Printf("cugo: touch: No operands passed\n" +
-						"Usage: touch [-acm] " +
-						"[-r REF_FILE|-t TIME|-d DATETIME] TARGETS...\n")
-					os.Exit(0)
-				} else {
-					Touch()
-				}
-			},
-		}
-	)
-
 	RootCmd.AddCommand(touchCmd)
 	touchCmd.Flags().SortFlags = false
 	touchCmd.Flags().BoolVarP(&touchAccess, "access", "a", false,
@@ -42,10 +40,10 @@ func init() {
 	touchCmd.Flags().StringVarP(&touchDate, "date", "d", "",
 		"")
 	touchCmd.Flags().IntVarP(&touchModified, "modified", "m", 0,
-		"Changed the modification time of a file if -a is also specified")
+		"Change the modified time of a file if -a is also specified")
 }
 
-func Touch() {
+func Touch(args []string) {
 	fmt.Println("cugo: touch: Not yet implemented.")
 	return
 }

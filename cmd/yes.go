@@ -9,18 +9,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func init() {
-	var (
-		yesCmd = &cobra.Command{
-			Use:   "yes",
-			Short: "Repeatedly output specified string(s), or 'y'",
-			Long:  "",
-			Run: func(cmd *cobra.Command, args []string) {
-				Yes(args)
-			},
-		}
-	)
+var (
+	yesCmd = &cobra.Command{
+		Use:   "yes",
+		Short: "Repeatedly output specified string(s), or 'y'",
+		Long:  "",
+		Run: func(cmd *cobra.Command, args []string) {
+			Yes(args)
+		},
+	}
+)
 
+func init() {
 	RootCmd.AddCommand(yesCmd)
 }
 
@@ -31,7 +31,7 @@ func Yes(args []string) {
 		}
 	} else {
 		for true {
-			out := strings.Join(args, " ") + "\n"
+			out := strings.Join(args, "") + "\n"
 			io.WriteString(os.Stdout, out)
 		}
 	}
