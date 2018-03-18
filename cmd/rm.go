@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 
@@ -44,43 +45,72 @@ func init() {
 }
 
 func Rm(args []string) {
+	Verbose := func(tgt string) {
+		if rmVerbose {
+			fmt.Println("cugo: rm: removed", tgt)
+		}
+	}
+
+	Empty := func(name string) bool {
+		t, err := os.Open(name)
+		defer t.Close()
+		_, err = t.Readdirnames(1)
+		if err == io.EOF {
+			return true
+		}
+		return false
+	}
+
 	for _, target := range args {
 		t, err := os.Stat(target)
 		if os.IsNotExist(err) {
-			fmt.Println("cugo: rm: Cannot remove", "'"+target+"':",
+			fmt.Println("cugo: rm: Can't remove", "'"+target+"':",
 				"no such file or directory")
 			return
 		}
 
-		if !rmRecursive && t.IsDir() {
-			fmt.Println("cugo: rm: Can't remove directory '" +
-				target + "'")
-			return
-		}
-
-		if rmForce {
-			if !rmInteractive || rmInteractive {
-				//os.RemoveAll(target)
+		if !rmRecursive {
+			if t.IsDir() {
+				fmt.Println("cugo: rm: Can't remove directory '" +
+					target + "'")
 				return
 			}
 		}
 
-		if rmRecursive && !rmForce {
-			filepath.Walk(target,
-				func(path string, info os.FileInfo, err error) error {
-					if info.IsDir() {
-
-						fmt.Println("dir :", path)
-					} else {
-						fmt.Println("file:", path)
-					}
-					return nil
-				},
-			)
+		if rmForce {
+			if rmInteractive || !rmInteractive {
+				os.RemoveAll(target)
+				Verbose(target)
+				return
+			}
 		}
 
-		if rmVerbose {
-			fmt.Println("cugo: Removed '" + target + "'")
+		if rmRecursive {
+			if !t.IsDir() {
+				os.Remove(target)
+				Verbose(target)
+			}
+
+			for !Empty(target) {
+				filepath.Walk(target,
+					func(t string, info os.FileInfo, err error) error {
+						if info.IsDir() && Empty(t) {
+							os.Remove(t)
+							Verbose(t)
+						}
+
+						if !info.IsDir() {
+							os.Remove(t)
+							Verbose(t)
+						}
+						return nil
+					},
+				)
+			}
+
+			if Empty(target) {
+				os.Remove(target)
+			}
 		}
 	}
 
