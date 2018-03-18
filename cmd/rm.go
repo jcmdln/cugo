@@ -69,12 +69,10 @@ func Rm(args []string) {
 			return
 		}
 
-		if !rmRecursive {
-			if t.IsDir() {
-				fmt.Println("cugo: rm: Can't remove directory '" +
-					target + "'")
-				return
-			}
+		if !rmRecursive && t.IsDir() {
+			fmt.Println("cugo: rm: Can't remove directory '" +
+				target + "'")
+			return
 		}
 
 		if rmForce {
@@ -86,12 +84,7 @@ func Rm(args []string) {
 		}
 
 		if rmRecursive {
-			if !t.IsDir() {
-				os.Remove(target)
-				Verbose(target)
-			}
-
-			for !Empty(target) {
+			for t.IsDir() && !Empty(target) {
 				filepath.Walk(target,
 					func(t string, info os.FileInfo, err error) error {
 						if info.IsDir() && Empty(t) {
@@ -110,6 +103,12 @@ func Rm(args []string) {
 
 			if Empty(target) {
 				os.Remove(target)
+				Verbose(target)
+			}
+
+			if !t.IsDir() {
+				os.Remove(target)
+				Verbose(target)
 			}
 		}
 	}
