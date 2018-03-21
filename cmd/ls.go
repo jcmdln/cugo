@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -14,16 +15,11 @@ var (
 		Short: "List files and directories",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			if len(args) < 1 {
-				fmt.Printf("cugo: ls: No operands passed\n" +
-					"Usage: ls [-i] [-r] TARGETS ...\n")
-				os.Exit(0)
-			} else {
-				Ls(args)
-			}
+			Ls(args)
 		},
 	}
 
+	lsAll         bool
 	lsInteractive bool
 	lsRecursive   bool
 	lsVerbose     bool
@@ -32,6 +28,8 @@ var (
 func init() {
 	RootCmd.AddCommand(lsCmd)
 	lsCmd.Flags().SortFlags = false
+	lsCmd.Flags().BoolVarP(&lsAll, "all", "a", false,
+		"")
 	lsCmd.Flags().BoolVarP(&lsInteractive, "interactive", "i", false,
 		"")
 	lsCmd.Flags().BoolVarP(&lsRecursive, "recursive", "r", false,
@@ -41,6 +39,26 @@ func init() {
 }
 
 func Ls(args []string) {
+	List := func(t string) {
+		items, err := ioutil.ReadDir(t)
+		if err != nil {
+			fmt.Println("cugo: rm:", err)
+		}
+		for _, item := range items {
+			if !lsAll && strings.HasPrefix(item.Name(), ".") {
+				//
+			} else {
+				fmt.Printf(item.Name() + " ")
+			}
+		}
+		fmt.Printf("\n")
+	}
+
+	if len(args) == 0 {
+		List(".")
+		return
+	}
+
 	for _, target := range args {
 		_, err := os.Stat(target)
 		if os.IsNotExist(err) {
@@ -48,17 +66,7 @@ func Ls(args []string) {
 				"no such file or directory")
 			return
 		}
-
-		items, err := ioutil.ReadDir(target)
-		if err != nil {
-			fmt.Println("cugo: rm:", err)
-		}
-
-		for _, item := range items {
-			fmt.Printf(item.Name() + " ")
-		}
-
-		fmt.Printf("\n")
+		List(target)
 	}
 
 	return
