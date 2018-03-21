@@ -105,11 +105,11 @@ func Rm(args []string) {
 				os.Remove(target)
 				Verbose(target)
 			}
+		}
 
-			if !t.IsDir() {
-				os.Remove(target)
-				Verbose(target)
-			}
+		if !t.IsDir() {
+			os.Remove(target)
+			Verbose(target)
 		}
 	}
 
