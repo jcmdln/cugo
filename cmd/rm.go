@@ -111,11 +111,11 @@ func Rm(args []string) {
 						},
 					)
 				}
+
 				if Empty(target) {
 					os.Remove(target)
 					Verbose(target)
 				}
-
 			} else {
 				fmt.Println("cugo: rm: Can't remove directory '" +
 					target + "'")
