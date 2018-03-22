@@ -25,6 +25,7 @@ var (
 		},
 	}
 
+	rmDir         bool
 	rmForce       bool
 	rmInteractive bool
 	rmRecursive   bool
@@ -36,8 +37,10 @@ func init() {
 	rmCmd.Flags().SortFlags = false
 	rmCmd.Flags().BoolVarP(&rmForce, "force", "f", false,
 		"Skip prompts and ignore warnings")
+	rmCmd.Flags().BoolVarP(&rmDir, "dir", "d", false,
+		"Remove empty directories")
 	rmCmd.Flags().BoolVarP(&rmInteractive, "interactive", "i", false,
-		"Prompt before performing each action")
+		"Prompt before each removal")
 	rmCmd.Flags().BoolVarP(&rmRecursive, "recursive", "r", false,
 		"Remove directories and their contents recursively")
 	rmCmd.Flags().BoolVarP(&rmVerbose, "verbose", "v", false,
@@ -45,12 +48,6 @@ func init() {
 }
 
 func Rm(args []string) {
-	Verbose := func(tgt string) {
-		if rmVerbose {
-			fmt.Println("cugo: rm: removed", tgt)
-		}
-	}
-
 	Empty := func(name string) bool {
 		t, err := os.Open(name)
 		defer t.Close()
@@ -61,6 +58,14 @@ func Rm(args []string) {
 		return false
 	}
 
+	//Prompt := func() {}
+
+	Verbose := func(tgt string) {
+		if rmVerbose {
+			fmt.Println("cugo: rm: removed", tgt)
+		}
+	}
+
 	for _, target := range args {
 		t, err := os.Stat(target)
 		if os.IsNotExist(err) {
@@ -69,45 +74,55 @@ func Rm(args []string) {
 			return
 		}
 
-		if !rmRecursive && t.IsDir() {
-			fmt.Println("cugo: rm: Can't remove directory '" +
-				target + "'")
-			return
-		}
-
 		if rmForce {
-			if rmInteractive || !rmInteractive {
+			if t.IsDir() {
+				fmt.Println("cugo: rm: Can't remove directory '" +
+					target + "'")
+				return
+			} else {
 				os.RemoveAll(target)
 				Verbose(target)
 				return
 			}
 		}
 
-		if rmRecursive {
-			for t.IsDir() && !Empty(target) {
-				filepath.Walk(target,
-					func(t string, info os.FileInfo, err error) error {
-						if info.IsDir() && Empty(t) {
-							os.Remove(t)
-							Verbose(t)
-						}
-
-						if !info.IsDir() {
-							os.Remove(t)
-							Verbose(t)
-						}
-						return nil
-					},
-				)
-			}
-
-			if Empty(target) {
+		if t.IsDir() {
+			if rmDir && Empty(target) {
 				os.Remove(target)
 				Verbose(target)
+				return
 			}
-		}
 
-		if !t.IsDir() {
+			if !rmRecursive {
+				fmt.Println("cugo: rm: Can't remove directory '" +
+					target + "'")
+				return
+			}
+
+			if rmRecursive {
+				for t.IsDir() && !Empty(target) {
+					filepath.Walk(target,
+						func(t string, info os.FileInfo, err error) error {
+							if info.IsDir() && Empty(t) {
+								os.Remove(t)
+								Verbose(t)
+							}
+
+							if !info.IsDir() {
+								os.Remove(t)
+								Verbose(t)
+							}
+							return nil
+						},
+					)
+				}
+
+				if Empty(target) {
+					os.Remove(target)
+					Verbose(target)
+				}
+			}
+		} else {
 			os.Remove(target)
 			Verbose(target)
 		}
