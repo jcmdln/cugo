@@ -31,7 +31,7 @@ func Yes(args []string) {
 		}
 	} else {
 		for true {
-			out := strings.Join(args, "") + "\n"
+			out := strings.Join(args, " ") + "\n"
 			io.WriteString(os.Stdout, out)
 		}
 	}
