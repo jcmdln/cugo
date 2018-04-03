@@ -5,7 +5,6 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -62,16 +61,15 @@ func Rm(args []string) {
 	Prompt := func(text string) bool {
 		if rmInteractive {
 			fmt.Printf(text + " [Yes/No]: ")
-
 			var a string
 			_, err := fmt.Scan(&a)
+
 			if err != nil {
 				fmt.Println(err)
 				return false
 			}
 
-			a = strings.ToLower(a)
-			if a == "y" || a == "yes" {
+			if a == "y" || a == "Y" || a == "yes" || a == "Yes" {
 				return true
 			}
 			return false
@@ -83,6 +81,13 @@ func Rm(args []string) {
 	Verbose := func(tgt string) {
 		if rmVerbose {
 			fmt.Println("cugo: rm: removed", tgt)
+		}
+	}
+
+	Remove := func(t string) {
+		if Prompt("Remove '" + t + "'?") {
+			os.Remove(t)
+			Verbose(t)
 		}
 	}
 
@@ -108,10 +113,7 @@ func Rm(args []string) {
 
 		if t.IsDir() {
 			if rmDir && Empty(target) {
-				if Prompt("Remove '" + target + "'?") {
-					os.Remove(target)
-					Verbose(target)
-				}
+				Remove(target)
 				return
 			}
 
@@ -120,29 +122,19 @@ func Rm(args []string) {
 					filepath.Walk(target,
 						func(t string, info os.FileInfo, err error) error {
 							if info.IsDir() && Empty(t) {
-								if Prompt("Remove '" + t + "'?") {
-									os.Remove(t)
-									Verbose(t)
-								}
+								Remove(t)
 							}
 
 							if !info.IsDir() {
-								if Prompt("Remove '" + t + "'?") {
-									os.Remove(t)
-									Verbose(t)
-								}
+								Remove(t)
 							}
-
 							return nil
 						},
 					)
 				}
 
 				if Empty(target) {
-					if Prompt("Remove '" + target + "'?") {
-						os.Remove(target)
-						Verbose(target)
-					}
+					Remove(target)
 				}
 			} else {
 				fmt.Println("cugo: rm: Can't remove directory '" +
@@ -150,10 +142,7 @@ func Rm(args []string) {
 				return
 			}
 		} else {
-			if Prompt("Remove '" + target + "'?") {
-				os.Remove(target)
-				Verbose(target)
-			}
+			Remove(target)
 		}
 	}
 
