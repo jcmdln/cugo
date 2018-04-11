@@ -18,7 +18,7 @@ var (
 			if len(args) < 1 {
 				fmt.Printf("cugo: rm: No operands passed\n" +
 					"Usage: rm [-f|-i] [-r] TARGETS ...\n")
-				os.Exit(0)
+				return
 			} else {
 				Rm(args)
 			}
@@ -63,12 +63,10 @@ func Rm(args []string) {
 			fmt.Printf(text + " [Yes/No]: ")
 			var a string
 			_, err := fmt.Scan(&a)
-
 			if err != nil {
 				fmt.Println(err)
 				return false
 			}
-
 			if a == "y" || a == "Y" || a == "yes" || a == "Yes" {
 				return true
 			}
@@ -85,7 +83,10 @@ func Rm(args []string) {
 	}
 
 	Remove := func(t string) {
-		if Prompt("Remove '" + t + "'?") {
+		if rmForce {
+			os.Remove(t)
+			Verbose(t)
+		} else if Prompt("Remove '" + t + "'?") {
 			os.Remove(t)
 			Verbose(t)
 		}
@@ -97,18 +98,6 @@ func Rm(args []string) {
 			fmt.Println("cugo: rm: Can't remove", "'"+target+"':",
 				"no such file or directory")
 			return
-		}
-
-		if rmForce {
-			if t.IsDir() {
-				fmt.Println("cugo: rm: Can't remove directory '" +
-					target + "'")
-				return
-			} else {
-				os.RemoveAll(target)
-				Verbose(target)
-				return
-			}
 		}
 
 		if t.IsDir() {
@@ -124,7 +113,6 @@ func Rm(args []string) {
 							if info.IsDir() && Empty(t) {
 								Remove(t)
 							}
-
 							if !info.IsDir() {
 								Remove(t)
 							}
