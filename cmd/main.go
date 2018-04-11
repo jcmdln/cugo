@@ -28,10 +28,10 @@ var (
 
 func init() {
 	RootCmd.Flags().SortFlags = false
-	RootCmd.Flags().BoolVarP(&cugoInstall, "install", "i", false,
-		"Install symlink(s) for target utilities")
-	RootCmd.Flags().BoolVarP(&cugoRemove, "remove", "r", false,
-		"Remove symlink(s) for target utilities")
+	// RootCmd.Flags().BoolVarP(&cugoInstall, "install", "i", false,
+	//  "Install symlink(s) for target utilities")
+	// RootCmd.Flags().BoolVarP(&cugoRemove, "remove", "r", false,
+	//  "Remove symlink(s) for target utilities")
 }
 
 func Cugo(args []string) {
