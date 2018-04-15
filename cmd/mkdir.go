@@ -55,11 +55,6 @@ func Mkdir(args []string) {
 	}
 
 	for _, target := range args {
-		if Exists(target) {
-			fmt.Println("cugo: mkdir: '" + target + "' already exists!")
-			return
-		}
-
 		if mkdirParents {
 			c := "."
 			t := strings.Split(filepath.Clean(target), "/")
@@ -74,6 +69,8 @@ func Mkdir(args []string) {
 			if !Exists(target) {
 				os.Mkdir(target, os.FileMode(mkdirMode))
 				Verbose(target)
+			} else {
+				fmt.Println("cugo: mkdir: '" + target + "' already exists!")
 			}
 		}
 	}
