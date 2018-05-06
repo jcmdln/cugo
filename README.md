@@ -2,7 +2,7 @@ Cugo is a multi-call binary written in Go which implements core utilities
 for various Unix/Linux standards.
 
 ```
-$ go run cugo.go -h
+$ go run main.go -h
 cugo: Core Utilities in multi-call Go binary
 
 Usage:
