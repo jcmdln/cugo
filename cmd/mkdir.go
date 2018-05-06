@@ -60,17 +60,19 @@ func Mkdir(args []string) {
 			t := strings.Split(filepath.Clean(target), "/")
 			for i := range t {
 				c += "/" + t[i]
-				if !Exists(c) {
+				if Exists(c) == false {
 					os.Mkdir(c, os.FileMode(mkdirMode))
 					Verbose(c)
 				}
 			}
 		} else {
-			if !Exists(target) {
-				os.Mkdir(target, os.FileMode(mkdirMode))
+			if Exists(filepath.Dir(target)) == true {
+				os.Mkdir(target,
+					os.FileMode(mkdirMode))
 				Verbose(target)
 			} else {
-				fmt.Println("cugo: mkdir: '" + target + "' already exists!")
+				fmt.Printf("cugo: mkdir: '%s' doesn't exist: "+
+					"missing parent directory.\n", filepath.Dir(target))
 			}
 		}
 	}
