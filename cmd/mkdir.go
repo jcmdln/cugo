@@ -46,8 +46,9 @@ func Mkdir(args []string) {
 		_, err := os.Stat(t)
 		if os.IsNotExist(err) {
 			return false
+		} else {
+			return true
 		}
-		return true
 	}
 
 	Verbose := func(t string) {
