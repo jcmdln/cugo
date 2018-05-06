@@ -9,8 +9,8 @@ import (
 var (
 	RootCmd = &cobra.Command{
 		Use:   "cugo",
-		Short: "Core utilities as a multi-call binary",
-		Long:  "cugo is a multi-call binary that provides core utilities for Unix systems.",
+		Short: "",
+		Long:  "Core Utilities in multi-call Go binary",
 		Run: func(cmd *cobra.Command, args []string) {
 			if len(args) < 1 {
 				fmt.Printf("cugo: No operands passed\n" +
