@@ -54,8 +54,9 @@ func Rm(args []string) {
 		_, err = t.Readdirnames(1)
 		if err == io.EOF {
 			return true
+		} else {
+			return false
 		}
-		return false
 	}
 
 	Prompt := func(text string) bool {
@@ -101,16 +102,16 @@ func Rm(args []string) {
 		}
 
 		if t.IsDir() {
-			if rmDir && Empty(target) {
+			if rmDir && Empty(target) == true {
 				Remove(target)
 				return
 			}
 
 			if rmRecursive {
-				for !Empty(target) {
+				for Empty(target) == false {
 					filepath.Walk(target,
 						func(t string, info os.FileInfo, err error) error {
-							if info.IsDir() && Empty(t) {
+							if info.IsDir() && Empty(t) == true {
 								Remove(t)
 							}
 							if !info.IsDir() {
@@ -121,7 +122,7 @@ func Rm(args []string) {
 					)
 				}
 
-				if Empty(target) {
+				if Empty(target) == true {
 					Remove(target)
 				}
 			} else {
