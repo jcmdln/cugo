@@ -51,8 +51,9 @@ func Touch(args []string) {
 		_, err := os.Stat(t)
 		if os.IsNotExist(err) {
 			return false
+		} else {
+			return true
 		}
-		return true
 	}
 
 	Verbose := func(t string) {
@@ -60,7 +61,7 @@ func Touch(args []string) {
 	}
 
 	for _, target := range args {
-		if !Exists(target) {
+		if Exists(target) == false {
 			if !touchCreate {
 				os.Create(target)
 				Verbose(target)

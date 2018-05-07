@@ -62,8 +62,7 @@ func Ls(args []string) {
 	for _, target := range args {
 		_, err := os.Stat(target)
 		if os.IsNotExist(err) {
-			fmt.Println("cugo: ls: '"+target+"':",
-				"no such file or directory")
+			fmt.Printf("cugo: ls: '%s': No such file or directory\n", target)
 			return
 		}
 		List(target)
