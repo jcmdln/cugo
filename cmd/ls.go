@@ -46,7 +46,6 @@ func Ls(args []string) {
 		}
 		for _, item := range items {
 			if !lsAll && strings.HasPrefix(item.Name(), ".") {
-				//
 			} else {
 				fmt.Printf(item.Name() + " ")
 			}
@@ -67,6 +66,4 @@ func Ls(args []string) {
 		}
 		List(target)
 	}
-
-	return
 }

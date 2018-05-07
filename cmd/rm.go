@@ -134,6 +134,4 @@ func Rm(args []string) {
 			Remove(target)
 		}
 	}
-
-	return
 }

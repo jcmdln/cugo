@@ -34,6 +34,4 @@ func Yes(args []string) {
 			io.WriteString(os.Stdout, out)
 		}
 	}
-
-	return
 }

@@ -68,6 +68,4 @@ func Touch(args []string) {
 			}
 		}
 	}
-
-	return
 }

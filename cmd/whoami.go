@@ -28,7 +28,5 @@ func Whoami() {
 		fmt.Printf("cugo: %s", err)
 		return
 	}
-
 	fmt.Printf("%s\n", usr.Username)
-	return
 }

@@ -77,6 +77,4 @@ func Mkdir(args []string) {
 			}
 		}
 	}
-
-	return
 }

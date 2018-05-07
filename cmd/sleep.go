@@ -27,6 +27,4 @@ func Sleep(args []string) {
 
 		time.Sleep(t)
 	}
-
-	return
 }

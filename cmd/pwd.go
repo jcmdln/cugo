@@ -28,6 +28,4 @@ func init() {
 func Pwd() {
 	p, _ := os.Getwd()
 	fmt.Printf("%s\n", p)
-
-	return
 }
