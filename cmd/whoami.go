@@ -10,7 +10,7 @@ import (
 var (
 	whoamiCmd = &cobra.Command{
 		Use:   "whoami",
-		Short: "return working directory name",
+		Short: "return current user",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
 			Whoami()
@@ -29,6 +29,6 @@ func Whoami() {
 		return
 	}
 
-	fmt.Println(usr.Username)
+	fmt.Printf("%s\n", usr.Username)
 	return
 }

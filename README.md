@@ -3,19 +3,22 @@ for various Unix/Linux standards.
 
 ```
 $ go run main.go -h
-cugo: Core Utilities in multi-call Go binary
+Core Utilities in multi-call Go binary
 
 Usage:
   cugo [flags]
   cugo [command]
 
 Available Commands:
+  basename    return non-directory portion of a pathname
   help        Help about any command
   ls          List files and directories
   mkdir       Create directories
+  pwd         return working directory name
   rm          Remove directory entries
   sleep       delay for a specified amount of time
   touch       Change file access and modification times
+  whoami      return current user
   yes         Repeatedly output specified string(s), or 'y'
 
 Flags:
