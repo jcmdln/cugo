@@ -16,19 +16,7 @@ var (
 				fmt.Printf("cugo: No operands passed\n" +
 					"Usage: cugo [COMMAND] [OPTIONS] ARGUMENTS ...\n")
 				return
-			} else {
-				Cugo(args)
 			}
 		},
 	}
-
-	cugoInstall bool
-	cugoRemove  bool
 )
-
-func init() {
-	RootCmd.Flags().SortFlags = false
-}
-
-func Cugo(args []string) {
-}
