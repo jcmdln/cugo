@@ -10,7 +10,7 @@ import (
 var (
 	sleepCmd = &cobra.Command{
 		Use:   "sleep",
-		Short: "delay for a specified amount of time",
+		Short: "Delay for a specified amount of time",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
 			Sleep(args)

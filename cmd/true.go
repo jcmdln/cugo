@@ -7,7 +7,7 @@ import (
 var (
 	trueCmd = &cobra.Command{
 		Use:   "true",
-		Short: "return true value",
+		Short: "Return true value",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
 			True()

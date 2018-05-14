@@ -10,7 +10,7 @@ import (
 var (
 	basenameCmd = &cobra.Command{
 		Use:   "basename",
-		Short: "return non-directory portion of a pathname",
+		Short: "Return non-directory portion of a pathname",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
 			if len(args) < 1 {

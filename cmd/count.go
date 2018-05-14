@@ -9,7 +9,7 @@ import (
 var (
 	countCmd = &cobra.Command{
 		Use:   "count",
-		Short: "count the number of elements of an array",
+		Short: "Count the number of elements of an array",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
 			Count(args)

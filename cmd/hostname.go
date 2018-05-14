@@ -10,7 +10,7 @@ import (
 var (
 	hostnameCmd = &cobra.Command{
 		Use:   "hostname",
-		Short: "return the host name reported by the kernel",
+		Short: "Return the host name reported by the kernel",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
 			Hostname(args)
