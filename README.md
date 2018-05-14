@@ -54,3 +54,12 @@ specifying how many times a user must say `yes` or `no` before it then
 proceeds with the rest of the provided input. These sorts of built-in
 script-ish mechanisms will not be included in any utility unless it is
 vital to functionality, even at the sake of violating specifications.
+
+
+## Contributing
+The only package used that is not part of the Go standard library is Cobra
+and it should remain this way. Because this is a 0-clause BSD project the
+code for each utility must be your own.
+
+Feel free to submit a pull request, file an issue, or join the discussion
+at #cugo on FreeNode.
