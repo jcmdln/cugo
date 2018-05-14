@@ -52,7 +52,9 @@ func Mkdir(args []string) {
 	}
 
 	Verbose := func(t string) {
-		fmt.Printf("cugo: mkdir: Created %s\n", t)
+		if mkdirVerbose {
+			fmt.Printf("cugo: mkdir: Created %s\n", t)
+		}
 	}
 
 	for _, target := range args {
