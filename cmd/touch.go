@@ -24,24 +24,24 @@ var (
 		},
 	}
 
-	touchAccess   int
-	touchCreate   bool
-	touchDate     string
-	touchModified int
-	touchVerbose  bool
+	// touchAccess   int
+	touchCreate bool
+	// touchDate     string
+	// touchModified int
+	touchVerbose bool
 )
 
 func init() {
 	RootCmd.AddCommand(touchCmd)
 	touchCmd.Flags().SortFlags = false
-	touchCmd.Flags().IntVarP(&touchAccess, "access", "a", 0,
-		"Change the access time of a file if -m is also specified")
+	// touchCmd.Flags().IntVarP(&touchAccess, "access", "a", 0,
+	// 	"Change the access time of a file if -m is also specified")
 	touchCmd.Flags().BoolVarP(&touchCreate, "create", "c", false,
 		"Do not create the specified file if it doesn't exist")
-	touchCmd.Flags().StringVarP(&touchDate, "date", "d", "",
-		"")
-	touchCmd.Flags().IntVarP(&touchModified, "modified", "m", 0,
-		"Change the modified time of a file if -a is also specified")
+	// touchCmd.Flags().StringVarP(&touchDate, "date", "d", "",
+	// 	"")
+	// touchCmd.Flags().IntVarP(&touchModified, "modified", "m", 0,
+	// 	"Change the modified time of a file if -a is also specified")
 	touchCmd.Flags().BoolVarP(&touchVerbose, "verbose", "v", false,
 		"Verbose")
 }
@@ -57,7 +57,9 @@ func Touch(args []string) {
 	}
 
 	Verbose := func(t string) {
-		fmt.Printf("cugo: touch: Created %s\n", t)
+		if touchVerbose {
+			fmt.Printf("cugo: touch: Created %s\n", t)
+		}
 	}
 
 	for _, target := range args {
