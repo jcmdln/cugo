@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 )
@@ -23,9 +24,21 @@ var (
 
 func init() {
 	RootCmd.AddCommand(pwdCmd)
+	pwdCmd.Flags().BoolVarP(&pwdL, "logical", "L", false,
+		"Read current dir from env, even symlinks")
+	pwdCmd.Flags().BoolVarP(&pwdP, "physical", "P", false,
+		"Absolute path of current dir without symlinks")
 }
 
 func Pwd() {
-	p, _ := os.Getwd()
-	fmt.Printf("%s\n", p)
+	var dir string
+
+	if pwdP {
+		d, _ := os.Getwd()
+		dir, _ = filepath.EvalSymlinks(d)
+	} else {
+		dir = os.Getenv("PWD")
+	}
+
+	fmt.Printf("%s\n", dir)
 }
