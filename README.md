@@ -11,17 +11,19 @@ Usage:
   cugo [command]
 
 Available Commands:
-  basename    return non-directory portion of a pathname
-  false       return false value
+  basename    Return non-directory portion of a pathname
+  count       Count the number of elements of an array
+  false       Return false value
   help        Help about any command
+  hostname    Return the host name reported by the kernel
   ls          List files and directories
   mkdir       Create directories
-  pwd         return working directory name
+  pwd         Return working directory name
   rm          Remove directory entries
-  sleep       delay for a specified amount of time
+  sleep       Delay for a specified amount of time
   touch       Change file access and modification times
-  true        return true value
-  whoami      return current user
+  true        Return true value
+  whoami      Return current user
   yes         Repeatedly output specified string(s), or 'y'
 
 Flags:
