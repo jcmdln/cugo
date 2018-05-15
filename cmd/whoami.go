@@ -1,9 +1,7 @@
 package cmd
 
 import (
-	"fmt"
-	"os/user"
-
+	cugo "github.com/jcmdln/cugo/src/whoami"
 	"github.com/spf13/cobra"
 )
 
@@ -13,20 +11,11 @@ var (
 		Short: "Return current user",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			Whoami()
+			cugo.Whoami()
 		},
 	}
 )
 
 func init() {
 	RootCmd.AddCommand(whoamiCmd)
-}
-
-func Whoami() {
-	usr, err := user.Current()
-	if err != nil {
-		fmt.Printf("cugo: %s", err)
-		return
-	}
-	fmt.Printf("%s\n", usr.Username)
 }

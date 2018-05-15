@@ -1,10 +1,7 @@
 package cmd
 
 import (
-	"io"
-	"os"
-	"strings"
-
+	cugo "github.com/jcmdln/cugo/src/yes"
 	"github.com/spf13/cobra"
 )
 
@@ -14,24 +11,11 @@ var (
 		Short: "Repeatedly output specified string(s), or 'y'",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			Yes(args)
+			cugo.Yes(args)
 		},
 	}
 )
 
 func init() {
 	RootCmd.AddCommand(yesCmd)
-}
-
-func Yes(args []string) {
-	if len(args) == 0 {
-		for true {
-			io.WriteString(os.Stdout, "y\n")
-		}
-	} else {
-		for true {
-			out := strings.Join(args, " ") + "\n"
-			io.WriteString(os.Stdout, out)
-		}
-	}
 }

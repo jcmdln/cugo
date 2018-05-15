@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	cugo "github.com/jcmdln/cugo/src/touch"
 	"github.com/spf13/cobra"
 )
 
@@ -19,55 +20,25 @@ var (
 					"[-r REF_FILE|-t TIME|-d DATETIME] TARGETS...\n")
 				os.Exit(0)
 			} else {
-				Touch(args)
+				cugo.Touch(args)
 			}
 		},
 	}
-
-	// touchAccess   int
-	touchCreate bool
-	// touchDate     string
-	// touchModified int
-	touchVerbose bool
 )
 
 func init() {
+	touch := &cugo.TOUCH{}
+
 	RootCmd.AddCommand(touchCmd)
 	touchCmd.Flags().SortFlags = false
-	// touchCmd.Flags().IntVarP(&touchAccess, "access", "a", 0,
+	// touchCmd.Flags().IntVarP(&touch.Access, "access", "a", 0,
 	// 	"Change the access time of a file if -m is also specified")
-	touchCmd.Flags().BoolVarP(&touchCreate, "create", "c", false,
+	touchCmd.Flags().BoolVarP(&touch.Create, "create", "c", false,
 		"Do not create the specified file if it doesn't exist")
-	// touchCmd.Flags().StringVarP(&touchDate, "date", "d", "",
+	// touchCmd.Flags().StringVarP(&touch.Date, "date", "d", "",
 	// 	"")
-	// touchCmd.Flags().IntVarP(&touchModified, "modified", "m", 0,
+	// touchCmd.Flags().IntVarP(&touch.Modified, "modified", "m", 0,
 	// 	"Change the modified time of a file if -a is also specified")
-	touchCmd.Flags().BoolVarP(&touchVerbose, "verbose", "v", false,
+	touchCmd.Flags().BoolVarP(&touch.Verbose, "verbose", "v", false,
 		"Verbose")
-}
-
-func Touch(args []string) {
-	Exists := func(t string) bool {
-		_, err := os.Stat(t)
-		if os.IsNotExist(err) {
-			return false
-		} else {
-			return true
-		}
-	}
-
-	Verbose := func(t string) {
-		if touchVerbose {
-			fmt.Printf("cugo: touch: Created %s\n", t)
-		}
-	}
-
-	for _, target := range args {
-		if Exists(target) == false {
-			if !touchCreate {
-				os.Create(target)
-				Verbose(target)
-			}
-		}
-	}
 }

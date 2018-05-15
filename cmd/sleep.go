@@ -1,9 +1,7 @@
 package cmd
 
 import (
-	"strings"
-	"time"
-
+	cugo "github.com/jcmdln/cugo/src/sleep"
 	"github.com/spf13/cobra"
 )
 
@@ -13,22 +11,11 @@ var (
 		Short: "Delay for a specified amount of time",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			Sleep(args)
+			cugo.Sleep(args)
 		},
 	}
 )
 
 func init() {
 	RootCmd.AddCommand(sleepCmd)
-}
-
-func Sleep(args []string) {
-	for _, i := range args {
-		s := strings.Split(i, "")
-		if len(s) < 2 {
-			i += "s"
-		}
-		t, _ := time.ParseDuration(i)
-		time.Sleep(t)
-	}
 }

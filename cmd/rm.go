@@ -2,10 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"io"
-	"os"
-	"path/filepath"
 
+	cugo "github.com/jcmdln/cugo/src/rm"
 	"github.com/spf13/cobra"
 )
 
@@ -20,118 +18,25 @@ var (
 					"Usage: rm [-f|-i] [-r] TARGETS ...\n")
 				return
 			} else {
-				Rm(args)
+				cugo.Rm(args)
 			}
 		},
 	}
-
-	rmDir         bool
-	rmForce       bool
-	rmInteractive bool
-	rmRecursive   bool
-	rmVerbose     bool
 )
 
 func init() {
+	rm := &cugo.RM{}
+
 	RootCmd.AddCommand(rmCmd)
 	rmCmd.Flags().SortFlags = false
-	rmCmd.Flags().BoolVarP(&rmForce, "force", "f", false,
+	rmCmd.Flags().BoolVarP(&rm.Force, "force", "f", false,
 		"Skip prompts and ignore warnings")
-	rmCmd.Flags().BoolVarP(&rmDir, "dir", "d", false,
+	rmCmd.Flags().BoolVarP(&rm.Dir, "dir", "d", false,
 		"Remove empty directories")
-	rmCmd.Flags().BoolVarP(&rmInteractive, "interactive", "i", false,
+	rmCmd.Flags().BoolVarP(&rm.Interactive, "interactive", "i", false,
 		"Prompt before each removal")
-	rmCmd.Flags().BoolVarP(&rmRecursive, "recursive", "r", false,
+	rmCmd.Flags().BoolVarP(&rm.Recursive, "recursive", "r", false,
 		"Remove directories and their contents recursively")
-	rmCmd.Flags().BoolVarP(&rmVerbose, "verbose", "v", false,
+	rmCmd.Flags().BoolVarP(&rm.Verbose, "verbose", "v", false,
 		"Print a message when actions are taken")
-}
-
-func Rm(args []string) {
-	Empty := func(name string) bool {
-		t, err := os.Open(name)
-		defer t.Close()
-		_, err = t.Readdirnames(1)
-		if err == io.EOF {
-			return true
-		} else {
-			return false
-		}
-	}
-
-	Prompt := func(text string) bool {
-		if rmInteractive {
-			fmt.Printf(text + " [Yes/No]: ")
-			var a string
-			_, err := fmt.Scan(&a)
-			if err != nil {
-				fmt.Println(err)
-				return false
-			}
-			if a == "y" || a == "Y" || a == "yes" || a == "Yes" {
-				return true
-			}
-			return false
-		} else {
-			return true
-		}
-	}
-
-	Verbose := func(tgt string) {
-		if rmVerbose {
-			fmt.Println("cugo: rm: removed", tgt)
-		}
-	}
-
-	Remove := func(t string) {
-		if rmForce {
-			os.Remove(t)
-			Verbose(t)
-		} else if Prompt("Remove '" + t + "'?") {
-			os.Remove(t)
-			Verbose(t)
-		}
-	}
-
-	for _, target := range args {
-		t, err := os.Stat(target)
-		if os.IsNotExist(err) {
-			fmt.Println("cugo: rm: Can't remove", "'"+target+"':",
-				"no such file or directory")
-			return
-		}
-
-		if t.IsDir() {
-			if rmDir && Empty(target) == true {
-				Remove(target)
-				return
-			}
-
-			if rmRecursive {
-				for Empty(target) == false {
-					filepath.Walk(target,
-						func(t string, info os.FileInfo, err error) error {
-							if info.IsDir() && Empty(t) == true {
-								Remove(t)
-							}
-							if !info.IsDir() {
-								Remove(t)
-							}
-							return nil
-						},
-					)
-				}
-
-				if Empty(target) == true {
-					Remove(target)
-				}
-			} else {
-				fmt.Println("cugo: rm: Can't remove directory '" +
-					target + "'")
-				return
-			}
-		} else {
-			Remove(target)
-		}
-	}
 }
