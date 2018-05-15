@@ -6,19 +6,17 @@ import (
 	"path/filepath"
 )
 
-type PWD struct {
+var (
 	L bool
 	P bool
-}
+)
 
 func Pwd() {
-	pwd := &PWD{}
-
 	var dir string
 
-	if !pwd.P && pwd.L {
+	if !P && L {
 		dir = os.Getenv("PWD")
-	} else if pwd.P {
+	} else if P {
 		d, _ := os.Getwd()
 		dir, _ = filepath.EvalSymlinks(d)
 	} else {

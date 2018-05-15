@@ -5,17 +5,15 @@ import (
 	"os"
 )
 
-type TOUCH struct {
+var (
 	// touchAccess   int
 	// touchDate     string
 	// touchModified int
 	Create  bool
 	Verbose bool
-}
+)
 
 func Touch(args []string) {
-	touch := &TOUCH{}
-
 	Exists := func(t string) bool {
 		_, err := os.Stat(t)
 		if os.IsNotExist(err) {
@@ -26,14 +24,14 @@ func Touch(args []string) {
 	}
 
 	Verbose := func(t string) {
-		if touch.Verbose {
+		if Verbose {
 			fmt.Printf("cugo: touch: Created %s\n", t)
 		}
 	}
 
 	for _, target := range args {
 		if Exists(target) == false {
-			if !touch.Create {
+			if !Create {
 				os.Create(target)
 				Verbose(target)
 			}

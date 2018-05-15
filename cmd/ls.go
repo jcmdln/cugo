@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	cugo "github.com/jcmdln/cugo/src/ls"
+	ls "github.com/jcmdln/cugo/src/ls"
 	"github.com/spf13/cobra"
 )
 
@@ -11,14 +11,12 @@ var (
 		Short: "List files and directories",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			cugo.Ls(args)
+			ls.Ls(args)
 		},
 	}
 )
 
 func init() {
-	ls := &cugo.LS{}
-
 	RootCmd.AddCommand(lsCmd)
 	lsCmd.Flags().SortFlags = false
 	lsCmd.Flags().BoolVarP(&ls.All, "all", "a", false,

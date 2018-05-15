@@ -7,17 +7,15 @@ import (
 	"path/filepath"
 )
 
-type RM struct {
+var (
 	Dir         bool
 	Force       bool
 	Interactive bool
 	Recursive   bool
 	Verbose     bool
-}
+)
 
 func Rm(args []string) {
-	rm := &RM{}
-
 	Empty := func(name string) bool {
 		t, err := os.Open(name)
 		defer t.Close()
@@ -30,7 +28,7 @@ func Rm(args []string) {
 	}
 
 	Prompt := func(text string) bool {
-		if rm.Interactive {
+		if Interactive {
 			fmt.Printf(text + " [Yes/No]: ")
 			var a string
 			_, err := fmt.Scan(&a)
@@ -48,13 +46,13 @@ func Rm(args []string) {
 	}
 
 	Verbose := func(tgt string) {
-		if rm.Verbose {
+		if Verbose {
 			fmt.Println("cugo: rm: removed", tgt)
 		}
 	}
 
 	Remove := func(t string) {
-		if rm.Force {
+		if Force {
 			os.Remove(t)
 			Verbose(t)
 		} else if Prompt("Remove '" + t + "'?") {
@@ -72,12 +70,12 @@ func Rm(args []string) {
 		}
 
 		if t.IsDir() {
-			if rm.Dir && Empty(target) == true {
+			if Dir && Empty(target) == true {
 				Remove(target)
 				return
 			}
 
-			if rm.Recursive {
+			if Recursive {
 				for Empty(target) == false {
 					filepath.Walk(target,
 						func(t string, info os.FileInfo, err error) error {

@@ -7,23 +7,21 @@ import (
 	"strings"
 )
 
-type LS struct {
+var (
 	All         bool
 	Interactive bool
 	Recursive   bool
 	Verbose     bool
-}
+)
 
 func Ls(args []string) {
-	ls := &LS{}
-
 	List := func(t string) {
 		items, err := ioutil.ReadDir(t)
 		if err != nil {
 			fmt.Println("cugo: rm:", err)
 		}
 		for _, item := range items {
-			if !ls.All && strings.HasPrefix(item.Name(), ".") {
+			if !All && strings.HasPrefix(item.Name(), ".") {
 			} else {
 				fmt.Printf(item.Name() + " ")
 			}

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	cugo "github.com/jcmdln/cugo/src/rm"
+	rm "github.com/jcmdln/cugo/src/rm"
 	"github.com/spf13/cobra"
 )
 
@@ -12,14 +12,12 @@ var (
 		Long:  "Remove the directory entry specified by each file argument",
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
-			cugo.Rm(args)
+			rm.Rm(args)
 		},
 	}
 )
 
 func init() {
-	rm := &cugo.RM{}
-
 	RootCmd.AddCommand(rmCmd)
 	rmCmd.Flags().SortFlags = false
 	rmCmd.Flags().BoolVarP(&rm.Force, "force", "f", false,

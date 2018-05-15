@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	cugo "github.com/jcmdln/cugo/src/touch"
+	touch "github.com/jcmdln/cugo/src/touch"
 	"github.com/spf13/cobra"
 )
 
@@ -12,14 +12,12 @@ var (
 		Long:  "",
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
-			cugo.Touch(args)
+			touch.Touch(args)
 		},
 	}
 )
 
 func init() {
-	touch := &cugo.TOUCH{}
-
 	RootCmd.AddCommand(touchCmd)
 	touchCmd.Flags().SortFlags = false
 	// touchCmd.Flags().IntVarP(&touch.Access, "access", "a", 0,
