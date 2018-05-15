@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"path/filepath"
 
+	cugo "github.com/jcmdln/cugo/src/basename"
 	"github.com/spf13/cobra"
 )
 
@@ -18,17 +18,11 @@ var (
 					"Usage: basename ARGUMENTS...\n")
 				return
 			}
-
-			Basename(args)
+			cugo.Basename(args)
 		},
 	}
 )
 
 func init() {
 	RootCmd.AddCommand(basenameCmd)
-}
-
-func Basename(args []string) {
-	b := filepath.Base(args[0])
-	fmt.Printf("%s\n", b)
 }
