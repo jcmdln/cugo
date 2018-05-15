@@ -10,6 +10,7 @@ var (
 		Use:   "sleep",
 		Short: "Delay for a specified amount of time",
 		Long:  "",
+		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			cugo.Sleep(args)
 		},

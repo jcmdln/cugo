@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	cugo "github.com/jcmdln/cugo/src/rm"
 	"github.com/spf13/cobra"
 )
@@ -12,14 +10,9 @@ var (
 		Use:   "rm",
 		Short: "Remove directory entries",
 		Long:  "Remove the directory entry specified by each file argument",
+		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
-			if len(args) < 1 {
-				fmt.Printf("cugo: rm: No operands passed\n" +
-					"Usage: rm [-f|-i] [-r] TARGETS ...\n")
-				return
-			} else {
-				cugo.Rm(args)
-			}
+			cugo.Rm(args)
 		},
 	}
 )

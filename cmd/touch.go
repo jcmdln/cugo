@@ -1,9 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-	"os"
-
 	cugo "github.com/jcmdln/cugo/src/touch"
 	"github.com/spf13/cobra"
 )
@@ -13,15 +10,9 @@ var (
 		Use:   "touch",
 		Short: "Change file access and modification times",
 		Long:  "",
+		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
-			if len(args) < 1 {
-				fmt.Printf("cugo: touch: No operands passed\n" +
-					"Usage: touch [-acm] " +
-					"[-r REF_FILE|-t TIME|-d DATETIME] TARGETS...\n")
-				os.Exit(0)
-			} else {
-				cugo.Touch(args)
-			}
+			cugo.Touch(args)
 		},
 	}
 )
