@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	true "github.com/jcmdln/cugo/src/true"
 	"github.com/spf13/cobra"
 )
 
@@ -10,15 +11,11 @@ var (
 		Short: "Return true value",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			True()
+			true.True()
 		},
 	}
 )
 
 func init() {
 	RootCmd.AddCommand(trueCmd)
-}
-
-func True() bool {
-	return true
 }
