@@ -15,52 +15,52 @@ var (
 	Verbose     bool
 )
 
+func empty(name string) bool {
+	t, err := os.Open(name)
+	defer t.Close()
+	_, err = t.Readdirnames(1)
+	if err == io.EOF {
+		return true
+	} else {
+		return false
+	}
+}
+
+func prompt(text string) bool {
+	if Interactive {
+		fmt.Printf(text + " [Yes/No]: ")
+		var a string
+		_, err := fmt.Scan(&a)
+		if err != nil {
+			fmt.Println(err)
+			return false
+		}
+		if a == "y" || a == "Y" || a == "yes" || a == "Yes" {
+			return true
+		}
+		return false
+	} else {
+		return true
+	}
+}
+
+func verbose(tgt string) {
+	if Verbose {
+		fmt.Println("cugo: rm: removed", tgt)
+	}
+}
+
+func remove(t string) {
+	if Force {
+		os.Remove(t)
+		verbose(t)
+	} else if prompt("Remove '" + t + "'?") {
+		os.Remove(t)
+		verbose(t)
+	}
+}
+
 func Rm(args []string) {
-	Empty := func(name string) bool {
-		t, err := os.Open(name)
-		defer t.Close()
-		_, err = t.Readdirnames(1)
-		if err == io.EOF {
-			return true
-		} else {
-			return false
-		}
-	}
-
-	Prompt := func(text string) bool {
-		if Interactive {
-			fmt.Printf(text + " [Yes/No]: ")
-			var a string
-			_, err := fmt.Scan(&a)
-			if err != nil {
-				fmt.Println(err)
-				return false
-			}
-			if a == "y" || a == "Y" || a == "yes" || a == "Yes" {
-				return true
-			}
-			return false
-		} else {
-			return true
-		}
-	}
-
-	Verbose := func(tgt string) {
-		if Verbose {
-			fmt.Println("cugo: rm: removed", tgt)
-		}
-	}
-
-	Remove := func(t string) {
-		if Force {
-			os.Remove(t)
-			Verbose(t)
-		} else if Prompt("Remove '" + t + "'?") {
-			os.Remove(t)
-			Verbose(t)
-		}
-	}
-
 	for _, target := range args {
 		t, err := os.Stat(target)
 		if os.IsNotExist(err) {
@@ -70,28 +70,28 @@ func Rm(args []string) {
 		}
 
 		if t.IsDir() {
-			if Dir && Empty(target) == true {
-				Remove(target)
+			if Dir && empty(target) == true {
+				remove(target)
 				return
 			}
 
 			if Recursive {
-				for Empty(target) == false {
+				for empty(target) == false {
 					filepath.Walk(target,
 						func(t string, info os.FileInfo, err error) error {
-							if info.IsDir() && Empty(t) == true {
-								Remove(t)
+							if info.IsDir() && empty(t) == true {
+								remove(t)
 							}
 							if !info.IsDir() {
-								Remove(t)
+								remove(t)
 							}
 							return nil
 						},
 					)
 				}
 
-				if Empty(target) == true {
-					Remove(target)
+				if empty(target) == true {
+					remove(target)
 				}
 			} else {
 				fmt.Println("cugo: rm: Can't remove directory '" +
@@ -99,7 +99,7 @@ func Rm(args []string) {
 				return
 			}
 		} else {
-			Remove(target)
+			remove(target)
 		}
 	}
 }
