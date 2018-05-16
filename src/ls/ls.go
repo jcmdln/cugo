@@ -14,23 +14,23 @@ var (
 	Verbose     bool
 )
 
-func Ls(args []string) {
-	List := func(t string) {
-		items, err := ioutil.ReadDir(t)
-		if err != nil {
-			fmt.Println("cugo: rm:", err)
-		}
-		for _, item := range items {
-			if !All && strings.HasPrefix(item.Name(), ".") {
-			} else {
-				fmt.Printf(item.Name() + " ")
-			}
-		}
-		fmt.Printf("\n")
+func list(t string) {
+	items, err := ioutil.ReadDir(t)
+	if err != nil {
+		fmt.Println("cugo: rm:", err)
 	}
+	for _, item := range items {
+		if !All && strings.HasPrefix(item.Name(), ".") {
+		} else {
+			fmt.Printf(item.Name() + " ")
+		}
+	}
+	fmt.Printf("\n")
+}
 
+func Ls(args []string) {
 	if len(args) == 0 {
-		List(".")
+		list(".")
 		return
 	}
 
@@ -40,6 +40,6 @@ func Ls(args []string) {
 			fmt.Printf("cugo: ls: '%s': No such file or directory\n", target)
 			return
 		}
-		List(target)
+		list(target)
 	}
 }
