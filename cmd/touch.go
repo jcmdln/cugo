@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	touch "github.com/jcmdln/cugo/src/touch"
+	"github.com/jcmdln/cugo/src/touch"
 	"github.com/spf13/cobra"
 )
 

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	pwd "github.com/jcmdln/cugo/src/pwd"
+	"github.com/jcmdln/cugo/src/pwd"
 	"github.com/spf13/cobra"
 )
 

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	cugo "github.com/jcmdln/cugo/src/hostname"
+	"github.com/jcmdln/cugo/src/hostname"
 	"github.com/spf13/cobra"
 )
 
@@ -11,7 +11,7 @@ var (
 		Short: "Return the host name reported by the kernel",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			cugo.Hostname(args)
+			hostname.Hostname(args)
 		},
 	}
 )

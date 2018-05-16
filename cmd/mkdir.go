@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	mkdir "github.com/jcmdln/cugo/src/mkdir"
+	"github.com/jcmdln/cugo/src/mkdir"
 	"github.com/spf13/cobra"
 )
 

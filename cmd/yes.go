@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	cugo "github.com/jcmdln/cugo/src/yes"
+	"github.com/jcmdln/cugo/src/yes"
 	"github.com/spf13/cobra"
 )
 
@@ -11,7 +11,7 @@ var (
 		Short: "Repeatedly output specified string(s), or 'y'",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			cugo.Yes(args)
+			yes.Yes(args)
 		},
 	}
 )

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	cugo "github.com/jcmdln/cugo/src/basename"
+	"github.com/jcmdln/cugo/src/basename"
 	"github.com/spf13/cobra"
 )
 
@@ -12,7 +12,7 @@ var (
 		Long:  "",
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
-			cugo.Basename(args)
+			basename.Basename(args)
 		},
 	}
 )
