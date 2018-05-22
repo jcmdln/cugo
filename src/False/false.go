@@ -1,4 +1,4 @@
-package false
+package False
 
 func False() bool {
 	return false

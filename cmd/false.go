@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/jcmdln/cugo/src/false"
+	False "github.com/jcmdln/cugo/src/False"
 	"github.com/spf13/cobra"
 )
 
@@ -11,7 +11,7 @@ var (
 		Short: "Return false value",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			false.False()
+			False.False()
 		},
 	}
 )
