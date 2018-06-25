@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	False "github.com/jcmdln/cugo/src/False"
+	"github.com/jcmdln/cugo/src/False"
 	"github.com/spf13/cobra"
 )
 
