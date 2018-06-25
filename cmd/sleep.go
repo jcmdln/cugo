@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"strings"
+
 	"github.com/jcmdln/cugo/src/sleep"
 	"github.com/spf13/cobra"
 )
@@ -12,7 +14,7 @@ var (
 		Long:  "",
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
-			sleep.Sleep(args)
+			sleep.Sleep(strings.Join(args, " "))
 		},
 	}
 )

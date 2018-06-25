@@ -5,8 +5,10 @@ import (
 	"time"
 )
 
-func Sleep(args []string) {
-	for _, i := range args {
+func Sleep(args string) {
+	a := strings.Split(args, " ")
+
+	for _, i := range a {
 		s := strings.Split(i, "")
 		if len(s) < 2 {
 			i += "s"
