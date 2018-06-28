@@ -8,8 +8,8 @@ import (
 var (
 	rmCmd = &cobra.Command{
 		Use:   "rm",
-		Short: "Remove directory entries",
-		Long:  "Remove the directory entry specified by each file argument",
+		Short: "Remove files and directories",
+		Long:  "Remove the file or directory entry specified by each argument",
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			rm.Rm(args)
