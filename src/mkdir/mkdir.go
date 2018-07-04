@@ -31,14 +31,16 @@ func verbose(t string) {
 func Mkdir(args []string) {
 	for _, target := range args {
 		if Parents {
-			c := "."
+			c := ""
 			t := strings.Split(filepath.Clean(target), "/")
+
 			for i := range t {
-				c += "/" + t[i]
+				c += t[i]
 				if exists(c) == false {
 					os.Mkdir(c, os.FileMode(Mode))
 					verbose(c)
 				}
+				c += "/"
 			}
 		} else {
 			if exists(filepath.Dir(target)) == true {
