@@ -19,7 +19,7 @@ var (
 
 func init() {
 	RootCmd.AddCommand(rmdirCmd)
-	rmCmd.Flags().SortFlags = false
-	rmCmd.Flags().BoolVarP(&rmdir.Pathname, "pathname", "p", false,
+	rmdirCmd.Flags().SortFlags = false
+	rmdirCmd.Flags().BoolVarP(&rmdir.Pathname, "pathname", "p", false,
 		"Skip prompts and ignore warnings")
 }
