@@ -1,6 +1,7 @@
 package rmdir
 
 import (
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -23,6 +24,13 @@ func empty(name string) bool {
 
 func Rmdir(args []string) {
 	for _, target := range args {
+		_, err := os.Stat(target)
+		if os.IsNotExist(err) {
+			fmt.Println("cugo: rm: Can't remove", "'"+target+"':",
+				"no such file or directory")
+			return
+		}
+
 		for empty(target) == false {
 			filepath.Walk(target,
 				func(t string, info os.FileInfo, err error) error {
