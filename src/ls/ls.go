@@ -19,12 +19,14 @@ func list(t string) {
 	if err != nil {
 		fmt.Println("cugo: rm:", err)
 	}
+
 	for _, item := range items {
 		if !All && strings.HasPrefix(item.Name(), ".") {
 		} else {
 			fmt.Printf(item.Name() + " ")
 		}
 	}
+
 	fmt.Printf("\n")
 }
 
@@ -40,6 +42,7 @@ func Ls(args []string) {
 			fmt.Printf("cugo: ls: '%s': No such file or directory\n", target)
 			return
 		}
+
 		list(target)
 	}
 }
