@@ -1,5 +1,7 @@
 package false
 
-func False() bool {
-	return false
+import "os"
+
+func False() {
+	os.Exit(1)
 }
