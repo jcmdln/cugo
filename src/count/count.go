@@ -1,8 +1,6 @@
 package count
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func Count(args []string) {
 	var total int
