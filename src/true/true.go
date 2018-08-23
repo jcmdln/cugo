@@ -1,5 +1,7 @@
 package true
 
-func True() bool {
-	return true
+import "os"
+
+func True() {
+	os.Exit(0)
 }
