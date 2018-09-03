@@ -17,9 +17,9 @@ func empty(name string) bool {
 	_, err = t.Readdirnames(1)
 	if err == io.EOF {
 		return true
-	} else {
-		return false
 	}
+
+	return false
 }
 
 func Rmdir(args []string) {
@@ -31,10 +31,10 @@ func Rmdir(args []string) {
 			return
 		}
 
-		for empty(target) == false {
+		for !empty(target) {
 			filepath.Walk(target,
 				func(t string, info os.FileInfo, err error) error {
-					if info.IsDir() && empty(t) == true {
+					if info.IsDir() && empty(t) {
 						os.Remove(t)
 					}
 					if !info.IsDir() {
@@ -45,7 +45,7 @@ func Rmdir(args []string) {
 			)
 		}
 
-		if empty(target) == true {
+		if !empty(target) {
 			os.Remove(target)
 		}
 	}

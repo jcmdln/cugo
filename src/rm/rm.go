@@ -21,23 +21,26 @@ func empty(name string) bool {
 	_, err = t.Readdirnames(1)
 	if err == io.EOF {
 		return true
-	} else {
-		return false
 	}
+
+	return false
 }
 
 func prompt(text string) bool {
 	if Interactive {
 		fmt.Printf(text + " [Yes/No]: ")
 		var a string
+
 		_, err := fmt.Scan(&a)
 		if err != nil {
 			fmt.Println(err)
 			return false
 		}
+
 		if a == "y" || a == "Y" || a == "yes" || a == "Yes" {
 			return true
 		}
+
 		return false
 	} else {
 		return true
@@ -70,16 +73,16 @@ func Rm(args []string) {
 		}
 
 		if t.IsDir() {
-			if Dir && empty(target) == true {
+			if Dir && empty(target) {
 				remove(target)
 				return
 			}
 
 			if Recursive {
-				for empty(target) == false {
+				for !empty(target) {
 					filepath.Walk(target,
 						func(t string, info os.FileInfo, err error) error {
-							if info.IsDir() && empty(t) == true {
+							if info.IsDir() && empty(t) {
 								remove(t)
 							}
 							if !info.IsDir() {
@@ -90,7 +93,7 @@ func Rm(args []string) {
 					)
 				}
 
-				if empty(target) == true {
+				if empty(target) {
 					remove(target)
 				}
 			} else {
