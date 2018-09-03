@@ -6,11 +6,12 @@ import (
 )
 
 var (
-	// touchAccess   int
-	// touchDate     string
-	// touchModified int
-	Create  bool
-	Verbose bool
+	Access    bool
+	Create    bool
+	Modified  bool
+	Reference string
+	Time      string
+	Verbose   bool
 )
 
 func exists(t string) bool {
@@ -30,7 +31,7 @@ func verbose(t string) {
 
 func Touch(args []string) {
 	for _, target := range args {
-		if exists(target) == false {
+		if !exists(target) {
 			if !Create {
 				os.Create(target)
 				verbose(target)
