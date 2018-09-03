@@ -25,5 +25,5 @@ func init() {
 	mkdirCmd.Flags().BoolVarP(&mkdir.Parents, "parents", "p", false,
 		"Create missing parent directories")
 	mkdirCmd.Flags().BoolVarP(&mkdir.Verbose, "verbose", "v", false,
-		"Verbose")
+		"Display each directory after it was created")
 }
