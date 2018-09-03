@@ -14,9 +14,7 @@ var (
 func Pwd() {
 	var dir string
 
-	if !P && L {
-		dir = os.Getenv("PWD")
-	} else if P {
+	if !L || P {
 		d, _ := os.Getwd()
 		dir, _ = filepath.EvalSymlinks(d)
 	} else {
