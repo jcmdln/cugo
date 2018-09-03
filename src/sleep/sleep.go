@@ -13,6 +13,7 @@ func Sleep(args string) {
 		if len(s) < 2 {
 			i += "s"
 		}
+
 		t, _ := time.ParseDuration(i)
 		time.Sleep(t)
 	}
