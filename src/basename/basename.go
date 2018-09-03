@@ -6,6 +6,5 @@ import (
 )
 
 func Basename(args []string) {
-	b := filepath.Base(args[0])
-	fmt.Printf("%s\n", b)
+	fmt.Printf("%s\n", filepath.Base(args[0]))
 }
