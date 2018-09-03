@@ -8,10 +8,8 @@ import (
 )
 
 var (
-	All         bool
-	Interactive bool
-	Recursive   bool
-	Verbose     bool
+	All       bool
+	Recursive bool
 )
 
 func list(t string) {

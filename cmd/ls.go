@@ -20,11 +20,7 @@ func init() {
 	RootCmd.AddCommand(lsCmd)
 	lsCmd.Flags().SortFlags = false
 	lsCmd.Flags().BoolVarP(&ls.All, "all", "a", false,
-		"")
-	lsCmd.Flags().BoolVarP(&ls.Interactive, "interactive", "i", false,
-		"")
+		"Include directory entries that begin with '.'")
 	lsCmd.Flags().BoolVarP(&ls.Recursive, "recursive", "r", false,
-		"")
-	lsCmd.Flags().BoolVarP(&ls.Verbose, "verbose", "v", false,
-		"")
+		"Recursively traverse folders")
 }
