@@ -2,51 +2,51 @@ package rmdir
 
 import (
 	"fmt"
-	"io"
 	"os"
 	"path/filepath"
+
+	e "github.com/jcmdln/cugo/lib/empty"
+	x "github.com/jcmdln/cugo/lib/exists"
 )
 
 var (
 	Pathname bool
+	Verbose  bool
 )
 
-func empty(name string) bool {
-	t, err := os.Open(name)
-	defer t.Close()
-	_, err = t.Readdirnames(1)
-	if err == io.EOF {
-		return true
+func rmdir(dir string) {
+	os.Remove(dir)
+	if Verbose {
+		fmt.Printf("cugo: rm: Removed '%s'\n", dir)
 	}
 
-	return false
 }
 
 func Rmdir(args []string) {
-	for _, target := range args {
-		_, err := os.Stat(target)
-		if os.IsNotExist(err) {
-			fmt.Println("cugo: rm: Can't remove", "'"+target+"':",
+	for _, dir := range args {
+		if x.Exists(dir) {
+			fmt.Println("cugo: rmdir", dir+":",
 				"no such file or directory")
 			return
 		}
 
-		for !empty(target) {
-			filepath.Walk(target,
+		if e.Empty(dir) {
+			rmdir(dir)
+			return
+		}
+
+		for !e.Empty(dir) {
+			filepath.Walk(dir,
 				func(t string, info os.FileInfo, err error) error {
-					if info.IsDir() && empty(t) {
-						os.Remove(t)
+					if info.IsDir() && e.Empty(t) {
+						rmdir(t)
 					}
 					if !info.IsDir() {
-						os.Remove(t)
+						rmdir(t)
 					}
 					return nil
 				},
 			)
-		}
-
-		if !empty(target) {
-			os.Remove(target)
 		}
 	}
 }

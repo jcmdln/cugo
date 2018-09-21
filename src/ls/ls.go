@@ -3,8 +3,9 @@ package ls
 import (
 	"fmt"
 	"io/ioutil"
-	"os"
 	"strings"
+
+	e "github.com/jcmdln/cugo/lib/exists"
 )
 
 var (
@@ -35,8 +36,7 @@ func Ls(args []string) {
 	}
 
 	for _, target := range args {
-		_, err := os.Stat(target)
-		if os.IsNotExist(err) {
+		if !e.Exists(target) {
 			fmt.Printf("cugo: ls: '%s': No such file or directory\n", target)
 			return
 		}

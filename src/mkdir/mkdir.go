@@ -3,8 +3,6 @@ package mkdir
 import (
 	"fmt"
 	"os"
-	"path/filepath"
-	"strings"
 )
 
 var (
@@ -13,43 +11,25 @@ var (
 	Verbose bool
 )
 
-func exists(t string) bool {
-	_, err := os.Stat(t)
-	if os.IsNotExist(err) {
-		return false
-	} else {
-		return true
-	}
-}
-
-func verbose(t string) {
-	if Verbose {
-		fmt.Printf("cugo: mkdir: Created %s\n", t)
-	}
-}
-
 func Mkdir(args []string) {
-	for _, target := range args {
+	for _, dir := range args {
 		if Parents {
-			c := ""
-			t := strings.Split(filepath.Clean(target), "/")
-
-			for i := range t {
-				c += t[i]
-				if exists(c) == false {
-					os.Mkdir(c, os.FileMode(Mode))
-					verbose(c)
+			err := os.MkdirAll(dir, os.FileMode(Mode))
+			if err != nil {
+				fmt.Printf("cugo: %s\n", err)
+			} else {
+				if Verbose {
+					fmt.Printf("cugo: mkdir: Created %s\n", dir)
 				}
-				c += "/"
 			}
 		} else {
-			if exists(filepath.Dir(target)) == true {
-				os.Mkdir(target,
-					os.FileMode(Mode))
-				verbose(target)
+			err := os.Mkdir(dir, os.FileMode(Mode))
+			if err != nil {
+				fmt.Printf("cugo: %s\n", err)
 			} else {
-				fmt.Printf("cugo: mkdir: '%s' doesn't exist: "+
-					"missing parent directory.\n", filepath.Dir(target))
+				if Verbose {
+					fmt.Printf("cugo: mkdir: Created %s\n", dir)
+				}
 			}
 		}
 	}

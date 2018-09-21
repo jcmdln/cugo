@@ -2,9 +2,11 @@ package rm
 
 import (
 	"fmt"
-	"io"
 	"os"
 	"path/filepath"
+
+	e "github.com/jcmdln/cugo/lib/empty"
+	p "github.com/jcmdln/cugo/lib/prompt"
 )
 
 var (
@@ -15,51 +17,19 @@ var (
 	Verbose     bool
 )
 
-func empty(name string) bool {
-	t, err := os.Open(name)
-	defer t.Close()
-	_, err = t.Readdirnames(1)
-	if err == io.EOF {
-		return true
-	}
-
-	return false
-}
-
-func prompt(text string) bool {
-	if Interactive {
-		fmt.Printf(text + " [Yes/No]: ")
-		var a string
-
-		_, err := fmt.Scan(&a)
-		if err != nil {
-			fmt.Println(err)
-			return false
-		}
-
-		if a == "y" || a == "Y" || a == "yes" || a == "Yes" {
-			return true
-		}
-
-		return false
-	} else {
-		return true
-	}
-}
-
-func verbose(tgt string) {
-	if Verbose {
-		fmt.Println("cugo: rm: removed", tgt)
-	}
-}
-
 func remove(t string) {
 	if Force {
 		os.Remove(t)
-		verbose(t)
-	} else if prompt("Remove '" + t + "'?") {
-		os.Remove(t)
-		verbose(t)
+		if Verbose {
+			fmt.Printf("cugo: rm: Removed '%s'\n", t)
+		}
+	} else if Interactive {
+		if p.Prompt("Remove '" + t + "'?") {
+			os.Remove(t)
+			if Verbose {
+				fmt.Printf("cugo: rm: Removed '%s'\n", t)
+			}
+		}
 	}
 }
 
@@ -67,39 +37,34 @@ func Rm(args []string) {
 	for _, target := range args {
 		t, err := os.Stat(target)
 		if os.IsNotExist(err) {
-			fmt.Println("cugo: rm: Can't remove", "'"+target+"':",
-				"no such file or directory")
+			fmt.Printf("cugo: rm %s: no such file or directory", target)
 			return
 		}
 
 		if t.IsDir() {
-			if Dir && empty(target) {
+			if Dir && e.Empty(target) {
 				remove(target)
 				return
 			}
 
 			if Recursive {
-				for !empty(target) {
-					filepath.Walk(target,
-						func(t string, info os.FileInfo, err error) error {
-							if info.IsDir() && empty(t) {
-								remove(t)
-							}
-							if !info.IsDir() {
-								remove(t)
-							}
-							return nil
-						},
-					)
+				for !e.Empty(target) {
+					filepath.Walk(target, func(t string, info os.FileInfo, err error) error {
+						if info.IsDir() && e.Empty(t) {
+							remove(t)
+						}
+						if !info.IsDir() {
+							remove(t)
+						}
+						return nil
+					})
 				}
 
-				if empty(target) {
+				if e.Empty(target) {
 					remove(target)
 				}
 			} else {
-				fmt.Println("cugo: rm: Can't remove directory '" +
-					target + "'")
-				return
+				fmt.Printf("cugo: rm %s: is a directory", target)
 			}
 		} else {
 			remove(target)
