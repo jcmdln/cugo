@@ -15,11 +15,14 @@ var (
 )
 
 func rmdir(dir string) {
-	os.Remove(dir)
-	if Verbose {
-		fmt.Printf("cugo: rm: Removed '%s'\n", dir)
+	err := os.Remove(dir)
+	if err != nil {
+		fmt.Printf("cugo: %s\n", err)
+	} else {
+		if Verbose {
+			fmt.Printf("cugo: rm: Removed '%s'\n", dir)
+		}
 	}
-
 }
 
 func Rmdir(args []string) {
