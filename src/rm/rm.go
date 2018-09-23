@@ -17,13 +17,6 @@ var (
 	Verbose     bool
 )
 
-// if Force {
-// 	os.Remove(t)
-// 	if Verbose {
-// 		fmt.Printf("cugo: rm: Removed '%s'\n", t)
-// 	}
-// }
-
 func rm(target string) {
 	err := os.Remove(target)
 	if err != nil {
@@ -46,15 +39,15 @@ func remove(target string) {
 
 func Rm(args []string) {
 	for _, target := range args {
-		t, err := os.Stat(target)
+		cur, err := os.Stat(target)
 		if os.IsNotExist(err) {
 			fmt.Printf("cugo: rm %s: no such file or directory\n", target)
 			return
 		}
 
-		if t.IsDir() {
+		if cur.IsDir() {
 			if Dir && e.Empty(target) {
-				rm(target)
+				remove(target)
 				return
 			}
 
@@ -63,10 +56,10 @@ func Rm(args []string) {
 					filepath.Walk(target, func(t string, info os.FileInfo, err error) error {
 						if info.IsDir() {
 							if e.Empty(t) {
-								rm(t)
+								remove(t)
 							}
 						} else {
-							rm(t)
+							remove(t)
 						}
 
 						return nil
@@ -74,13 +67,13 @@ func Rm(args []string) {
 				}
 
 				if e.Empty(target) {
-					rm(target)
+					remove(target)
 				}
 			} else {
 				fmt.Printf("cugo: rm %s: is a directory", target)
 			}
 		} else {
-			rm(target)
+			remove(target)
 		}
 	}
 }
