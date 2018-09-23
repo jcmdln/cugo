@@ -3,8 +3,6 @@ package touch
 import (
 	"fmt"
 	"os"
-
-	e "github.com/jcmdln/cugo/lib/exists"
 )
 
 var (
@@ -16,15 +14,21 @@ var (
 	Verbose   bool
 )
 
+func touch(file string) {
+	_, err := os.Create(file)
+	if err != nil {
+		fmt.Printf("cugo: %s\n", err)
+	} else {
+		if Verbose {
+			fmt.Printf("cugo: touch: Created '%s'\n", file)
+		}
+	}
+}
+
 func Touch(args []string) {
 	for _, file := range args {
-		if !e.Exists(file) {
-			if !Create {
-				os.Create(file)
-				if Verbose {
-					fmt.Printf("cugo: touch: Created '%s'\n", file)
-				}
-			}
+		if !Create {
+			touch(file)
 		}
 	}
 }
