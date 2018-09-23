@@ -37,12 +37,17 @@ func Rmdir(args []string) {
 			rmdir(dir)
 		} else if Parents {
 			for !e.Empty(dir) {
-				filepath.Walk(dir, func(t string, info os.FileInfo, err error) error {
-					if info.IsDir() && e.Empty(t) {
-						rmdir(t)
+				filepath.Walk(dir, func(d string, info os.FileInfo, err error) error {
+					if info.IsDir() && e.Empty(d) {
+						rmdir(d)
 					}
+
 					return nil
 				})
+			}
+
+			if e.Empty(dir) {
+				rmdir(dir)
 			}
 		}
 	}
