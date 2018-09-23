@@ -22,14 +22,12 @@ func init() {
 	touchCmd.Flags().SortFlags = false
 	touchCmd.Flags().BoolVarP(&touch.Access, "access", "a", false,
 		"Change the access time")
-	touchCmd.Flags().BoolVarP(&touch.Create, "create", "c", false,
+	touchCmd.Flags().BoolVarP(&touch.Create, "create", "c", true,
 		"Do not create missing files")
+	touchCmd.Flags().StringVarP(&touch.Date, "time", "t", "",
+		"Change access and modified time as per ISO8601/RFC3339Nano")
 	touchCmd.Flags().BoolVarP(&touch.Modified, "modified", "m", false,
 		"Change the modified time")
 	touchCmd.Flags().StringVarP(&touch.Reference, "reference", "r", "",
 		"Use access and modified time from reference file")
-	touchCmd.Flags().StringVarP(&touch.Time, "time", "t", "",
-		"Change access and modified time as per [cc]yy]mmddHHMM[.SS]")
-	touchCmd.Flags().BoolVarP(&touch.Verbose, "verbose", "v", false,
-		"Display each file name after it was created")
 }
