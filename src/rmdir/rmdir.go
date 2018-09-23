@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	Pathname bool
-	Verbose  bool
+	Parents bool
+	Verbose bool
 )
 
 func rmdir(dir string) {
@@ -27,7 +27,7 @@ func rmdir(dir string) {
 
 func Rmdir(args []string) {
 	for _, dir := range args {
-		if x.Exists(dir) {
+		if !x.Exists(dir) {
 			fmt.Println("cugo: rmdir", dir+":",
 				"no such file or directory")
 			return
@@ -35,21 +35,15 @@ func Rmdir(args []string) {
 
 		if e.Empty(dir) {
 			rmdir(dir)
-			return
-		}
-
-		for !e.Empty(dir) {
-			filepath.Walk(dir,
-				func(t string, info os.FileInfo, err error) error {
+		} else if Parents {
+			for !e.Empty(dir) {
+				filepath.Walk(dir, func(t string, info os.FileInfo, err error) error {
 					if info.IsDir() && e.Empty(t) {
 						rmdir(t)
 					}
-					if !info.IsDir() {
-						rmdir(t)
-					}
 					return nil
-				},
-			)
+				})
+			}
 		}
 	}
 }

@@ -20,8 +20,8 @@ var (
 func init() {
 	RootCmd.AddCommand(rmdirCmd)
 	rmdirCmd.Flags().SortFlags = false
-	rmdirCmd.Flags().BoolVarP(&rmdir.Pathname, "pathname", "p", false,
-		"Skip prompts and ignore warnings")
+	rmdirCmd.Flags().BoolVarP(&rmdir.Parents, "parents", "p", false,
+		"Remove parent directories")
 	rmdirCmd.Flags().BoolVarP(&rmdir.Verbose, "verbose", "v", false,
 		"Print a message when actions are taken")
 }
