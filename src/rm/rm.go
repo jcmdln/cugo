@@ -61,12 +61,14 @@ func Rm(args []string) {
 			if Recursive {
 				for !e.Empty(target) {
 					filepath.Walk(target, func(t string, info os.FileInfo, err error) error {
-						if info.IsDir() && e.Empty(t) {
+						if info.IsDir() {
+							if e.Empty(t) {
+								rm(t)
+							}
+						} else {
 							rm(t)
 						}
-						if !info.IsDir() {
-							rm(t)
-						}
+
 						return nil
 					})
 				}
