@@ -3,8 +3,10 @@ package chmod
 import (
 	"fmt"
 	"os"
+	"strconv"
 
-	e "github.com/jcmdln/cugo/lib/exists"
+	er "github.com/jcmdln/cugo/lib/error"
+	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
 var (
@@ -12,16 +14,21 @@ var (
 	Quiet     bool
 	Verbose   bool
 	Recursive bool
-	Mode      uint32
 )
 
 func Chmod(args []string) {
-	for _, target := range args {
-		if e.Exists(target) {
-			err := os.Chmod(target, os.FileMode(Mode))
-			if err != nil {
-				fmt.Println(err)
-			}
+	if len(args) < 2 {
+		fmt.Printf("cugo: chmod: wrong number of arguments")
+		os.Exit(1)
+	}
+
+	mode, err := strconv.ParseUint(args[0], 10, 32)
+	er.Error("cugo", err)
+
+	for _, target := range args[1:] {
+		if ex.Exists(target) {
+			err := os.Chmod(target, os.FileMode(mode))
+			er.Error("cugo", err)
 		}
 	}
 }
