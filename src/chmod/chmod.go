@@ -22,7 +22,7 @@ func Chmod(args []string) {
 		os.Exit(1)
 	}
 
-	mode, err := strconv.ParseUint(args[0], 10, 32)
+	mode, err := strconv.ParseUint(args[0], 8, 32)
 	er.Error("cugo", err)
 
 	for _, target := range args[1:] {
