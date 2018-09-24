@@ -24,7 +24,7 @@ func init() {
 		"Change the access time")
 	touchCmd.Flags().BoolVarP(&touch.Create, "create", "c", true,
 		"Do not create missing files")
-	touchCmd.Flags().StringVarP(&touch.Date, "time", "t", "",
+	touchCmd.Flags().StringVarP(&touch.Date, "date", "d", "",
 		"Change access and modified time as per ISO8601/RFC3339Nano")
 	touchCmd.Flags().BoolVarP(&touch.Modified, "modified", "m", false,
 		"Change the modified time")

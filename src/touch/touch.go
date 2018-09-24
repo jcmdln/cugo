@@ -1,12 +1,12 @@
 package touch
 
 import (
-	"fmt"
 	"os"
 	"syscall"
 	"time"
 
-	e "github.com/jcmdln/cugo/lib/exists"
+	er "github.com/jcmdln/cugo/lib/error"
+	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
 var (
@@ -18,20 +18,21 @@ var (
 )
 
 func touch(file string, atime time.Time, mtime time.Time) {
-	f, _ := os.Stat(Reference)
+	f, _ := os.Stat(file)
 	fstat := f.Sys().(*syscall.Stat_t)
-	catime := time.Unix(fstat.Atim.Sec, fstat.Atim.Nsec)
-	cmtime := f.ModTime()
 
-	if Access && Modified {
-		os.Chtimes(file, atime, mtime)
+	if Access && Modified || !Access && !Modified {
+		err := os.Chtimes(file, atime, mtime)
+		er.Error("cugo", err)
 	} else {
 		if Access {
-			os.Chtimes(file, atime, cmtime)
+			err := os.Chtimes(file, atime, f.ModTime())
+			er.Error("cugo", err)
 		}
 
 		if Modified {
-			os.Chtimes(file, catime, mtime)
+			err := os.Chtimes(file, time.Unix(fstat.Atim.Sec, fstat.Atim.Nsec), mtime)
+			er.Error("cugo", err)
 		}
 	}
 }
@@ -40,30 +41,27 @@ func Touch(args []string) {
 	for _, file := range args {
 		if Create {
 			_, err := os.Create(file)
-			if err != nil {
-				fmt.Printf("cugo: %s\n", err)
-			}
+			er.Error("cugo", err)
 		}
 
-		if e.Exists(file) {
+		if ex.Exists(file) {
 			if len(Reference) > 0 {
 				r, err := os.Stat(Reference)
-				if err != nil {
-					fmt.Printf("cugo: touch %s: no such file or directory\n", Reference)
-					return
+				if !er.Error("cugo", err) {
+					rstat := r.Sys().(*syscall.Stat_t)
+					touch(file, time.Unix(rstat.Atim.Sec, rstat.Atim.Nsec), r.ModTime())
 				}
-
-				rstat := r.Sys().(*syscall.Stat_t)
-				ratime := time.Unix(rstat.Atim.Sec, rstat.Atim.Nsec)
-				rmtime := r.ModTime()
-				touch(file, ratime, rmtime)
+			} else if len(Date) > 0 {
+				date, err := time.Parse(time.RFC3339Nano, Date)
+				if !er.Error("cugo", err) {
+					touch(file, date, date)
+				}
 			} else {
-				// No reference file
-				// f, _ := os.Stat(file)
-				// fstat := f.Sys().(*syscall.Stat_t)
-				// fatime := time.Unix(fstat.Atim.Sec, fstat.Atim.Nsec)
-				// fmtime := f.ModTime()
-				// touch(file, fatime, fmtime)
+				f, err := os.Stat(file)
+				if !er.Error("cugo", err) {
+					fstat := f.Sys().(*syscall.Stat_t)
+					touch(file, time.Unix(fstat.Atim.Sec, fstat.Atim.Nsec), f.ModTime())
+				}
 			}
 		}
 	}
