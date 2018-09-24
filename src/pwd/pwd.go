@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+
+	er "github.com/jcmdln/cugo/lib/error"
 )
 
 var (
@@ -12,11 +14,18 @@ var (
 )
 
 func Pwd() {
-	var dir string
+	var (
+		cwd string
+		dir string
+		err error
+	)
 
 	if !L || P {
-		d, _ := os.Getwd()
-		dir, _ = filepath.EvalSymlinks(d)
+		cwd, err = os.Getwd()
+		er.Error("cugo", err)
+
+		dir, err = filepath.EvalSymlinks(cwd)
+		er.Error("cugo", err)
 	} else {
 		dir = os.Getenv("PWD")
 	}

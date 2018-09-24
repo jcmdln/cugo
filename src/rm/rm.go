@@ -5,8 +5,9 @@ import (
 	"os"
 	"path/filepath"
 
-	e "github.com/jcmdln/cugo/lib/empty"
-	p "github.com/jcmdln/cugo/lib/prompt"
+	em "github.com/jcmdln/cugo/lib/empty"
+	er "github.com/jcmdln/cugo/lib/error"
+	pr "github.com/jcmdln/cugo/lib/prompt"
 )
 
 var (
@@ -19,17 +20,16 @@ var (
 
 func rm(target string) {
 	err := os.Remove(target)
-	if err != nil {
-		fmt.Printf("cugo: %s\n", err)
-	}
-	if Verbose {
-		fmt.Printf("cugo: rm: Removed '%s'\n", target)
+	if !er.Error("cugo", err) {
+		if Verbose {
+			fmt.Printf("cugo: rm: Removed '%s'\n", target)
+		}
 	}
 }
 
 func remove(target string) {
 	if !Force && Interactive {
-		if p.Prompt("Remove '" + target + "'?") {
+		if pr.Prompt("Remove '" + target + "'?") {
 			rm(target)
 		}
 	} else {
@@ -46,16 +46,16 @@ func Rm(args []string) {
 		}
 
 		if cur.IsDir() {
-			if Dir && e.Empty(target) {
+			if Dir && em.Empty(target) {
 				remove(target)
 				return
 			}
 
 			if Recursive {
-				for !e.Empty(target) {
+				for !em.Empty(target) {
 					filepath.Walk(target, func(t string, info os.FileInfo, err error) error {
 						if info.IsDir() {
-							if e.Empty(t) {
+							if em.Empty(t) {
 								remove(t)
 							}
 						} else {
@@ -66,7 +66,7 @@ func Rm(args []string) {
 					})
 				}
 
-				if e.Empty(target) {
+				if em.Empty(target) {
 					remove(target)
 				}
 			} else {

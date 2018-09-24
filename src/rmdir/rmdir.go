@@ -5,8 +5,9 @@ import (
 	"os"
 	"path/filepath"
 
-	e "github.com/jcmdln/cugo/lib/empty"
-	x "github.com/jcmdln/cugo/lib/exists"
+	em "github.com/jcmdln/cugo/lib/empty"
+	er "github.com/jcmdln/cugo/lib/error"
+	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
 var (
@@ -16,9 +17,7 @@ var (
 
 func rmdir(dir string) {
 	err := os.Remove(dir)
-	if err != nil {
-		fmt.Printf("cugo: %s\n", err)
-	} else {
+	if !er.Error("cugo", err) {
 		if Verbose {
 			fmt.Printf("cugo: rm: Removed '%s'\n", dir)
 		}
@@ -27,18 +26,18 @@ func rmdir(dir string) {
 
 func Rmdir(args []string) {
 	for _, dir := range args {
-		if !x.Exists(dir) {
+		if !ex.Exists(dir) {
 			fmt.Println("cugo: rmdir", dir+":",
 				"no such file or directory")
 			return
 		}
 
-		if e.Empty(dir) {
+		if em.Empty(dir) {
 			rmdir(dir)
 		} else if Parents {
-			for !e.Empty(dir) {
+			for !em.Empty(dir) {
 				filepath.Walk(dir, func(d string, info os.FileInfo, err error) error {
-					if info.IsDir() && e.Empty(d) {
+					if info.IsDir() && em.Empty(d) {
 						rmdir(d)
 					}
 
@@ -46,7 +45,7 @@ func Rmdir(args []string) {
 				})
 			}
 
-			if e.Empty(dir) {
+			if em.Empty(dir) {
 				rmdir(dir)
 			}
 		}
