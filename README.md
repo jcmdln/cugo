@@ -2,14 +2,16 @@ Cugo is a multi-call binary written in Go which implements core utilities
 from various Unix/Linux standards.
 
 ```
-$ go run main.go
-Error: requires at least 1 arg(s), only received 0
+$ go run cugo.go -h
+Core Utilities in multi-call Go binary
+
 Usage:
   cugo [flags]
   cugo [command]
 
 Available Commands:
   basename    Return non-directory portion of a pathname
+  chmod       Change file mode bits
   count       Count the number of elements of an array
   false       Return false value
   help        Help about any command
