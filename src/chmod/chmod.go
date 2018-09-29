@@ -1,3 +1,17 @@
+// Copyright 2018 Johnathan C Maudlin
+// Use of this source code is governed by a MIT-style
+// license that can be found in the LICENSE file.
+
+// Package chmod provides a Unix-conforming implementation of chmod. The
+// implementation was developed using the OpenBSD man pages along with
+// the reference manuals for various other operating systems such as
+// Linux and Illumos.
+//
+// Here is a simple example of the syntax that will be expanded once
+// further functionality is implemented.
+//
+//     $ chmod 0644 file.1 file.go
+//
 package chmod
 
 import (
