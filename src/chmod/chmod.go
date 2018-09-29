@@ -10,12 +10,21 @@ import (
 )
 
 var (
-	Changes   bool
-	Quiet     bool
-	Verbose   bool
+	// Changes is a bool that when true reports when changes are made.
+	Changes bool
+	// Quiet is a bool that when true suppresses most error messages.
+	Quiet bool
+	// Verbose is a bool that when true reports each processed file.
+	Verbose bool
+	// Recursive is a bool that when true changes files and directories
+	// recursively.
 	Recursive bool
 )
 
+// Chmod changes the file mode bits of provided files as specified by
+// the mode operand. The mode of a file dictates its permissions, among
+// other attributes. Currently the only supported mode operand uses
+// octal numbers from 0 to 7.
 func Chmod(args []string) {
 	if len(args) < 2 {
 		fmt.Printf("cugo: chmod: wrong number of arguments")
