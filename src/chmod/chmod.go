@@ -4,11 +4,6 @@
 
 // Change file mode bits.
 //
-// Here is a simple example of the syntax that will be expanded once
-// further functionality is implemented.
-//
-//     $ chmod 0644 file.1 file.go
-//
 package chmod
 
 import (
