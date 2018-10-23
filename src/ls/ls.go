@@ -1,3 +1,7 @@
+// Copyright 2018 Johnathan C Maudlin
+// Use of this source code is governed by a MIT-style
+// license that can be found in the LICENSE file.
+
 package ls
 
 import (
@@ -5,7 +9,7 @@ import (
 	"io/ioutil"
 	"strings"
 
-	e "github.com/jcmdln/cugo/lib/exists"
+	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
 var (
@@ -36,7 +40,7 @@ func Ls(args []string) {
 	}
 
 	for _, target := range args {
-		if !e.Exists(target) {
+		if !ex.Exists(target) {
 			fmt.Printf("cugo: ls: '%s': No such file or directory\n", target)
 			return
 		}
