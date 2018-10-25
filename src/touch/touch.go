@@ -2,6 +2,20 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+// change file access and modification times
+//
+// touch sets the modification and access times of files to the current
+// time. If the specified file doesn't exists, it is created with default
+// permissions.
+//
+// Available options:
+//
+//     -a, --access       Change the access time
+//     -c, --create       Do not create missing files
+//     -d, --date         Change access and modified time as per ISO8601
+//     -m, --modified     Change the modified time
+//     -r, --reference    Use access/modified times from reference file
+//
 package touch
 
 import (
