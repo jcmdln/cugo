@@ -12,7 +12,7 @@ import (
 var (
 	rmdirCmd = &cobra.Command{
 		Use:   "rmdir",
-		Short: "Remove directories",
+		Short: "remove directories",
 		Long:  "",
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {

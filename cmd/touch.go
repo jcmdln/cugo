@@ -12,7 +12,7 @@ import (
 var (
 	touchCmd = &cobra.Command{
 		Use:   "touch",
-		Short: "Change file access and modification times",
+		Short: "change file access and modification times",
 		Long:  "",
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {

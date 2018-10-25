@@ -12,7 +12,7 @@ import (
 var (
 	chmodCmd = &cobra.Command{
 		Use:   "chmod",
-		Short: "Change file mode bits",
+		Short: "change file mode bits",
 		Long:  "",
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {

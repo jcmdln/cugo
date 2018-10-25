@@ -12,7 +12,7 @@ import (
 var (
 	mkdirCmd = &cobra.Command{
 		Use:   "mkdir",
-		Short: "Create directories",
+		Short: "create directories",
 		Long:  "",
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {

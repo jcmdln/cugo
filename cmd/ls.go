@@ -12,7 +12,7 @@ import (
 var (
 	lsCmd = &cobra.Command{
 		Use:   "ls",
-		Short: "List files and directories",
+		Short: "list files and directories",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
 			ls.Ls(args)

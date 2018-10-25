@@ -12,8 +12,8 @@ import (
 var (
 	rmCmd = &cobra.Command{
 		Use:   "rm",
-		Short: "Remove files and directories",
-		Long:  "Remove the file or directory entry specified by each argument",
+		Short: "remove files and directories",
+		Long:  "",
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			rm.Rm(args)

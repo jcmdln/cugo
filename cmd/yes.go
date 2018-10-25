@@ -12,7 +12,7 @@ import (
 var (
 	yesCmd = &cobra.Command{
 		Use:   "yes",
-		Short: "Repeatedly output specified string(s), or 'y'",
+		Short: "repeatedly output specified string(s), or 'y'",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
 			yes.Yes(args)

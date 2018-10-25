@@ -12,7 +12,7 @@ import (
 var (
 	falseCmd = &cobra.Command{
 		Use:   "false",
-		Short: "Return false value",
+		Short: "return false value",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
 			false.False()

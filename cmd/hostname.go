@@ -12,7 +12,7 @@ import (
 var (
 	hostnameCmd = &cobra.Command{
 		Use:   "hostname",
-		Short: "Return the host name reported by the kernel",
+		Short: "return the host name reported by the kernel",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
 			hostname.Hostname(args)
@@ -22,4 +22,6 @@ var (
 
 func init() {
 	RootCmd.AddCommand(hostnameCmd)
+	hostnameCmd.Flags().BoolVarP(&hostname.Strip, "strip", "s", false,
+		"Trim any domain information from the printed name")
 }

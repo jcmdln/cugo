@@ -12,7 +12,7 @@ import (
 var (
 	whoamiCmd = &cobra.Command{
 		Use:   "whoami",
-		Short: "Return current user",
+		Short: "return current user",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
 			whoami.Whoami()
