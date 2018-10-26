@@ -3,6 +3,17 @@
 // license that can be found in the LICENSE file.
 
 // return working directory name
+//
+// pwd prints the absolute pathname of the current working directory.
+//
+// Available options
+//
+//     -L, --links       Read current directory from the environment
+//                       including symlinks.
+//
+//     -P, --physical    Absolute path of current directory without
+//                       symlinks.
+//
 package pwd
 
 import (

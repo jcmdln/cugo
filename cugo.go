@@ -13,11 +13,6 @@
 // library is feature complete enough to make many utilities trivial to
 // implement, sometimes with little more than writing glue code as a
 // wrapper for existing functionality.
-//
-// The primary source for manuals when building utilities are as follows
-// - https://man.openbsd.org/
-// - http://landley.net/toybox/status.html
-// - https://illumos.org/man/
 package main
 
 import (

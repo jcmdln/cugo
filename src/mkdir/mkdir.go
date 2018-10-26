@@ -3,6 +3,19 @@
 // license that can be found in the LICENSE file.
 
 // create directories
+//
+// mkdir creates the directories named as arguments in the order
+// specified using mode rwxrwxrwx (0777) as modified by the current
+// umask.
+//
+// Available options:
+//
+//     -m, --mode       Set directory permissions to MODE value
+//
+//     -p, --parents    create missing parent directories
+//
+//     -v, --verbose    Display each directory after it was created
+//
 package mkdir
 
 import (

@@ -3,6 +3,23 @@
 // license that can be found in the LICENSE file.
 
 // list files and directories
+//
+// This utility is unlikely to be finished in a reasonable amount of time
+// as the number of options is quite exhaustive.
+//
+// When the target is a file, ls will display it's name and any requested
+// information. When the target is a directory, ls displays the names of
+// files within that directory along with any requested information.
+//
+// If no arguments are given, ls will display the contents of the current
+// directory along with any request information.
+//
+// Available options:
+//
+//     -a, --all
+//
+//     -r, --recursive
+//
 package ls
 
 import (

@@ -6,6 +6,17 @@
 //
 // Setting the hostname is currently not supported as this is missing
 // from the 'syscall' package.
+//
+// hostname is used to set or print the name of the current host. If no
+// argument is given, the name of the current host is printed.
+//
+// The host name may be set by the superuser by specifying a hostname or
+// supplying a myname or hostname file, which is used at boot.
+//
+// Available options:
+//
+//     -s, strip    trims domain information from the printed name.
+//
 package hostname
 
 import (
@@ -19,12 +30,11 @@ import (
 var (
 	// Strip is a bool that when true removes domain information
 	Strip bool
-
-	// name is a string used to store the hostname to be printed
-	name string
 )
 
 func Hostname(args []string) {
+	var name string
+
 	name, err := os.Hostname()
 	er.Error("cugo", err)
 
