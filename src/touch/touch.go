@@ -11,9 +11,13 @@
 // Available options:
 //
 //     -a, --access       Change the access time
+//
 //     -c, --create       Do not create missing files
+//
 //     -d, --date         Change access and modified time as per ISO8601
+//
 //     -m, --modified     Change the modified time
+//
 //     -r, --reference    Use access/modified times from reference file
 //
 package touch

@@ -4,10 +4,29 @@
 
 // change file mode bits.
 //
+// This utility is going through some growing pains as Linux and Unix
+// have heavily diverged on it's options. I'm leaning toward sticking
+// with the defined behavior in OpenBSD's manual.
+//
 // Chmod changes the file mode bits of provided files as specified by
 // the mode operand. The mode of a file dictates its permissions, among
 // other attributes. Currently the only supported mode operand uses
 // octal numbers from 0 to 7.
+//
+// Available options:
+//
+//     -h, --modify       treat symlinks like files; modify without
+//                        following. -h and -R are mutually exclusive.
+//
+//     -H, --head         if -R is issued, follow symlinks but not
+//                        symlinks found during traversal.
+//
+//     -L, --links        if -R is issued, all symlinks are followed.
+//
+//     -P, --physical     if -R is issued, no symlinks are followed.
+//
+//     -R, --recursive    change mode of the directory and it's contents.
+//
 package chmod
 
 import (
@@ -23,15 +42,15 @@ var (
 	// Changes is a bool that when true reports when changes are made.
 	Changes bool
 
+	// Recursive is a bool that when true changes files and directories
+	// recursively.
+	Recursive bool
+
 	// Quiet is a bool that when true suppresses most error messages.
 	Quiet bool
 
 	// Verbose is a bool that when true reports each processed file.
 	Verbose bool
-
-	// Recursive is a bool that when true changes files and directories
-	// recursively.
-	Recursive bool
 )
 
 func Chmod(args []string) {
