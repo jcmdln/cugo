@@ -2,7 +2,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// command line interface for `cugo`
+// Package cmd provides the command line interface for `cugo`
 package cmd
 
 import (
@@ -10,6 +10,7 @@ import (
 )
 
 var (
+	// RootCmd is the definition of our command, in this case 'cugo'.
 	RootCmd = &cobra.Command{
 		Use:   "cugo",
 		Short: "",
