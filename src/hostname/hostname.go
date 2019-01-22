@@ -23,8 +23,6 @@ import (
 	"fmt"
 	"os"
 	"strings"
-
-	er "github.com/jcmdln/cugo/lib/error"
 )
 
 var (
@@ -36,7 +34,10 @@ func Hostname(args []string) {
 	var name string
 
 	name, err := os.Hostname()
-	er.Error("cugo", err)
+	if err != nil {
+		fmt.Printf("cugo: %s\n", err)
+		os.Exit(1)
+	}
 
 	if Strip {
 		s := strings.Split(name, ".")

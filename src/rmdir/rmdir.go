@@ -24,7 +24,6 @@ import (
 	"path/filepath"
 
 	em "github.com/jcmdln/cugo/lib/empty"
-	er "github.com/jcmdln/cugo/lib/error"
 	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
@@ -35,7 +34,10 @@ var (
 
 func rmdir(dir string) {
 	err := os.Remove(dir)
-	if !er.Error("cugo", err) {
+	if err != nil {
+		fmt.Printf("cugo: %s\n", err)
+		os.Exit(1)
+	} else {
 		if Verbose {
 			fmt.Printf("cugo: rm: Removed '%s'\n", dir)
 		}

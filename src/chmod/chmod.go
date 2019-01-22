@@ -34,7 +34,6 @@ import (
 	"os"
 	"strconv"
 
-	er "github.com/jcmdln/cugo/lib/error"
 	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
@@ -60,12 +59,18 @@ func Chmod(args []string) {
 	}
 
 	mode, err := strconv.ParseUint(args[0], 8, 32)
-	er.Error("cugo", err)
+	if err != nil {
+		fmt.Printf("cugo: %s\n", err)
+		os.Exit(1)
+	}
 
 	for _, target := range args[1:] {
 		if ex.Exists(target) {
 			err := os.Chmod(target, os.FileMode(mode))
-			er.Error("cugo", err)
+			if err != nil {
+				fmt.Printf("cugo: %s\n", err)
+				os.Exit(1)
+			}
 		}
 	}
 }

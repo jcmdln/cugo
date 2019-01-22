@@ -28,7 +28,6 @@ import (
 	"path/filepath"
 
 	em "github.com/jcmdln/cugo/lib/empty"
-	er "github.com/jcmdln/cugo/lib/error"
 	pr "github.com/jcmdln/cugo/lib/prompt"
 )
 
@@ -42,7 +41,10 @@ var (
 
 func rm(target string) {
 	err := os.Remove(target)
-	if !er.Error("cugo", err) {
+	if err != nil {
+		fmt.Printf("cugo: rm: Removed '%s'\n", target)
+		os.Exit(1)
+	} else {
 		if Verbose {
 			fmt.Printf("cugo: rm: Removed '%s'\n", target)
 		}

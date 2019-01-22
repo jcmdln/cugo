@@ -19,10 +19,10 @@
 package sleep
 
 import (
+	"fmt"
+	"os"
 	"strings"
 	"time"
-
-	er "github.com/jcmdln/cugo/lib/error"
 )
 
 func Sleep(args string) {
@@ -41,7 +41,10 @@ func Sleep(args string) {
 		}
 
 		t, err = time.ParseDuration(i)
-		if !er.Error("cugo", err) {
+		if err != nil {
+			fmt.Printf("cugo: %s\n", err)
+			os.Exit(1)
+		} else {
 			time.Sleep(t)
 		}
 	}
