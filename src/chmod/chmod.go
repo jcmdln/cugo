@@ -15,16 +15,6 @@
 //
 // Available options:
 //
-//     -h, --modify       treat symlinks like files; modify without
-//                        following. -h and -R are mutually exclusive.
-//
-//     -H, --head         if -R is issued, follow symlinks but not
-//                        symlinks found during traversal.
-//
-//     -L, --links        if -R is issued, all symlinks are followed.
-//
-//     -P, --physical     if -R is issued, no symlinks are followed.
-//
 //     -R, --recursive    change mode of the directory and it's contents.
 //
 package chmod
@@ -32,29 +22,21 @@ package chmod
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strconv"
 
 	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
 var (
-	// Changes is a bool that when true reports when changes are made.
-	Changes bool
-
 	// Recursive is a bool that when true changes files and directories
 	// recursively.
 	Recursive bool
-
-	// Quiet is a bool that when true suppresses most error messages.
-	Quiet bool
-
-	// Verbose is a bool that when true reports each processed file.
-	Verbose bool
 )
 
 func Chmod(args []string) {
 	if len(args) < 2 {
-		fmt.Printf("cugo: chmod: wrong number of arguments")
+		fmt.Printf("cugo: chmod: wrong number of arguments\n")
 		os.Exit(1)
 	}
 
@@ -66,10 +48,20 @@ func Chmod(args []string) {
 
 	for _, target := range args[1:] {
 		if ex.Exists(target) {
-			err := os.Chmod(target, os.FileMode(mode))
-			if err != nil {
-				fmt.Printf("cugo: %s\n", err)
-				os.Exit(1)
+			if Recursive {
+				filepath.Walk(target, func(t string, info os.FileInfo, err error) error {
+					if err := os.Chmod(t, os.FileMode(mode)); err != nil {
+						fmt.Printf("cugo: %s\n", err)
+						os.Exit(1)
+					}
+
+					return nil
+				})
+			} else {
+				if err := os.Chmod(target, os.FileMode(mode)); err != nil {
+					fmt.Printf("cugo: %s\n", err)
+					os.Exit(1)
+				}
 			}
 		}
 	}
