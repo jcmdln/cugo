@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+// Empty confirms whether the provided directory contains any children,
+// returning 'true' if a child file or directory is present.
 func Empty(dir string) bool {
 	t, err := os.Open(dir)
 	defer t.Close()

@@ -10,14 +10,16 @@ package whoami
 
 import (
 	"fmt"
+	"os"
 	"os/user"
-
-	er "github.com/jcmdln/cugo/lib/error"
 )
 
 func Whoami() {
 	usr, err := user.Current()
-	if !er.Error("cugo", err) {
+	if err != nil {
+		fmt.Printf("cugo: %s\n", err)
+		os.Exit(1)
+	} else {
 		fmt.Printf("%s\n", usr.Username)
 	}
 }
