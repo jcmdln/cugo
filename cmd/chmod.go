@@ -24,12 +24,6 @@ var (
 func init() {
 	RootCmd.AddCommand(chmodCmd)
 	chmodCmd.Flags().SortFlags = false
-	chmodCmd.Flags().BoolVarP(&chmod.Changes, "changes", "c", false,
-		"Report only when changes are made")
-	chmodCmd.Flags().BoolVarP(&chmod.Quiet, "quiet", "q", false,
-		"Suppress most error messages")
-	chmodCmd.Flags().BoolVarP(&chmod.Verbose, "verbose", "v", false,
-		"Report each processed file")
 	chmodCmd.Flags().BoolVarP(&chmod.Recursive, "recursive", "r", false,
 		"Change files and directories recursively")
 }

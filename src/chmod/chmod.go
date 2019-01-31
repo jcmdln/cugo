@@ -50,7 +50,8 @@ func Chmod(args []string) {
 		if ex.Exists(target) {
 			if Recursive {
 				filepath.Walk(target, func(t string, info os.FileInfo, err error) error {
-					if err := os.Chmod(t, os.FileMode(mode)); err != nil {
+					err = os.Chmod(t, os.FileMode(mode))
+					if err != nil {
 						fmt.Printf("cugo: %s\n", err)
 						os.Exit(1)
 					}
@@ -58,7 +59,8 @@ func Chmod(args []string) {
 					return nil
 				})
 			} else {
-				if err := os.Chmod(target, os.FileMode(mode)); err != nil {
+				err := os.Chmod(target, os.FileMode(mode))
+				if err != nil {
 					fmt.Printf("cugo: %s\n", err)
 					os.Exit(1)
 				}
