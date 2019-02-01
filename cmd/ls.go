@@ -5,26 +5,26 @@
 package cmd
 
 import (
-	"github.com/jcmdln/cugo/src/ls"
-	"github.com/spf13/cobra"
+	"github.com/hlfstr/cugo/src/ls"
+	"github.com/hlfstr/flagger"
 )
 
-var (
-	lsCmd = &cobra.Command{
-		Use:   "ls",
-		Short: "list files and directories",
-		Long:  "",
-		Run: func(cmd *cobra.Command, args []string) {
-			ls.Ls(args)
-		},
+type lsCmd struct{}
+
+func (l *lsCmd) Prepare(flags *flagger.Flags) {
+	flags.BoolVar(&ls.All, "Include directory entries that begin with '.'", "-a", "--all")
+	flags.BoolVar(&ls.Recursive, "Recursively traverse folders", "--recursive", "-r")
+}
+
+func (l *lsCmd) Action(s []string, flags *flagger.Flags) error {
+	if data, err := flags.Parse(s); err != nil {
+		return err
+	} else {
+		ls.Ls(data)
 	}
-)
+	return nil
+}
 
 func init() {
-	RootCmd.AddCommand(lsCmd)
-	lsCmd.Flags().SortFlags = false
-	lsCmd.Flags().BoolVarP(&ls.All, "all", "a", false,
-		"Include directory entries that begin with '.'")
-	lsCmd.Flags().BoolVarP(&ls.Recursive, "recursive", "r", false,
-		"Recursively traverse folders")
+	Command.Add("ls", &lsCmd{})
 }

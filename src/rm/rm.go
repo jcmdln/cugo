@@ -27,8 +27,8 @@ import (
 	"os"
 	"path/filepath"
 
-	em "github.com/jcmdln/cugo/lib/empty"
-	pr "github.com/jcmdln/cugo/lib/prompt"
+	em "github.com/hlfstr/cugo/lib/empty"
+	pr "github.com/hlfstr/cugo/lib/prompt"
 )
 
 var (

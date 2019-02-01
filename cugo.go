@@ -16,9 +16,13 @@
 package main
 
 import (
-	"github.com/jcmdln/cugo/cmd"
+	"fmt"
+	"github.com/hlfstr/cugo/cmd"
+	"os"
 )
 
 func main() {
-	cmd.RootCmd.Execute()
+	if err := cmd.Command.Parse(os.Args[1:]); err != nil {
+		fmt.Println(err)
+	}
 }

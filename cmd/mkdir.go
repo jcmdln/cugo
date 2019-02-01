@@ -5,29 +5,27 @@
 package cmd
 
 import (
-	"github.com/jcmdln/cugo/src/mkdir"
-	"github.com/spf13/cobra"
+	"github.com/hlfstr/cugo/src/mkdir"
+	"github.com/hlfstr/flagger"
 )
 
-var (
-	mkdirCmd = &cobra.Command{
-		Use:   "mkdir",
-		Short: "create directories",
-		Long:  "",
-		Args:  cobra.MinimumNArgs(1),
-		Run: func(cmd *cobra.Command, args []string) {
-			mkdir.Mkdir(args)
-		},
+type mkdirCmd struct{}
+
+func (m *mkdirCmd) Prepare(flags *flagger.Flags) {
+	flags.BoolVar(&mkdir.Parents, "Create missing parent directories", "-p", "--parents")
+	flags.BoolVar(&mkdir.Verbose, "Display each directory after it was created", "-v", "--verbose")
+	mkdir.Mode = 0755 //Unit32 is not part of flagger yet
+}
+
+func (m *mkdirCmd) Action(s []string, flags *flagger.Flags) error {
+	if data, err := flags.Parse(s); err != nil {
+		return err
+	} else {
+		mkdir.Mkdir(data)
 	}
-)
+	return nil
+}
 
 func init() {
-	RootCmd.AddCommand(mkdirCmd)
-	mkdirCmd.Flags().SortFlags = false
-	mkdirCmd.Flags().Uint32VarP(&mkdir.Mode, "mode", "m", 0777,
-		"Set directory permissions to MODE value")
-	mkdirCmd.Flags().BoolVarP(&mkdir.Parents, "parents", "p", false,
-		"Create missing parent directories")
-	mkdirCmd.Flags().BoolVarP(&mkdir.Verbose, "verbose", "v", false,
-		"Display each directory after it was created")
+	Command.Add("mkdir", &mkdirCmd{})
 }
