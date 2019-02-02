@@ -27,7 +27,7 @@ import (
 	"io/ioutil"
 	"strings"
 
-	ex "github.com/hlfstr/cugo/lib/exists"
+	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
 var (

@@ -25,7 +25,7 @@ import (
 	"path/filepath"
 	"strconv"
 
-	ex "github.com/hlfstr/cugo/lib/exists"
+	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
 var (

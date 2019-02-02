@@ -24,15 +24,17 @@ import (
 )
 
 var (
-	Mode    uint32
+	Mode    uint
 	Parents bool
 	Verbose bool
 )
 
 func Mkdir(args []string) {
+	mode := os.FileMode(uint32(Mode))
+
 	for _, dir := range args {
 		if Parents {
-			err := os.MkdirAll(dir, os.FileMode(Mode))
+			err := os.MkdirAll(dir, mode)
 			if err != nil {
 				fmt.Printf("cugo: %s\n", err)
 				os.Exit(1)
@@ -42,7 +44,7 @@ func Mkdir(args []string) {
 				}
 			}
 		} else {
-			err := os.Mkdir(dir, os.FileMode(Mode))
+			err := os.Mkdir(dir, mode)
 			if err != nil {
 				fmt.Printf("cugo: %s\n", err)
 				os.Exit(1)

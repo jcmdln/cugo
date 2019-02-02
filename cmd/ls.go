@@ -5,8 +5,8 @@
 package cmd
 
 import (
-	"github.com/hlfstr/cugo/src/ls"
-	"github.com/hlfstr/flagger"
+	"github.com/jcmdln/cugo/src/ls"
+	"github.com/jcmdln/flagger"
 )
 
 type lsCmd struct{}
@@ -18,7 +18,7 @@ func (l *lsCmd) Prepare(flags *flagger.Flags) {
 
 func (l *lsCmd) Action(s []string, flags *flagger.Flags) error {
 	if data, err := flags.Parse(s); err != nil {
-		return err
+		ls.Ls([]string{"."})
 	} else {
 		ls.Ls(data)
 	}

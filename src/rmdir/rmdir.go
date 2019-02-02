@@ -23,8 +23,8 @@ import (
 	"os"
 	"path/filepath"
 
-	em "github.com/hlfstr/cugo/lib/empty"
-	ex "github.com/hlfstr/cugo/lib/exists"
+	em "github.com/jcmdln/cugo/lib/empty"
+	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
 var (

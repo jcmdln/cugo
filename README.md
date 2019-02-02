@@ -3,6 +3,11 @@ CuGo - Core Utilities written in Go
 [Homepage](https://cugo.io) | [GitHub](https://github.com/jcmdln/cugo)
 
 
+NOTE: `cugo` is currently pre-alpha software that has no tests and
+little documentation. Please review this repository in it's entirety
+before using as you may experience undesired or undocumented behavior!
+
+
 ## About
 `cugo` is a re-implementation of Unix/Linux core utilities in the form
 of a multi-call binary. Each utility is written from scratch using only
@@ -66,11 +71,11 @@ arbitrarily obfuscating the work being done.
 
 #### Security
 The only package used that is not part of the Go standard library is
-[Cobra](https://github.com/spf13/cobra), which is used for the command
-line interface within `./cmd`. No other external dependencies are
-permitted. This is because I have more faith in the Go maintainers and
-contributors to have a proper security review process, as well as
-publish any CVE's and notify their users.
+[flagger](https://github.com/hlfstr/flagger), which is used for the
+command line interface within `./cmd`. No other external dependencies
+are permitted. This is because I have more faith in the Go maintainers
+and contributors to have a proper security review process, publish any
+CVE's, and notify their users compared to third-party sources.
 
 See [README](https://github.com/jcmdln/cugo/blob/master/cmd/README.md)
 for information on the command line interface provided by `cugo`.

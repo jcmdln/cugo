@@ -17,8 +17,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/hlfstr/cugo/cmd"
 	"os"
+
+	"github.com/jcmdln/cugo/cmd"
 )
 
 func main() {

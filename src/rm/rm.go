@@ -27,8 +27,8 @@ import (
 	"os"
 	"path/filepath"
 
-	em "github.com/hlfstr/cugo/lib/empty"
-	pr "github.com/hlfstr/cugo/lib/prompt"
+	em "github.com/jcmdln/cugo/lib/empty"
+	pr "github.com/jcmdln/cugo/lib/prompt"
 )
 
 var (
@@ -94,7 +94,7 @@ func Rm(args []string) {
 					remove(target)
 				}
 			} else {
-				fmt.Printf("cugo: rm %s: is a directory", target)
+				fmt.Printf("cugo: rm: '%s' is a directory\n", target)
 			}
 		} else {
 			remove(target)

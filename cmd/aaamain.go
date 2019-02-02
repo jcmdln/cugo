@@ -6,7 +6,7 @@
 package cmd
 
 import (
-	"github.com/hlfstr/flagger/commands"
+	"github.com/jcmdln/flagger/commands"
 )
 
 var Command *commands.Commands

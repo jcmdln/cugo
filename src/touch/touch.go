@@ -28,7 +28,7 @@ import (
 	"syscall"
 	"time"
 
-	ex "github.com/hlfstr/cugo/lib/exists"
+	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
 var (
