@@ -23,12 +23,12 @@
 //
 // SEE ALSO
 //
-// * https://golang.org/pkg/io/ioutil/#ReadDir
+//     https://golang.org/pkg/io/ioutil/#ReadDir
 //
 // REFERENCES
 //
-// * http://man.openbsd.org/ls
-// * http://pubs.opengroup.org/onlinepubs/9699919799/utilities/ls.html
+//     http://man.openbsd.org/ls
+//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/ls.html
 package ls
 
 import (

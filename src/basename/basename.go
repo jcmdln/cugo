@@ -17,12 +17,12 @@
 //
 // SEE ALSO
 //
-// * https://golang.org/pkg/path/filepath/#Base
+//     https://golang.org/pkg/path/filepath/#Base
 //
 // REFERENCES
 //
-// * http://man.openbsd.org/basename
-// * http://pubs.opengroup.org/onlinepubs/9699919799/utilities/basename.html
+//     http://man.openbsd.org/basename
+//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/basename.html
 package basename
 
 import (

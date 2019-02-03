@@ -17,11 +17,11 @@
 //
 // SEE ALSO
 //
-// * Nothing to display.
+//     Nothing to display.
 //
 // REFERENCES
 //
-// * https://linux.die.net/man/1/count
+//     https://linux.die.net/man/1/count
 package count
 
 import (

@@ -20,9 +20,14 @@
 //
 //     -P        Print the physical path of the current directory.
 //
+// SEE ALSO
+//
+//     https://golang.org/pkg/os/#Getwd
+//
 // REFERENCES
 //
-//
+//     http://man.openbsd.org/pwd
+//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/pwd.html
 package pwd
 
 import (

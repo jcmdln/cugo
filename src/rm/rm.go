@@ -32,14 +32,14 @@
 //
 // SEE ALSO
 //
-// * https://golang.org/pkg/os/#Stat
-// * https://golang.org/pkg/os/#Remove
-// * https://golang.org/pkg/path/filepath/#Walk
+//     https://golang.org/pkg/os/#Stat
+//     https://golang.org/pkg/os/#Remove
+//     https://golang.org/pkg/path/filepath/#Walk
 //
 // REFERENCES
 //
-// * http://man.openbsd.org/rm
-// * http://pubs.opengroup.org/onlinepubs/9699919799/utilities/rm.html
+//     http://man.openbsd.org/rm
+//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/rm.html
 package rm
 
 import (

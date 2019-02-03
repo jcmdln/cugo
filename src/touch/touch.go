@@ -31,14 +31,14 @@
 //
 // SEE ALSO
 //
-// * https://golang.org/pkg/time/#pkg-constants
-// * https://golang.org/pkg/os/#Chtimes
-// * https://golang.org/pkg/time/#Unix
+//     https://golang.org/pkg/time/#pkg-constants
+//     https://golang.org/pkg/os/#Chtimes
+//     https://golang.org/pkg/time/#Unix
 //
 // REFERENCES
 //
-// * http://man.openbsd.org/touch
-// * http://pubs.opengroup.org/onlinepubs/9699919799/utilities/touch.html
+//     http://man.openbsd.org/touch
+//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/touch.html
 package touch
 
 import (

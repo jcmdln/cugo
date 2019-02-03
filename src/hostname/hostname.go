@@ -20,12 +20,12 @@
 //
 // SEE ALSO
 //
-// * https://golang.org/pkg/os/#Hostname
+//     https://golang.org/pkg/os/#Hostname
 //
 // REFERENCES
 //
-// * http://man.openbsd.org/hostname
-// * https://linux.die.net/man/1/hostname
+//     http://man.openbsd.org/hostname
+//     https://linux.die.net/man/1/hostname
 package hostname
 
 import (

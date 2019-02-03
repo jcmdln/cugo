@@ -18,12 +18,12 @@
 //
 // SEE ALSO
 //
-// * https://golang.org/pkg/time/#Sleep
+//     https://golang.org/pkg/time/#Sleep
 //
 // REFERENCES
 //
-// * http://man.openbsd.org/sleep
-// * http://pubs.opengroup.org/onlinepubs/9699919799/utilities/sleep.html
+//     http://man.openbsd.org/sleep
+//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/sleep.html
 package sleep
 
 import (

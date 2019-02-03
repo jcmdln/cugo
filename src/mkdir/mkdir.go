@@ -22,14 +22,14 @@
 //
 // SEE ALSO
 //
-// * https://golang.org/pkg/os/#FileMode
-// * https://golang.org/pkg/os/#Mkdir
-// * https://golang.org/pkg/os/#MkdirAll
+//     https://golang.org/pkg/os/#FileMode
+//     https://golang.org/pkg/os/#Mkdir
+//     https://golang.org/pkg/os/#MkdirAll
 //
 // REFERENCES
 //
-// * http://man.openbsd.org/mkdir
-// * http://pubs.opengroup.org/onlinepubs/9699919799/utilities/mkdir.html
+//     http://man.openbsd.org/mkdir
+//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/mkdir.html
 package mkdir
 
 import (

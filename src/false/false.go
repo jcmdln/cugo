@@ -14,12 +14,12 @@
 //
 // SEE ALSO
 //
-// * https://golang.org/pkg/os/#Exit
+//     https://golang.org/pkg/os/#Exit
 //
 // REFERENCES
 //
-// * http://man.openbsd.org/false
-// * http://pubs.opengroup.org/onlinepubs/9699919799/utilities/false.html
+//     http://man.openbsd.org/false
+//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/false.html
 package false
 
 import "os"
