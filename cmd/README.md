@@ -1,9 +1,9 @@
 This namespace contains the frontend code for the command line interface
-that drives `cugo`, which is cobra. If you import this namespace, you
-will have access to all commands including their flags should you wish to
-do so. This will inflate your binary considerably.
+that drives `cugo`, which is `flagger`. If you import this namespace, you
+will have access to all commands including their command line interface,
+should you wish to do so. This will inflate your binary considerably and
+is not an intended use-case.
 
-If you would like to import a single command you may do so from the `src`
-directory. This allows you to import the raw code itself, and you may
-choose to use your own flag parsing or hard-code the values needed to
-satisfy the command.
+If you would like to import a single utility, you may do so from the
+`src` directory as outlined in
+[README](https://github.com/jcmdln/cugo/blob/master/src/README.md)
