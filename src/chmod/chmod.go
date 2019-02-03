@@ -20,13 +20,11 @@
 //     -R        Change files and directories recursively.
 //
 // SEE ALSO
-//
-// * https://golang.org/pkg/os/#Chmod
+//     https://golang.org/pkg/os/#Chmod
 //
 // REFERENCES
-//
-// * http://man.openbsd.org/chmod
-// * http://pubs.opengroup.org/onlinepubs/9699919799/utilities/chmod.html
+//     http://man.openbsd.org/chmod
+//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/chmod.html
 package chmod
 
 import (
