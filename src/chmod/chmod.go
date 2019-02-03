@@ -2,7 +2,31 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// Package chmod - change file mode bits.
+// change file mode bits.
+//
+// SYNOPSIS
+//
+//     chmod [-R] MODE FILE ...
+//
+// DESCRIPTION
+//
+// Chmod changes the file mode bits of provided files as specified by
+// the mode operand. The mode of a file dictates its permissions, among
+// other attributes. Currently the only supported mode operand uses
+// octal numbers from 0 to 7.
+//
+// The options are as follows:
+//
+//     -R        Change files and directories recursively.
+//
+// SEE ALSO
+//
+// * https://golang.org/pkg/os/#Chmod
+//
+// REFERENCES
+//
+// * http://man.openbsd.org/chmod
+// * http://pubs.opengroup.org/onlinepubs/9699919799/utilities/chmod.html
 package chmod
 
 import (
@@ -15,32 +39,30 @@ import (
 )
 
 var (
-	// Recursive is a bool that when true changes files and directories
-	// recursively.
+	// Recursive is a boolean that, when true, specifies to recursively
+	// change the mode of the directory and all it's children.
 	Recursive bool
 )
 
-// Chmod changes the file mode bits of provided files as specified by
-// the mode operand. The mode of a file dictates its permissions, among
-// other attributes. Currently the only supported mode operand uses
-// octal numbers from 0 to 7.
 func Chmod(args []string) {
 	if len(args) < 2 {
 		fmt.Printf("cugo: chmod: wrong number of arguments\n")
 		os.Exit(1)
 	}
 
-	mode, err := strconv.ParseUint(args[0], 8, 32)
+	m, err := strconv.ParseUint(args[0], 8, 32)
 	if err != nil {
 		fmt.Printf("cugo: %s\n", err)
 		os.Exit(1)
 	}
 
+	mode := os.FileMode(m)
+
 	for _, target := range args[1:] {
 		if ex.Exists(target) {
 			if Recursive {
 				filepath.Walk(target, func(t string, info os.FileInfo, err error) error {
-					err = os.Chmod(t, os.FileMode(mode))
+					err = os.Chmod(t, mode)
 					if err != nil {
 						fmt.Printf("cugo: %s\n", err)
 						os.Exit(1)
@@ -49,7 +71,7 @@ func Chmod(args []string) {
 					return nil
 				})
 			} else {
-				err := os.Chmod(target, os.FileMode(mode))
+				err := os.Chmod(target, mode)
 				if err != nil {
 					fmt.Printf("cugo: %s\n", err)
 					os.Exit(1)

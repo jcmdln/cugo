@@ -2,7 +2,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// Package cmd provides the command line interface for `cugo`
+// Package cmd provides the command line interface for `cugo`, courtesy
+// of https://github.com/hlfstr/flagger.
 package cmd
 
 import (

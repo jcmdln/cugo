@@ -22,11 +22,11 @@ func (u *rmCmd) Prepare(flags *flagger.Flags) {
 	u.name, u.usage = "rm", "[-dfiPRrv] FILE ..."
 	u.description = "Remove directory entries"
 
-	flags.BoolVar(&rm.Dir, "Remove empty directories", "-d", "--dir")
-	flags.BoolVar(&rm.Force, "Skip prompts and ignore warnings", "-f", "--force")
+	flags.BoolVar(&rm.Dir, "Remove empty directories", "-d")
+	flags.BoolVar(&rm.Force, "Skip prompts and ignore warnings", "-f")
 	flags.BoolVar(&rm.Interactive, "Prompt before each removal", "-i")
-	flags.BoolVar(&rm.Recursive, "Remove directories and their contents recursively", "-r", "-R", "--recursive")
-	flags.BoolVar(&rm.Verbose, "Print a message when actions are taken", "-v", "--verbose")
+	flags.BoolVar(&rm.Recursive, "Remove directories and their contents recursively", "-r", "-R")
+	flags.BoolVar(&rm.Verbose, "Print a message when actions are taken", "-v")
 	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
 }
 
