@@ -6,21 +6,21 @@
 //
 // Synopsis
 //
-//     chmod [-R] _mode_ _file_ ...
+//     chmod [-R] MODE FILE ...
 //
 // Description
 //
 // The chmod utility modifies the file mode bits of the target files, as
-// indicated by the _mode_ operand. The mode of a file determines its
+// indicated by the MODE operand. The mode of a file determines its
 // permissions, as well as other attributes.
 //
 // The options are as follows:
 //
-// -R        Change files and directories recursively.
+//     -R        Change files and directories recursively.
 //
 //
-// chmod receives an absolute mode, which is an octal number whose
-// digits are a number from 0 to 7.
+// chmod receives an absolute mode, as shown in the Synopsis, which is
+// an octal number whose digits are a number from 0 to 7.
 package chmod
 
 import (
