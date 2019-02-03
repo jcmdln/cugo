@@ -5,24 +5,40 @@
 package cmd
 
 import (
+	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/mkdir"
 	"github.com/jcmdln/flagger"
 )
 
-type mkdirCmd struct{}
+type mkdirCmd struct {
+	name        string
+	usage       string
+	description string
 
-func (m *mkdirCmd) Prepare(flags *flagger.Flags) {
+	help bool
+}
+
+func (u *mkdirCmd) Prepare(flags *flagger.Flags) {
+	u.name, u.usage = "mkdir", "[-pv] [-m MODE] DIRECTORY ..."
+	u.description = "Make directories"
+
 	flags.UintVar(&mkdir.Mode, 0755, "Set permissions to MODE value", "-m", "--mode")
 	flags.BoolVar(&mkdir.Parents, "Create missing parent directories", "-p", "--parents")
 	flags.BoolVar(&mkdir.Verbose, "Display each directory after it was created", "-v", "--verbose")
+	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
 }
 
-func (m *mkdirCmd) Action(s []string, flags *flagger.Flags) error {
+func (u *mkdirCmd) Action(s []string, flags *flagger.Flags) error {
 	if data, err := flags.Parse(s); err != nil {
 		return err
 	} else {
+		if u.help {
+			help.Help(u.name, u.usage, u.description, flags)
+		}
+
 		mkdir.Mkdir(data)
 	}
+
 	return nil
 }
 

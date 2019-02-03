@@ -5,22 +5,36 @@
 package cmd
 
 import (
+	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/count"
 	"github.com/jcmdln/flagger"
 )
 
-type countCmd struct{}
+type countCmd struct {
+	name        string
+	usage       string
+	description string
 
-func (b *countCmd) Prepare(flags *flagger.Flags) {
-	// This utility has no flags
+	help bool
 }
 
-func (b *countCmd) Action(s []string, flags *flagger.Flags) error {
+func (u *countCmd) Prepare(flags *flagger.Flags) {
+	u.name, u.usage = "count", "STRING ..."
+	u.description = "Count the number of elements of an array"
+
+	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+}
+
+func (u *countCmd) Action(s []string, flags *flagger.Flags) error {
 	if data, err := flags.Parse(s); err != nil {
 		return err
 	} else {
+		if u.help {
+			help.Help(u.name, u.usage, u.description, flags)
+		}
 		count.Count(data)
 	}
+
 	return nil
 }
 

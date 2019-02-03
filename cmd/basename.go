@@ -5,20 +5,34 @@
 package cmd
 
 import (
-	"github.com/jcmdln/flagger"
+	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/basename"
+	"github.com/jcmdln/flagger"
 )
 
-type basenameCmd struct{}
+type basenameCmd struct {
+	name        string
+	usage       string
+	description string
 
-func (b *basenameCmd) Prepare(flags *flagger.Flags) {
-	// This utility has no flags
+	help bool
 }
 
-func (b *basenameCmd) Action(s []string, flags *flagger.Flags) error {
+func (u *basenameCmd) Prepare(flags *flagger.Flags) {
+	u.name, u.usage = "basename", "STRING [SUFFIX]"
+	u.description = "Return non-directory portion of a pathname"
+
+	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+}
+
+func (u *basenameCmd) Action(s []string, flags *flagger.Flags) error {
 	if data, err := flags.Parse(s); err != nil {
 		return err
 	} else {
+		if u.help {
+			help.Help(u.name, u.usage, u.description, flags)
+		}
+
 		basename.Basename(data)
 	}
 

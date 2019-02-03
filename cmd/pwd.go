@@ -5,20 +5,34 @@
 package cmd
 
 import (
+	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/pwd"
 	"github.com/jcmdln/flagger"
 )
 
-type pwdCmd struct{}
+type pwdCmd struct {
+	name        string
+	usage       string
+	description string
 
-func (m *pwdCmd) Prepare(flags *flagger.Flags) {
-	flags.BoolVar(&pwd.L, "Read current dir from env, including symlinks", "-L")
-	flags.BoolVar(&pwd.P, "Absolute path of current dir without symlinks", "-P")
+	help bool
 }
 
-func (m *pwdCmd) Action(s []string, flags *flagger.Flags) error {
-	pwd.Pwd()
+func (u *pwdCmd) Prepare(flags *flagger.Flags) {
+	u.name, u.usage = "pwd", "[-LP]"
+	u.description = "return working directory name"
 
+	flags.BoolVar(&pwd.L, "Read current dir from env, including symlinks", "-L")
+	flags.BoolVar(&pwd.P, "Absolute path of current dir without symlinks", "-P")
+	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+}
+
+func (u *pwdCmd) Action(s []string, flags *flagger.Flags) error {
+	if len(s) > 0 {
+		help.Help(u.name, u.usage, u.description, flags)
+	}
+
+	pwd.Pwd()
 	return nil
 }
 

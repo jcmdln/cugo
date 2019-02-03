@@ -7,22 +7,37 @@ package cmd
 import (
 	"strings"
 
+	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/sleep"
 	"github.com/jcmdln/flagger"
 )
 
-type sleepCmd struct{}
+type sleepCmd struct {
+	name        string
+	usage       string
+	description string
 
-func (m *sleepCmd) Prepare(flags *flagger.Flags) {
-	// This utility has no flags
+	help bool
 }
 
-func (m *sleepCmd) Action(s []string, flags *flagger.Flags) error {
+func (u *sleepCmd) Prepare(flags *flagger.Flags) {
+	u.name, u.usage = "sleep", "DURATION ..."
+	u.description = "Suspend execution for an interval of time"
+
+	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+}
+
+func (u *sleepCmd) Action(s []string, flags *flagger.Flags) error {
 	if data, err := flags.Parse(s); err != nil {
 		return err
 	} else {
+		if u.help {
+			help.Help(u.name, u.usage, u.description, flags)
+		}
+
 		sleep.Sleep(strings.Join(data, " "))
 	}
+
 	return nil
 }
 

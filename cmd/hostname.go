@@ -5,20 +5,35 @@
 package cmd
 
 import (
+	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/hostname"
 	"github.com/jcmdln/flagger"
 )
 
-type hostnameCmd struct{}
+type hostnameCmd struct {
+	name        string
+	usage       string
+	description string
 
-func (l *hostnameCmd) Prepare(flags *flagger.Flags) {
-	flags.BoolVar(&hostname.Strip, "Trim any domain information from the printed name", "-s", "--strip")
+	help bool
 }
 
-func (l *hostnameCmd) Action(s []string, flags *flagger.Flags) error {
+func (u *hostnameCmd) Prepare(flags *flagger.Flags) {
+	u.name, u.usage = "hostname", "[-s] HOSTNAME"
+	u.description = "Set or print name of current host system"
+
+	flags.BoolVar(&hostname.Strip, "Trim any domain information from the printed name", "-s", "--strip")
+	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+}
+
+func (u *hostnameCmd) Action(s []string, flags *flagger.Flags) error {
 	if data, err := flags.Parse(s); err != nil {
 		hostname.Hostname(data)
 	} else {
+		if u.help {
+			help.Help(u.name, u.usage, u.description, flags)
+		}
+
 		hostname.Hostname(data)
 	}
 

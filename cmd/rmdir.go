@@ -5,23 +5,39 @@
 package cmd
 
 import (
+	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/rmdir"
 	"github.com/jcmdln/flagger"
 )
 
-type rmdirCmd struct{}
+type rmdirCmd struct {
+	name        string
+	usage       string
+	description string
 
-func (m *rmdirCmd) Prepare(flags *flagger.Flags) {
-	flags.BoolVar(&rmdir.Parents, "Remove parent directories", "-p", "--parents")
-	flags.BoolVar(&rmdir.Verbose, "Print a message when actions are taken", "-v", "--verbose")
+	help bool
 }
 
-func (m *rmdirCmd) Action(s []string, flags *flagger.Flags) error {
+func (u *rmdirCmd) Prepare(flags *flagger.Flags) {
+	u.name, u.usage = "rmdir", "[-pv] DIRECTORY ..."
+	u.description = "Remove directories"
+
+	flags.BoolVar(&rmdir.Parents, "Remove parent directories", "-p", "--parents")
+	flags.BoolVar(&rmdir.Verbose, "Print a message when actions are taken", "-v", "--verbose")
+	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+}
+
+func (u *rmdirCmd) Action(s []string, flags *flagger.Flags) error {
 	if data, err := flags.Parse(s); err != nil {
 		return err
 	} else {
+		if u.help {
+			help.Help(u.name, u.usage, u.description, flags)
+		}
+
 		rmdir.Rmdir(data)
 	}
+
 	return nil
 }
 

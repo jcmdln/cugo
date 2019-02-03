@@ -1,2 +1,15 @@
+9fans.net/go v0.0.0-20181112161441-237454027057 h1:OcHlKWkAMJEF1ndWLGxp5dnJQkYM/YImUOvsBoz6h5E=
+9fans.net/go v0.0.0-20181112161441-237454027057/go.mod h1:diCsxrliIURU9xsYtjCp5AbpQKqdhKmf0ujWDUSkfoY=
+github.com/go-delve/delve v1.1.0 h1:wgqNQNSdqhZOX0EV0TP2TkPar0g0Oigy55PR6Wln8HM=
+github.com/go-delve/delve v1.1.0/go.mod h1:fwMdlNuT4ouqTZltEUsnSklWQjJNJjk7q5Q3ygDgqTA=
 github.com/jcmdln/flagger v0.0.0-20190202014003-7807e0300c48 h1:GOjy/8J4/KAtLb5MsaZNFTRDfFgqiiGo1L4ZxZYRZrc=
 github.com/jcmdln/flagger v0.0.0-20190202014003-7807e0300c48/go.mod h1:vk24Og8pXwOiinf7IH8+M/Qiy2kDaU/eAUZuf2Of8yA=
+github.com/jstemmer/gotags v1.4.1 h1:aWIyXsU3lTDqhsEC49MP85p2cUUWr2ptvdGNqqGA3r4=
+github.com/jstemmer/gotags v1.4.1/go.mod h1:b6J3X0bsLbR4C5SgSx3V3KjuWTtmRzcmWPbTkWZ49PA=
+github.com/rogpeppe/godef v1.1.1 h1:NujOtt9q9vIClRTB3sCZpavac+NMRaIayzrcz1h4fSE=
+github.com/rogpeppe/godef v1.1.1/go.mod h1:oEo1eMy1VUEHUzUIX4F7IqvMJRiz9UId44mvnR8oPlQ=
+github.com/stamblerre/gocode v0.0.0-20181212030458-2f9d39d8f31d h1:Bpu5DolLksGPpggDvoP5l9aruCElc6a47pHOSWwL74A=
+github.com/stamblerre/gocode v0.0.0-20181212030458-2f9d39d8f31d/go.mod h1:EM2T8YDoTCvGXbEpFHxarbpv7VE26QD1++Cb1Pbh7Gs=
+golang.org/x/tools v0.0.0-20181130195746-895048a75ecf/go.mod h1:n7NCudcB/nEzxVGmLbDWY5pfWTLqBcC2KZ6jyYvM4mQ=
+golang.org/x/tools v0.0.0-20190202202610-718ddee9569a h1:l5aJW4keRqzZu9Ad3NtNDTtfRhCn0c0aCmFNd463Ihw=
+golang.org/x/tools v0.0.0-20190202202610-718ddee9569a/go.mod h1:n7NCudcB/nEzxVGmLbDWY5pfWTLqBcC2KZ6jyYvM4mQ=

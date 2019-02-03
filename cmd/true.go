@@ -5,18 +5,34 @@
 package cmd
 
 import (
+	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/true"
 	"github.com/jcmdln/flagger"
 )
 
-type trueCmd struct{}
+type trueCmd struct {
+	name        string
+	usage       string
+	description string
 
-func (m *trueCmd) Prepare(flags *flagger.Flags) {
-	// This utility has no flags
+	help bool
 }
 
-func (m *trueCmd) Action(s []string, flags *flagger.Flags) error {
-	true.True()
+func (u *trueCmd) Prepare(flags *flagger.Flags) {
+	u.name, u.usage = "true", ""
+	u.description = "Return true value"
+
+	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+}
+
+func (u *trueCmd) Action(s []string, flags *flagger.Flags) error {
+	if _, err := flags.Parse(s); err != nil {
+		true.True()
+	} else {
+		if u.help {
+			help.Help(u.name, u.usage, u.description, flags)
+		}
+	}
 
 	return nil
 }

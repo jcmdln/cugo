@@ -5,24 +5,39 @@
 package cmd
 
 import (
+	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/rm"
 	"github.com/jcmdln/flagger"
 )
 
-type rmCmd struct{}
+type rmCmd struct {
+	name        string
+	usage       string
+	description string
 
-func (m *rmCmd) Prepare(flags *flagger.Flags) {
-	flags.BoolVar(&rm.Force, "Skip prompts and ignore warnings", "-f", "--force")
+	help bool
+}
+
+func (u *rmCmd) Prepare(flags *flagger.Flags) {
+	u.name, u.usage = "rm", "[-dfiPRrv] FILE ..."
+	u.description = "Remove directory entries"
+
 	flags.BoolVar(&rm.Dir, "Remove empty directories", "-d", "--dir")
+	flags.BoolVar(&rm.Force, "Skip prompts and ignore warnings", "-f", "--force")
 	flags.BoolVar(&rm.Interactive, "Prompt before each removal", "-i")
 	flags.BoolVar(&rm.Recursive, "Remove directories and their contents recursively", "-r", "-R", "--recursive")
 	flags.BoolVar(&rm.Verbose, "Print a message when actions are taken", "-v", "--verbose")
+	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
 }
 
-func (m *rmCmd) Action(s []string, flags *flagger.Flags) error {
+func (u *rmCmd) Action(s []string, flags *flagger.Flags) error {
 	if data, err := flags.Parse(s); err != nil {
 		return err
 	} else {
+		if u.help {
+			help.Help(u.name, u.usage, u.description, flags)
+		}
+
 		rm.Rm(data)
 	}
 	return nil
