@@ -2,21 +2,25 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// change file mode bits.
+// Package chmod -  change file mode bits.
 //
-// This utility is going through some growing pains as Linux and Unix
-// have heavily diverged on it's options. I'm leaning toward sticking
-// with the defined behavior in OpenBSD's manual.
+// Synopsis
 //
-// Chmod changes the file mode bits of provided files as specified by
-// the mode operand. The mode of a file dictates its permissions, among
-// other attributes. Currently the only supported mode operand uses
-// octal numbers from 0 to 7.
+//     chmod [-R] _mode_ _file_ ...
 //
-// Available options:
+// Description
 //
-//     -R, --recursive    change mode of the directory and it's contents.
+// The chmod utility modifies the file mode bits of the target files, as
+// indicated by the _mode_ operand. The mode of a file determines its
+// permissions, as well as other attributes.
 //
+// The options are as follows:
+//
+// -R        Change files and directories recursively.
+//
+//
+// chmod receives an absolute mode, which is an octal number whose
+// digits are a number from 0 to 7.
 package chmod
 
 import (
@@ -34,6 +38,10 @@ var (
 	Recursive bool
 )
 
+// Chmod changes the file mode bits of provided files as specified by
+// the mode operand. The mode of a file dictates its permissions, among
+// other attributes. Currently the only supported mode operand uses
+// octal numbers from 0 to 7.
 func Chmod(args []string) {
 	if len(args) < 2 {
 		fmt.Printf("cugo: chmod: wrong number of arguments\n")
