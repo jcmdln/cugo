@@ -44,6 +44,10 @@ var (
 	Recursive bool
 )
 
+// Chmod receives an array of strings, the first of which must be the
+// MODE operand, followed by the files to have their permission bits set
+// to MODE. If the first argument is not an octal representation of a
+// MODE, Chmod will exit with a non-zero exit code.
 func Chmod(args []string) {
 	if len(args) < 2 {
 		fmt.Printf("cugo: chmod: wrong number of arguments\n")
