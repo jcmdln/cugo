@@ -24,9 +24,9 @@ func (u *touchCmd) Prepare(flags *flagger.Flags) {
 
 	flags.BoolVar(&touch.Access, "Change the access time", "-a")
 	flags.BoolVar(&touch.Create, "Do not create missing files", "-c")
-	flags.StringVar(&touch.Date, "Change access and modified time as RFC3339Nano", "-d")
+	flags.StringVar(&touch.Date, "", "Change access and modified time as RFC3339Nano", "-d")
 	flags.BoolVar(&touch.Modified, "Change the modified time", "-m")
-	flags.StringVar(&touch.Reference, "Use access and modified time of file", "-r")
+	flags.StringVar(&touch.Reference, "", "Use access and modified time of file", "-r")
 	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
 }
 
