@@ -2,13 +2,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// return false value
-//
-// false always exits with a non-zero exit code.
+// Package false - return false value
 package false
 
 import "os"
 
+// False always exits with a non-zero exit code.
 func False() {
 	os.Exit(1)
 }

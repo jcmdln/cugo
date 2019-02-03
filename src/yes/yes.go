@@ -2,10 +2,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// repeatedly output specified string, or 'y'
-//
-// yes prints "y" unless a string to print is provided, forever.
-//
+// Package yes - repeatedly output specified string, or 'y'
 package yes
 
 import (
@@ -13,6 +10,7 @@ import (
 	"strings"
 )
 
+// Yes prints "y" unless a string to print is provided, forever.
 func Yes(args []string) {
 	if len(args) == 0 {
 		for {

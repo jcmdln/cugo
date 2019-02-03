@@ -2,18 +2,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// return working directory name
-//
-// pwd prints the absolute pathname of the current working directory.
-//
-// Available options
-//
-//     -L, --links       Read current directory from the environment
-//                       including symlinks.
-//
-//     -P, --physical    Absolute path of current directory without
-//                       symlinks.
-//
+// Package pwd - return working directory name
 package pwd
 
 import (

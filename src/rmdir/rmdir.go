@@ -2,20 +2,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// remove directories
-//
-// rmdir removes the directory entry specified in each argument provided
-// it is empty.
-//
-// Arguments are processed in the provided order and require both the
-// parent directory and it's contained subdirectories to be empty.
-//
-// Available options:
-//
-//     -p, --parents    Remove parent directories.
-//
-//     -v, --verbose    Print a message when actions are taken.
-//
+// Package rmdir - remove directories
 package rmdir
 
 import (

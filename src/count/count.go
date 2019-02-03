@@ -2,10 +2,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// count the number of elements of an array
-//
-// count prints the number of arguments passed to it, and accepts no
-// options.
+// Package count - count the number of elements of an array
 package count
 
 import (
@@ -13,14 +10,14 @@ import (
 	"os"
 )
 
-// count prints the number of arguments passed to it.
+// Count prints the number of arguments passed to it.
 func Count(args []string) {
 	if len(args) < 1 {
 		os.Exit(1)
 	}
 
 	var total int
-	for i, _ := range args {
+	for i := range args {
 		total = i + 1
 	}
 

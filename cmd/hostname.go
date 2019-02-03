@@ -27,14 +27,28 @@ func (u *hostnameCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *hostnameCmd) Action(s []string, flags *flagger.Flags) error {
+	var d string
+
+	lenCheck := func(data []string) {
+		if len(data) > 1 {
+			help.Help(u.name, u.usage, u.description, flags)
+		} else if len(data) == 0 {
+			d = ""
+		} else {
+			d = data[0]
+		}
+	}
+
 	if data, err := flags.Parse(s); err != nil {
-		hostname.Hostname(data)
+		lenCheck(data)
+		hostname.Hostname(d)
 	} else {
+		lenCheck(data)
 		if u.help {
 			help.Help(u.name, u.usage, u.description, flags)
 		}
 
-		hostname.Hostname(data)
+		hostname.Hostname(d)
 	}
 
 	return nil

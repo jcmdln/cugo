@@ -2,25 +2,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// Package chmod -  change file mode bits.
-//
-// Synopsis
-//
-//     chmod [-R] MODE FILE ...
-//
-// Description
-//
-// The chmod utility modifies the file mode bits of the target files, as
-// indicated by the MODE operand. The mode of a file determines its
-// permissions, as well as other attributes.
-//
-// The options are as follows:
-//
-//     -R        Change files and directories recursively.
-//
-//
-// chmod receives an absolute mode, as shown in the Synopsis, which is
-// an octal number whose digits are a number from 0 to 7.
+// Package chmod - change file mode bits.
 package chmod
 
 import (

@@ -2,24 +2,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// remove files and directories
-//
-// rm attempts to remove non-directory type files specified as arguments
-// regardless of the file's permissions.
-//
-// Available options:
-//
-//     -d, --dir            Remove empty directories.
-//
-//     -f, --force          Skip prompts and ignore warnings.
-//
-//     -i, --interactive    Prompt before each removal.
-//
-//     -r, --recursive      Remove directories and their contents
-//                          recursively.
-//
-//     -v, --verbose        Print a message when actions are taken.
-//
+// Package rm - remove files and directories
 package rm
 
 import (
