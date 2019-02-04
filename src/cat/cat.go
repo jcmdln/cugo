@@ -30,6 +30,7 @@ package cat
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 )
@@ -43,11 +44,8 @@ var (
 // Cat ...
 func Cat(args []string) {
 	if len(args) == 0 {
-		var input string
 		for {
-			fmt.Scanln(&input)
-			fmt.Println(input)
-			input = ""
+			io.Copy(os.Stdin, os.Stdout)
 		}
 	}
 
