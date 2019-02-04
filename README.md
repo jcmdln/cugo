@@ -9,17 +9,17 @@ before usage, as you may experience undesired or undocumented behavior!
 
 
 ## About
-`cugo` is a re-implementation of Unix/Linux core utilities in the form
-of a multi-call binary. Each utility is written from scratch using only
-the reference manuals for the target utility, and the Go standard
+`cugo` is a pet project to re-implement Unix/Linux core utilities in the
+form of a multi-call binary. Each utility is written from scratch using
+only the reference manuals for the target utility, and the Go standard
 library.
 
 This project was inspired by Rob Landley's project,
 [toybox](https://github.com/landley/toybox), and uses the same reference
 manuals cited on http://landley.net/toybox/status.html with the
 exception being that `cugo` _also_ cares about Unix/BSD compatibility.
-When reviewing Unix/BSD reference manuals, https://man.openbsd.org/ is
-the primary source.
+When reviewing Unix/BSD reference manuals,
+[man.openbsd.org](https://man.openbsd.org/) is the primary source.
 
 Unless you really want something like `cugo` for a specific reason, I
 highly suggest contributing to
@@ -28,9 +28,10 @@ project than the drivel I'm writing.
 
 
 ## Documentation
-Please visit https://godoc.org/github.com/jcmdln/cugo for the latest
-usage information. If any information is incorrect it is considered a bug
-and I invite you to submit an issue, please and thank you!
+Please visit [godoc](https://godoc.org/github.com/jcmdln/cugo) for the
+latest usage information. If any information is incorrect it is
+considered a bug and I invite you to submit an issue or pull request,
+please and thank you!
 
 
 ## Design Methodology
