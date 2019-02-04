@@ -23,6 +23,7 @@
 // tbd
 //
 // REFERENCES
+//
 //     http://man.openbsd.org/cat
 //     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/cat.html
 package cat
