@@ -4,8 +4,8 @@ CuGo - Core Utilities written in Go
 
 
 NOTE: `cugo` is currently pre-alpha software that has no tests and
-little documentation. Please review this repository in it's entirety
-before using as you may experience undesired or undocumented behavior!
+little documentation. Please review this repository in its entirety
+before usage, as you may experience undesired or undocumented behavior!
 
 
 ## About
