@@ -25,6 +25,8 @@ package sha1sum
 import (
 	"crypto/sha1"
 	"fmt"
+	"io/ioutil"
+	"os"
 )
 
 var (
@@ -44,7 +46,12 @@ var (
 // Sha1sum ...
 func Sha1sum(args []string) {
 	for _, file := range args {
-		data = []byte(file)
-		fmt.Printf("% x\n", sha1.Sum(data))
+		if contents, err := ioutil.ReadFile(file); err != nil {
+			fmt.Printf("cugo: %s\n", err)
+			os.Exit(1)
+		} else {
+			data = []byte(contents)
+			fmt.Printf("% x\n", sha1.Sum(data))
+		}
 	}
 }
