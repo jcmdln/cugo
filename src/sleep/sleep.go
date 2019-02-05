@@ -33,27 +33,26 @@ import (
 	"time"
 )
 
+var (
+	t   time.Duration
+	err error
+)
+
 func Sleep(args string) {
-	a := strings.Split(args, " ")
+	opts := strings.Split(args, " ")
 
-	var (
-		s   []string
-		t   time.Duration
-		err error
-	)
-
-	for _, i := range a {
-		s = strings.Split(i, "")
-		if len(s) < 2 {
+	for _, i := range opts {
+		if len(strings.Split(i, "")) < 2 {
 			i += "s"
 		}
 
-		t, err = time.ParseDuration(i)
-		if err != nil {
+		if t, err = time.ParseDuration(i); err != nil {
 			fmt.Printf("cugo: %s\n", err)
 			os.Exit(1)
 		} else {
 			time.Sleep(t)
 		}
 	}
+
+	os.Exit(0)
 }

@@ -86,7 +86,7 @@ func Rm(args []string) {
 		cur, err := os.Stat(target)
 		if os.IsNotExist(err) {
 			fmt.Printf("cugo: rm %s: no such file or directory\n", target)
-			return
+			os.Exit(1)
 		}
 
 		if cur.IsDir() {
@@ -120,4 +120,6 @@ func Rm(args []string) {
 			remove(target)
 		}
 	}
+
+	os.Exit(0)
 }

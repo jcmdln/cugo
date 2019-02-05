@@ -34,6 +34,7 @@ package ls
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"strings"
 
 	ex "github.com/jcmdln/cugo/lib/exists"
@@ -45,15 +46,15 @@ var (
 )
 
 func list(t string) {
-	items, err := ioutil.ReadDir(t)
-	if err != nil {
+	if items, err := ioutil.ReadDir(t); err != nil {
 		fmt.Println("cugo: rm:", err)
-	}
-
-	for _, item := range items {
-		if !All && strings.HasPrefix(item.Name(), ".") {
-		} else {
-			fmt.Printf(item.Name() + " ")
+		os.Exit(1)
+	} else {
+		for _, item := range items {
+			if !All && strings.HasPrefix(item.Name(), ".") {
+			} else {
+				fmt.Printf(item.Name() + " ")
+			}
 		}
 	}
 
@@ -65,15 +66,16 @@ func list(t string) {
 func Ls(args []string) {
 	if len(args) == 0 {
 		list(".")
-		return
-	}
+	} else {
+		for _, target := range args {
+			if !ex.Exists(target) {
+				fmt.Printf("cugo: ls: '%s': No such file or directory\n", target)
+				return
+			}
 
-	for _, target := range args {
-		if !ex.Exists(target) {
-			fmt.Printf("cugo: ls: '%s': No such file or directory\n", target)
-			return
+			list(target)
 		}
-
-		list(target)
 	}
+
+	os.Exit(0)
 }

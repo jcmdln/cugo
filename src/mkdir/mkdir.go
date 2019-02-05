@@ -69,4 +69,6 @@ func Mkdir(args []string) {
 			}
 		}
 	}
+
+	os.Exit(0)
 }

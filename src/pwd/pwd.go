@@ -39,30 +39,28 @@ import (
 var (
 	L bool
 	P bool
+
+	cwd string
+	dir string
+	err error
 )
 
 func Pwd() {
-	var (
-		cwd string
-		dir string
-		err error
-	)
-
 	if !L || P {
-		cwd, err = os.Getwd()
-		if err != nil {
+		if cwd, err = os.Getwd(); err != nil {
 			fmt.Printf("cugo: %s\n", err)
 			os.Exit(1)
-		}
-
-		dir, err = filepath.EvalSymlinks(cwd)
-		if err != nil {
-			fmt.Printf("cugo: %s\n", err)
-			os.Exit(1)
+		} else {
+			if dir, err = filepath.EvalSymlinks(cwd); err != nil {
+				fmt.Printf("cugo: %s\n", err)
+				os.Exit(1)
+			}
 		}
 	} else {
 		dir = os.Getenv("PWD")
 	}
 
 	fmt.Printf("%s\n", dir)
+
+	os.Exit(0)
 }

@@ -59,4 +59,6 @@ func Hostname(hostname string) {
 	}
 
 	fmt.Printf("%s\n", name)
+
+	os.Exit(0)
 }

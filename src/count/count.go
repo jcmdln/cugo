@@ -41,4 +41,6 @@ func Count(args []string) {
 	}
 
 	fmt.Printf("%v\n", total)
+
+	os.Exit(0)
 }

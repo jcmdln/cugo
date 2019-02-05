@@ -47,8 +47,7 @@ var (
 )
 
 func rmdir(dir string) {
-	err := os.Remove(dir)
-	if err != nil {
+	if err := os.Remove(dir); err != nil {
 		fmt.Printf("cugo: %s\n", err)
 		os.Exit(1)
 	} else {
@@ -61,9 +60,8 @@ func rmdir(dir string) {
 func Rmdir(args []string) {
 	for _, dir := range args {
 		if !ex.Exists(dir) {
-			fmt.Println("cugo: rmdir", dir+":",
-				"no such file or directory")
-			return
+			fmt.Println("cugo: rmdir", dir+":", "no such file or directory")
+			os.Exit(1)
 		}
 
 		if em.Empty(dir) {
@@ -84,4 +82,6 @@ func Rmdir(args []string) {
 			}
 		}
 	}
+
+	os.Exit(0)
 }
