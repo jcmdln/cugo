@@ -51,7 +51,9 @@ func Sha1sum(args []string) {
 			os.Exit(1)
 		} else {
 			data = []byte(contents)
-			fmt.Printf("% x\n", sha1.Sum(data))
+			fmt.Printf("%x  %s\n", sha1.Sum(data), file)
 		}
 	}
+
+	os.Exit(0)
 }
