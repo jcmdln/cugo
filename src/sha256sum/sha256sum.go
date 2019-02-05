@@ -51,7 +51,9 @@ func Sha256sum(args []string) {
 			os.Exit(1)
 		} else {
 			data = []byte(contents)
-			fmt.Printf("% x\n", sha256.Sum256(data))
+			fmt.Printf("%x  %s\n", sha256.Sum256(data), file)
 		}
 	}
+
+	os.Exit(0)
 }

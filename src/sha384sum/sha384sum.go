@@ -51,7 +51,9 @@ func Sha384sum(args []string) {
 			os.Exit(1)
 		} else {
 			data = []byte(contents)
-			fmt.Printf("% x\n", sha512.Sum384(data))
+			fmt.Printf("%x  %s\n", sha512.Sum384(data), file)
 		}
 	}
+
+	os.Exit(0)
 }
