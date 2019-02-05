@@ -27,9 +27,12 @@ package basename
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 )
 
 func Basename(args []string) {
 	fmt.Printf("%s\n", filepath.Base(args[0]))
+
+	os.Exit(0)
 }
