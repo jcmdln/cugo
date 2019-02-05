@@ -56,75 +56,55 @@ var (
 	Date      string
 	Modified  bool
 	Reference string
+
+	finfo      os.FileInfo
+	fstat      *syscall.Stat_t
+	accessTime time.Time
+	modifyTime time.Time
 )
 
-func touch(file string, atime time.Time, mtime time.Time) {
-	f, _ := os.Stat(file)
-	fstat := f.Sys().(*syscall.Stat_t)
-
-	if Access && Modified || !Access && !Modified {
-		err := os.Chtimes(file, atime, mtime)
-		if err != nil {
-			fmt.Printf("cugo: %s\n", err)
-			os.Exit(1)
-		}
-	} else {
-		if Access {
-			err := os.Chtimes(file, atime, f.ModTime())
-			if err != nil {
-				fmt.Printf("cugo: %s\n", err)
-				os.Exit(1)
-			}
-		}
-
-		if Modified {
-			err := os.Chtimes(file, time.Unix(fstat.Atim.Sec, fstat.Atim.Nsec), mtime)
-			if err != nil {
-				fmt.Printf("cugo: %s\n", err)
-				os.Exit(1)
-			}
-		}
-	}
-}
-
+// Touch ...
 func Touch(args []string) {
 	for _, file := range args {
-		if Create {
-			_, err := os.Create(file)
-			if err != nil {
+		if !Create {
+			if _, err := os.Create(file); err != nil {
 				fmt.Printf("cugo: %s\n", err)
 				os.Exit(1)
 			}
 		}
 
 		if ex.Exists(file) {
+			finfo, _ = os.Stat(file)
+			fstat = finfo.Sys().(*syscall.Stat_t)
+
 			if len(Reference) > 0 {
-				r, err := os.Stat(Reference)
-				if err != nil {
+				if rinfo, err := os.Stat(Reference); err != nil {
 					fmt.Printf("cugo: %s\n", err)
 					os.Exit(1)
 				} else {
-					rstat := r.Sys().(*syscall.Stat_t)
-					touch(file, time.Unix(rstat.Atim.Sec, rstat.Atim.Nsec), r.ModTime())
+					rstat := rinfo.Sys().(*syscall.Stat_t)
+					accessTime = time.Unix(rstat.Atim.Sec, rstat.Atim.Nsec)
+					modifyTime = rinfo.ModTime()
 				}
 			} else if len(Date) > 0 {
-				date, err := time.Parse(time.RFC3339Nano, Date)
-				if err != nil {
+				if date, err := time.Parse(time.RFC3339Nano, Date); err != nil {
 					fmt.Printf("cugo: %s\n", err)
 					os.Exit(1)
 				} else {
-					touch(file, date, date)
+					accessTime = date
+					modifyTime = date
 				}
 			} else {
-				f, err := os.Stat(file)
-				if err != nil {
-					fmt.Printf("cugo: %s\n", err)
-					os.Exit(1)
-				} else {
-					fstat := f.Sys().(*syscall.Stat_t)
-					touch(file, time.Unix(fstat.Atim.Sec, fstat.Atim.Nsec), f.ModTime())
-				}
+				accessTime = time.Unix(fstat.Atim.Sec, fstat.Atim.Nsec)
+				modifyTime = finfo.ModTime()
+			}
+
+			if err := os.Chtimes(file, accessTime, modifyTime); err != nil {
+				fmt.Printf("cugo: %s\n", err)
+				os.Exit(1)
 			}
 		}
 	}
+
+	os.Exit(0)
 }

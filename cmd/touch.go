@@ -32,7 +32,7 @@ func (u *touchCmd) Prepare(flags *flagger.Flags) {
 
 func (u *touchCmd) Action(s []string, flags *flagger.Flags) error {
 	if data, err := flags.Parse(s); err != nil {
-		return err
+		touch.Touch(data)
 	} else {
 		if u.help {
 			help.Help(u.name, u.usage, u.description, flags)
