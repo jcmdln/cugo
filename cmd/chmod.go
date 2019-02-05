@@ -5,6 +5,10 @@
 package cmd
 
 import (
+	"fmt"
+	"os"
+	"strconv"
+
 	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/chmod"
 	"github.com/jcmdln/flagger"
@@ -34,7 +38,12 @@ func (u *chmodCmd) Action(s []string, flags *flagger.Flags) error {
 			help.Help(u.name, u.usage, u.description, flags)
 		}
 
-		chmod.Chmod(data)
+		if mode, err := strconv.ParseUint(data[0], 8, 32); err != nil {
+			fmt.Printf("cugo: %s\n", err)
+			os.Exit(1)
+		} else {
+			chmod.Chmod(os.FileMode(mode), data[1:])
+		}
 	}
 
 	return nil

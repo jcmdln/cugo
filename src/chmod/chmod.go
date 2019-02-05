@@ -33,7 +33,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strconv"
 
 	ex "github.com/jcmdln/cugo/lib/exists"
 )
@@ -42,27 +41,14 @@ var (
 	// Recursive is a boolean that, when true, specifies to recursively
 	// change the mode of the directory and all it's children.
 	Recursive bool
+
+	mode os.FileMode
 )
 
-// Chmod receives an array of strings, the first of which must be the
-// MODE operand, followed by the files to have their permission bits set
-// to MODE. If the first argument is not an octal representation of a
-// MODE, Chmod will exit with a non-zero exit code.
-func Chmod(args []string) {
-	if len(args) < 2 {
-		fmt.Printf("cugo: chmod: wrong number of arguments\n")
-		os.Exit(1)
-	}
-
-	m, err := strconv.ParseUint(args[0], 8, 32)
-	if err != nil {
-		fmt.Printf("cugo: %s\n", err)
-		os.Exit(1)
-	}
-
-	mode := os.FileMode(m)
-
-	for _, target := range args[1:] {
+// Chmod receives a MODE, the MODE operand, and the files to have their
+// permission bits set to MODE.
+func Chmod(mode os.FileMode, files []string) {
+	for _, target := range files {
 		if ex.Exists(target) {
 			if Recursive {
 				filepath.Walk(target, func(t string, info os.FileInfo, err error) error {
@@ -83,4 +69,6 @@ func Chmod(args []string) {
 			}
 		}
 	}
+
+	os.Exit(0)
 }
