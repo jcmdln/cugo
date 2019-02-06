@@ -39,6 +39,9 @@ var (
 	// Unbuffered is a boolean that, when true, enables unbuffered
 	// output.
 	Unbuffered bool
+
+	contents []byte
+	err      error
 )
 
 // Cat ...
@@ -53,7 +56,7 @@ func Cat(args []string) {
 		if Unbuffered {
 			//
 		} else {
-			if contents, err := ioutil.ReadFile(file); err != nil {
+			if contents, err = ioutil.ReadFile(file); err != nil {
 				fmt.Printf("cugo: %s\n", err)
 				os.Exit(1)
 			} else {
