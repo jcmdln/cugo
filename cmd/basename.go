@@ -33,7 +33,7 @@ func (u *basenameCmd) Action(s []string, flags *flagger.Flags) error {
 			help.Help(u.name, u.usage, u.description, flags)
 		}
 
-		basename.Basename(data)
+		basename.Basename(data[0])
 	}
 
 	return nil
