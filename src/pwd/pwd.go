@@ -50,11 +50,11 @@ func Pwd() {
 		if cwd, err = os.Getwd(); err != nil {
 			fmt.Printf("cugo: %s\n", err)
 			os.Exit(1)
-		} else {
-			if dir, err = filepath.EvalSymlinks(cwd); err != nil {
-				fmt.Printf("cugo: %s\n", err)
-				os.Exit(1)
-			}
+		}
+
+		if dir, err = filepath.EvalSymlinks(cwd); err != nil {
+			fmt.Printf("cugo: %s\n", err)
+			os.Exit(1)
 		}
 	} else {
 		dir = os.Getenv("PWD")

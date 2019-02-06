@@ -57,49 +57,55 @@ var (
 	Modified  bool
 	Reference string
 
+	operand    string
 	finfo      os.FileInfo
 	fstat      *syscall.Stat_t
+	rinfo      os.FileInfo
+	rstat      *syscall.Stat_t
 	accessTime time.Time
 	modifyTime time.Time
+	date       time.Time
+	err        error
 )
 
 // Touch ...
-func Touch(args []string) {
-	for _, file := range args {
+func Touch(operands []string) {
+	for _, operand = range operands {
 		if !Create {
-			if _, err := os.Create(file); err != nil {
+			if _, err = os.Create(operand); err != nil {
 				fmt.Printf("cugo: %s\n", err)
 				os.Exit(1)
 			}
 		}
 
-		if ex.Exists(file) {
-			finfo, _ = os.Stat(file)
+		if ex.Exists(operand) {
+			finfo, _ = os.Stat(operand)
 			fstat = finfo.Sys().(*syscall.Stat_t)
 
 			if len(Reference) > 0 {
-				if rinfo, err := os.Stat(Reference); err != nil {
+				if rinfo, err = os.Stat(Reference); err != nil {
 					fmt.Printf("cugo: %s\n", err)
 					os.Exit(1)
-				} else {
-					rstat := rinfo.Sys().(*syscall.Stat_t)
-					accessTime = time.Unix(rstat.Atim.Sec, rstat.Atim.Nsec)
-					modifyTime = rinfo.ModTime()
 				}
+
+				rstat = rinfo.Sys().(*syscall.Stat_t)
+				accessTime = time.Unix(rstat.Atim.Sec, rstat.Atim.Nsec)
+				modifyTime = rinfo.ModTime()
+
 			} else if len(Date) > 0 {
-				if date, err := time.Parse(time.RFC3339Nano, Date); err != nil {
+				if date, err = time.Parse(time.RFC3339Nano, Date); err != nil {
 					fmt.Printf("cugo: %s\n", err)
 					os.Exit(1)
-				} else {
-					accessTime = date
-					modifyTime = date
 				}
+
+				accessTime = date
+				modifyTime = date
 			} else {
 				accessTime = time.Unix(fstat.Atim.Sec, fstat.Atim.Nsec)
 				modifyTime = finfo.ModTime()
 			}
 
-			if err := os.Chtimes(file, accessTime, modifyTime); err != nil {
+			if err = os.Chtimes(operand, accessTime, modifyTime); err != nil {
 				fmt.Printf("cugo: %s\n", err)
 				os.Exit(1)
 			}

@@ -54,12 +54,12 @@ func list(target string) {
 	if items, err = ioutil.ReadDir(target); err != nil {
 		fmt.Println("cugo: rm:", err)
 		os.Exit(1)
-	} else {
-		for _, item = range items {
-			if !All && strings.HasPrefix(item.Name(), ".") {
-			} else {
-				fmt.Printf(item.Name() + " ")
-			}
+	}
+
+	for _, item = range items {
+		if !All && strings.HasPrefix(item.Name(), ".") {
+		} else {
+			fmt.Printf(item.Name() + " ")
 		}
 	}
 
@@ -75,7 +75,7 @@ func Ls(args []string) {
 		for _, operand = range args {
 			if !ex.Exists(operand) {
 				fmt.Printf("cugo: ls: '%s': No such file or directory\n", operand)
-				return
+				os.Exit(1)
 			}
 
 			list(operand)

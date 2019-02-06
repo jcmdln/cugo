@@ -69,20 +69,20 @@ func remove(target string) {
 			if err = os.Remove(target); err != nil {
 				fmt.Printf("cugo: rm: %s\n", err)
 				os.Exit(1)
-			} else {
-				if Verbose {
-					fmt.Printf("cugo: rm: Removed '%s'\n", target)
-				}
+			}
+
+			if Verbose {
+				fmt.Printf("cugo: rm: Removed '%s'\n", target)
 			}
 		}
 	} else {
 		if err = os.Remove(target); err != nil {
 			fmt.Printf("cugo: rm: %s\n", err)
 			os.Exit(1)
-		} else {
-			if Verbose {
-				fmt.Printf("cugo: rm: Removed '%s'\n", target)
-			}
+		}
+
+		if Verbose {
+			fmt.Printf("cugo: rm: Removed '%s'\n", target)
 		}
 	}
 }

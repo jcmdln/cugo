@@ -30,15 +30,12 @@ import (
 )
 
 var (
-	err error
-
-	usr *user.User
-
-	gid   string
-	gids  []string
-	gname *user.Group
-
-	userGroups string
+	err       error
+	gid       string
+	gids      []string
+	gname     *user.Group
+	usr       *user.User
+	usrGroups string
 )
 
 // Groups ...
@@ -47,23 +44,23 @@ func Groups(username string) {
 		if usr, err = user.Current(); err != nil {
 			fmt.Printf("cugo: %s\n", err)
 			os.Exit(1)
-		} else {
-			if gids, err = usr.GroupIds(); err != nil {
+		}
+
+		if gids, err = usr.GroupIds(); err != nil {
+			fmt.Printf("cugo: %s\n", err)
+			os.Exit(1)
+		}
+
+		for _, gid = range gids {
+			if gname, err = user.LookupGroupId(gid); err != nil {
 				fmt.Printf("cugo: %s\n", err)
 				os.Exit(1)
-			} else {
-				for _, gid := range gids {
-					if gname, err = user.LookupGroupId(gid); err != nil {
-						fmt.Printf("cugo: %s\n", err)
-						os.Exit(1)
-					} else {
-						userGroups += gname.Name + " "
-					}
-				}
 			}
 
-			fmt.Printf("%s\n", userGroups)
+			usrGroups += gname.Name + " "
 		}
+
+		fmt.Printf("%s\n", usrGroups)
 	}
 
 	os.Exit(0)

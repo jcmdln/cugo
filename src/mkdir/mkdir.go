@@ -52,24 +52,22 @@ func Mkdir(args []string) {
 
 	for _, dir = range args {
 		if Parents {
-			err = os.MkdirAll(dir, mode)
-			if err != nil {
+			if err = os.MkdirAll(dir, mode); err != nil {
 				fmt.Printf("cugo: %s\n", err)
 				os.Exit(1)
-			} else {
-				if Verbose {
-					fmt.Printf("cugo: mkdir: Created %s\n", dir)
-				}
+			}
+
+			if Verbose {
+				fmt.Printf("cugo: mkdir: Created %s\n", dir)
 			}
 		} else {
-			err = os.Mkdir(dir, mode)
-			if err != nil {
+			if err = os.Mkdir(dir, mode); err != nil {
 				fmt.Printf("cugo: %s\n", err)
 				os.Exit(1)
-			} else {
-				if Verbose {
-					fmt.Printf("cugo: mkdir: Created %s\n", dir)
-				}
+			}
+
+			if Verbose {
+				fmt.Printf("cugo: mkdir: Created %s\n", dir)
 			}
 		}
 	}

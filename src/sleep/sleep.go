@@ -34,24 +34,23 @@ import (
 )
 
 var (
-	t   time.Duration
+	opt string
+	dur time.Duration
 	err error
 )
 
-func Sleep(args string) {
-	opts := strings.Split(args, " ")
-
-	for _, i := range opts {
-		if len(strings.Split(i, "")) < 2 {
-			i += "s"
+func Sleep(operands string) {
+	for _, opt = range strings.Split(operands, " ") {
+		if len(strings.Split(opt, "")) < 2 {
+			opt += "s"
 		}
 
-		if t, err = time.ParseDuration(i); err != nil {
+		if dur, err = time.ParseDuration(opt); err != nil {
 			fmt.Printf("cugo: %s\n", err)
 			os.Exit(1)
-		} else {
-			time.Sleep(t)
 		}
+
+		time.Sleep(dur)
 	}
 
 	os.Exit(0)

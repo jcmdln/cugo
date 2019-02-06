@@ -59,9 +59,9 @@ func Cat(args []string) {
 			if contents, err = ioutil.ReadFile(file); err != nil {
 				fmt.Printf("cugo: %s\n", err)
 				os.Exit(1)
-			} else {
-				fmt.Printf("%s", contents)
 			}
+
+			fmt.Printf("%s", contents)
 		}
 	}
 

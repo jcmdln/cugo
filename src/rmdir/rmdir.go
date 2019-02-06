@@ -53,10 +53,10 @@ func rmdir(dir string) {
 	if err = os.Remove(dir); err != nil {
 		fmt.Printf("cugo: %s\n", err)
 		os.Exit(1)
-	} else {
-		if Verbose {
-			fmt.Printf("cugo: rm: Removed '%s'\n", dir)
-		}
+	}
+
+	if Verbose {
+		fmt.Printf("cugo: rm: Removed '%s'\n", dir)
 	}
 }
 
