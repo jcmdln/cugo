@@ -44,10 +44,13 @@ import (
 var (
 	Parents bool
 	Verbose bool
+
+	operand string
+	err     error
 )
 
 func rmdir(dir string) {
-	if err := os.Remove(dir); err != nil {
+	if err = os.Remove(dir); err != nil {
 		fmt.Printf("cugo: %s\n", err)
 		os.Exit(1)
 	} else {
@@ -57,28 +60,28 @@ func rmdir(dir string) {
 	}
 }
 
-func Rmdir(args []string) {
-	for _, dir := range args {
-		if !ex.Exists(dir) {
-			fmt.Println("cugo: rmdir", dir+":", "no such file or directory")
+func Rmdir(operands []string) {
+	for _, operand = range operands {
+		if !ex.Exists(operand) {
+			fmt.Printf("cugo: rmdir: no such file or directory %s\n", operand)
 			os.Exit(1)
 		}
 
-		if em.Empty(dir) {
-			rmdir(dir)
+		if em.Empty(operand) {
+			rmdir(operand)
 		} else if Parents {
-			for !em.Empty(dir) {
-				filepath.Walk(dir, func(d string, info os.FileInfo, err error) error {
-					if info.IsDir() && em.Empty(d) {
-						rmdir(d)
+			for !em.Empty(operand) {
+				filepath.Walk(operand, func(dir string, info os.FileInfo, err error) error {
+					if info.IsDir() && em.Empty(dir) {
+						rmdir(dir)
 					}
 
 					return nil
 				})
 			}
 
-			if em.Empty(dir) {
-				rmdir(dir)
+			if em.Empty(operand) {
+				rmdir(operand)
 			}
 		}
 	}
