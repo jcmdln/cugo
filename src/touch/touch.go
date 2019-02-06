@@ -91,7 +91,6 @@ func Touch(operands []string) {
 				rstat = rinfo.Sys().(*syscall.Stat_t)
 				accessTime = time.Unix(rstat.Atim.Sec, rstat.Atim.Nsec)
 				modifyTime = rinfo.ModTime()
-
 			} else if len(Date) > 0 {
 				if date, err = time.Parse(time.RFC3339Nano, Date); err != nil {
 					fmt.Printf("cugo: %s\n", err)
