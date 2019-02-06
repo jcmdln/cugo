@@ -40,18 +40,21 @@ var (
 	// though this is the default behavior.
 	Text bool
 
-	data []byte
+	operand  string
+	contents []byte
+	data     []byte
+	err      error
 )
 
 // Sha224sum ...
-func Sha224sum(args []string) {
-	for _, file := range args {
-		if contents, err := ioutil.ReadFile(file); err != nil {
+func Sha224sum(operands []string) {
+	for _, operand = range operands {
+		if contents, err = ioutil.ReadFile(operand); err != nil {
 			fmt.Printf("cugo: %s\n", err)
 			os.Exit(1)
 		} else {
 			data = []byte(contents)
-			fmt.Printf("%x  %s\n", sha256.Sum224(data), file)
+			fmt.Printf("%x  %s\n", sha256.Sum224(data), operand)
 		}
 	}
 
