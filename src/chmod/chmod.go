@@ -43,6 +43,7 @@ var (
 	Recursive bool
 
 	mode os.FileMode
+	err  error
 )
 
 // Chmod receives a MODE, the MODE operand, and the files to have their
@@ -61,7 +62,7 @@ func Chmod(mode os.FileMode, files []string) {
 					return nil
 				})
 			} else {
-				err := os.Chmod(target, mode)
+				err = os.Chmod(target, mode)
 				if err != nil {
 					fmt.Printf("cugo: %s\n", err)
 					os.Exit(1)
