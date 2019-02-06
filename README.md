@@ -1,5 +1,3 @@
-CuGo - Core Utilities written in Go
-
 [Homepage](https://cugo.io) | [GitHub](https://github.com/jcmdln/cugo)
 
 
@@ -45,10 +43,10 @@ may be imported individually into other Go projects. This avoids issues
 with Go's default compiler not having link-time optimization, and allows
 external projects to ship with only the desired utilities.
 
-See [README](https://github.com/jcmdln/cugo/blob/master/src/README.md)
+See [README](src/README.md)
 for information on how to import a single utility.
 
-See [README](https://github.com/jcmdln/cugo/blob/master/lib/README.md)
+See [README](lib/README.md)
 for information on the libraries written for `cugo`.
 
 ### Utilities
@@ -78,7 +76,7 @@ are permitted. This is because I have more faith in the Go maintainers
 and contributors to have a proper security review process, publish any
 CVE's, and notify their users compared to third-party sources.
 
-See [README](https://github.com/jcmdln/cugo/blob/master/cmd/README.md)
+See [README](cmd/README.md)
 for information on the command line interface provided by `cugo`.
 
 #### Portability
