@@ -57,7 +57,7 @@ func Cat(args []string) {
 				fmt.Printf("cugo: %s\n", err)
 				os.Exit(1)
 			} else {
-				fmt.Printf("%s\n", contents)
+				fmt.Printf("%s", contents)
 			}
 		}
 	}
