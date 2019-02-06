@@ -57,67 +57,71 @@ var (
 	Interactive bool
 	Recursive   bool
 	Verbose     bool
-)
 
-func rm(target string) {
-	err := os.Remove(target)
-	if err != nil {
-		fmt.Printf("cugo: rm: Removed '%s'\n", target)
-		os.Exit(1)
-	} else {
-		if Verbose {
-			fmt.Printf("cugo: rm: Removed '%s'\n", target)
-		}
-	}
-}
+	operand string
+	ostat   os.FileInfo
+	err     error
+)
 
 func remove(target string) {
 	if !Force && Interactive {
 		if pr.Prompt("Remove '" + target + "'?") {
-			rm(target)
+			if err = os.Remove(target); err != nil {
+				fmt.Printf("cugo: rm: %s\n", err)
+				os.Exit(1)
+			} else {
+				if Verbose {
+					fmt.Printf("cugo: rm: Removed '%s'\n", target)
+				}
+			}
 		}
 	} else {
-		rm(target)
+		if err = os.Remove(target); err != nil {
+			fmt.Printf("cugo: rm: %s\n", err)
+			os.Exit(1)
+		} else {
+			if Verbose {
+				fmt.Printf("cugo: rm: Removed '%s'\n", target)
+			}
+		}
 	}
 }
 
 func Rm(args []string) {
-	for _, target := range args {
-		cur, err := os.Stat(target)
-		if os.IsNotExist(err) {
-			fmt.Printf("cugo: rm %s: no such file or directory\n", target)
+	for _, operand = range args {
+		if ostat, err = os.Stat(operand); os.IsNotExist(err) {
+			fmt.Printf("cugo: rm %s: no such file or directory\n", operand)
 			os.Exit(1)
 		}
 
-		if cur.IsDir() {
-			if Dir && em.Empty(target) {
-				remove(target)
-				return
+		if ostat.IsDir() {
+			if Dir && em.Empty(operand) {
+				remove(operand)
 			}
 
 			if Recursive {
-				for !em.Empty(target) {
-					filepath.Walk(target, func(t string, info os.FileInfo, err error) error {
+				for !em.Empty(operand) {
+					filepath.Walk(operand, func(target string, info os.FileInfo, err error) error {
 						if info.IsDir() {
-							if em.Empty(t) {
-								remove(t)
+							if em.Empty(target) {
+								remove(target)
 							}
 						} else {
-							remove(t)
+							remove(target)
 						}
 
 						return nil
 					})
 				}
 
-				if em.Empty(target) {
-					remove(target)
+				if em.Empty(operand) {
+					remove(operand)
 				}
 			} else {
-				fmt.Printf("cugo: rm: '%s' is a directory\n", target)
+				fmt.Printf("cugo: rm: '%s' is a directory\n", operand)
 			}
 		} else {
-			remove(target)
+			remove(operand)
 		}
 	}
 
