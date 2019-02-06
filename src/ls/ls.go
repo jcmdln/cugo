@@ -43,14 +43,19 @@ import (
 var (
 	All       bool
 	Recursive bool
+
+	operand string
+	items   []os.FileInfo
+	item    os.FileInfo
+	err     error
 )
 
-func list(t string) {
-	if items, err := ioutil.ReadDir(t); err != nil {
+func list(target string) {
+	if items, err = ioutil.ReadDir(target); err != nil {
 		fmt.Println("cugo: rm:", err)
 		os.Exit(1)
 	} else {
-		for _, item := range items {
+		for _, item = range items {
 			if !All && strings.HasPrefix(item.Name(), ".") {
 			} else {
 				fmt.Printf(item.Name() + " ")
@@ -67,13 +72,13 @@ func Ls(args []string) {
 	if len(args) == 0 {
 		list(".")
 	} else {
-		for _, target := range args {
-			if !ex.Exists(target) {
-				fmt.Printf("cugo: ls: '%s': No such file or directory\n", target)
+		for _, operand = range args {
+			if !ex.Exists(operand) {
+				fmt.Printf("cugo: ls: '%s': No such file or directory\n", operand)
 				return
 			}
 
-			list(target)
+			list(operand)
 		}
 	}
 
