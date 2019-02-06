@@ -52,10 +52,10 @@ func Sha1sum(operands []string) {
 		if contents, err = ioutil.ReadFile(operand); err != nil {
 			fmt.Printf("cugo: %s\n", err)
 			os.Exit(1)
-		} else {
-			data = []byte(contents)
-			fmt.Printf("%x  %s\n", sha1.Sum(data), operand)
 		}
+
+		data = []byte(contents)
+		fmt.Printf("%x  %s\n", sha1.Sum(data), operand)
 	}
 
 	os.Exit(0)
