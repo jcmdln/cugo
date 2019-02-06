@@ -29,25 +29,35 @@ import (
 	"os/user"
 )
 
+var (
+	err error
+
+	usr *user.User
+
+	gid   string
+	gids  []string
+	gname *user.Group
+
+	userGroups string
+)
+
 // Groups ...
 func Groups(username string) {
-	var userGroups string
-
 	if len(username) == 0 {
-		if usr, err := user.Current(); err != nil {
+		if usr, err = user.Current(); err != nil {
 			fmt.Printf("cugo: %s\n", err)
 			os.Exit(1)
 		} else {
-			if groups, err := usr.GroupIds(); err != nil {
+			if gids, err = usr.GroupIds(); err != nil {
 				fmt.Printf("cugo: %s\n", err)
 				os.Exit(1)
 			} else {
-				for _, group := range groups {
-					if g, err := user.LookupGroupId(group); err != nil {
+				for _, gid := range gids {
+					if gname, err = user.LookupGroupId(gid); err != nil {
 						fmt.Printf("cugo: %s\n", err)
 						os.Exit(1)
 					} else {
-						userGroups += g.Name + " "
+						userGroups += gname.Name + " "
 					}
 				}
 			}
