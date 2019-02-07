@@ -23,6 +23,7 @@ func (u *catCmd) Prepare(flags *flagger.Flags) {
 	u.description = "Concatenate and print files"
 
 	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+	flags.BoolVar(&cat.Unbuffered, "Unbuffered output", "-u")
 }
 
 func (u *catCmd) Action(s []string, flags *flagger.Flags) error {

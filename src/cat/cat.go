@@ -31,7 +31,6 @@ package cat
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 )
 
@@ -40,28 +39,30 @@ var (
 	// output.
 	Unbuffered bool
 
-	contents []byte
-	err      error
+	operand string
+	file    io.Reader
+	buffer  []byte
+	err     error
 )
 
 // Cat ...
-func Cat(args []string) {
-	if len(args) == 0 {
-		for {
-			io.Copy(os.Stdin, os.Stdout)
-		}
+func Cat(operands []string) {
+	if Unbuffered {
+		buffer = make([]byte, 1)
+	} else {
+		buffer = make([]byte, 4096)
 	}
 
-	for _, file := range args {
-		if Unbuffered {
-			//
-		} else {
-			if contents, err = ioutil.ReadFile(file); err != nil {
-				fmt.Printf("cugo: %s\n", err)
+	if len(operands) == 0 {
+		io.CopyBuffer(os.Stdout, os.Stdin, buffer)
+	} else {
+		for _, operand = range operands {
+			if file, err = os.Open(operand); err != nil {
+				fmt.Printf("cugo: %s", err)
 				os.Exit(1)
 			}
 
-			fmt.Printf("%s", contents)
+			io.CopyBuffer(os.Stdout, file, buffer)
 		}
 	}
 
