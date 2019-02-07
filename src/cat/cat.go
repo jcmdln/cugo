@@ -42,13 +42,14 @@ var (
 	operand string
 	file    io.Reader
 	buffer  []byte
+	buff    = make([]byte, 1)
 	err     error
 )
 
 // Cat ...
 func Cat(operands []string) {
 	if Unbuffered {
-		buffer = make([]byte, 1)
+		buffer = buff
 	} else {
 		buffer = make([]byte, 4096)
 	}
@@ -62,7 +63,7 @@ func Cat(operands []string) {
 				os.Exit(1)
 			}
 
-			if _, err = file.Read(make([]byte, 1)); err != nil {
+			if _, err = file.Read(buff); err != nil {
 				fmt.Printf("cugo: %s", err)
 				os.Exit(1)
 			} else {
