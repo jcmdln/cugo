@@ -66,9 +66,9 @@ func Cat(operands []string) {
 			if _, err = file.Read(buff); err != nil {
 				fmt.Printf("cugo: %s", err)
 				os.Exit(1)
-			} else {
-				io.CopyBuffer(os.Stdout, file, buffer)
 			}
+
+			io.CopyBuffer(os.Stdout, file, buffer)
 		}
 	}
 
