@@ -50,28 +50,62 @@ import (
 	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
-var (
+type Options struct {
 	Access    bool
 	Create    bool
 	Date      string
 	Modified  bool
 	Reference string
+}
 
-	operand    string
-	finfo      os.FileInfo
-	fstat      *syscall.Stat_t
-	rinfo      os.FileInfo
-	rstat      *syscall.Stat_t
-	accessTime time.Time
-	modifyTime time.Time
-	date       time.Time
-	err        error
-)
+type Opts func(*Options)
+
+func Access(access bool) Opts {
+	return func(opt *Options) {
+		opt.Access = access
+	}
+}
+
+func Create(create bool) Opts {
+	return func(opt *Options) {
+		opt.Create = create
+	}
+}
+
+func Date(Date string) Opts {
+	return func(opt *Options) {
+		opt.Date = Date
+	}
+}
+
+func Modified(modified bool) Opts {
+	return func(opt *Options) {
+		opt.Modified = modified
+	}
+}
+
+func Reference(reference string) Opts {
+	return func(opt *Options) {
+		opt.Reference = reference
+	}
+}
 
 // Touch ...
-func Touch(operands []string) {
+func (opt *Options) Touch(operands []string) {
+	var (
+		operand    string
+		finfo      os.FileInfo
+		fstat      *syscall.Stat_t
+		rinfo      os.FileInfo
+		rstat      *syscall.Stat_t
+		accessTime time.Time
+		modifyTime time.Time
+		date       time.Time
+		err        error
+	)
+
 	for _, operand = range operands {
-		if !Create {
+		if !opt.Create {
 			if _, err = os.Create(operand); err != nil {
 				fmt.Printf("cugo: %s\n", err)
 				os.Exit(1)
@@ -82,8 +116,8 @@ func Touch(operands []string) {
 			finfo, _ = os.Stat(operand)
 			fstat = finfo.Sys().(*syscall.Stat_t)
 
-			if len(Reference) > 0 {
-				if rinfo, err = os.Stat(Reference); err != nil {
+			if len(opt.Reference) > 0 {
+				if rinfo, err = os.Stat(opt.Reference); err != nil {
 					fmt.Printf("cugo: %s\n", err)
 					os.Exit(1)
 				}
@@ -91,8 +125,8 @@ func Touch(operands []string) {
 				rstat = rinfo.Sys().(*syscall.Stat_t)
 				accessTime = time.Unix(rstat.Atim.Sec, rstat.Atim.Nsec)
 				modifyTime = rinfo.ModTime()
-			} else if len(Date) > 0 {
-				if date, err = time.Parse(time.RFC3339Nano, Date); err != nil {
+			} else if len(opt.Date) > 0 {
+				if date, err = time.Parse(time.RFC3339Nano, opt.Date); err != nil {
 					fmt.Printf("cugo: %s\n", err)
 					os.Exit(1)
 				}

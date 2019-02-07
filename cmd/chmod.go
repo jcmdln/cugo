@@ -5,10 +5,6 @@
 package cmd
 
 import (
-	"fmt"
-	"os"
-	"strconv"
-
 	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/chmod"
 	"github.com/jcmdln/flagger"
@@ -20,13 +16,14 @@ type chmodCmd struct {
 	description string
 
 	help bool
+	chmod.Options
 }
 
 func (u *chmodCmd) Prepare(flags *flagger.Flags) {
 	u.name, u.usage = "chmod", "[-R] MODE FILE ..."
 	u.description = "Change file modes"
 
-	flags.BoolVar(&chmod.Recursive, "Change files and directories recursively", "-R", "--recursive")
+	flags.BoolVar(&u.Recursive, "Change files and directories recursively", "-R", "--recursive")
 	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
 }
 
@@ -38,12 +35,7 @@ func (u *chmodCmd) Action(s []string, flags *flagger.Flags) error {
 			help.Help(u.name, u.usage, u.description, flags)
 		}
 
-		if mode, err := strconv.ParseUint(data[0], 8, 32); err != nil {
-			fmt.Printf("cugo: %s\n", err)
-			os.Exit(1)
-		} else {
-			chmod.Chmod(os.FileMode(mode), data[1:])
-		}
+		u.Chmod(data)
 	}
 
 	return nil

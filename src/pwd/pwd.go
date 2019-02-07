@@ -36,17 +36,33 @@ import (
 	"path/filepath"
 )
 
-var (
+type Options struct {
 	L bool
 	P bool
+}
 
-	cwd string
-	dir string
-	err error
-)
+type Opts func(*Options)
 
-func Pwd() {
-	if !L || P {
+func L(l bool) Opts {
+	return func(opt *Options) {
+		opt.L = l
+	}
+}
+
+func P(p bool) Opts {
+	return func(opt *Options) {
+		opt.P = p
+	}
+}
+
+func (opt *Options) Pwd() {
+	var (
+		cwd string
+		dir string
+		err error
+	)
+
+	if !opt.L || opt.P {
 		if cwd, err = os.Getwd(); err != nil {
 			fmt.Printf("cugo: %s\n", err)
 			os.Exit(1)

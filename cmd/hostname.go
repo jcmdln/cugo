@@ -16,13 +16,14 @@ type hostnameCmd struct {
 	description string
 
 	help bool
+	hostname.Options
 }
 
 func (u *hostnameCmd) Prepare(flags *flagger.Flags) {
 	u.name, u.usage = "hostname", "[-s] HOSTNAME"
 	u.description = "Set or print name of current host system"
 
-	flags.BoolVar(&hostname.Strip, "Trim any domain information from the printed name", "-s", "--strip")
+	flags.BoolVar(&u.Strip, "Trim any domain information from the printed name", "-s", "--strip")
 	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
 }
 
@@ -41,14 +42,15 @@ func (u *hostnameCmd) Action(s []string, flags *flagger.Flags) error {
 
 	if data, err := flags.Parse(s); err != nil {
 		lenCheck(data)
-		hostname.Hostname(d)
+		u.Hostname(d)
 	} else {
 		lenCheck(data)
+
 		if u.help {
 			help.Help(u.name, u.usage, u.description, flags)
 		}
 
-		hostname.Hostname(d)
+		u.Hostname(d)
 	}
 
 	return nil

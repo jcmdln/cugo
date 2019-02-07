@@ -34,26 +34,30 @@ import (
 	"strings"
 )
 
-var (
-	// Strip is a bool that when true removes domain information
+type Options struct {
 	Strip bool
-)
+}
 
-// Hostname is used to set or print the system hostname. If no argument
-// is given, the current system hostname is printed.
-//
-// The hostname currently can not be set, as it has not yet been
-// implemented.
-func Hostname(hostname string) {
-	var name string
+type Opts func(*Options)
 
-	name, err := os.Hostname()
-	if err != nil {
+func Strip(strip bool) Opts {
+	return func(opt *Options) {
+		opt.Strip = strip
+	}
+}
+
+func (opt *Options) Hostname(hostname string) {
+	var (
+		name string
+		err  error
+	)
+
+	if name, err = os.Hostname(); err != nil {
 		fmt.Printf("cugo: %s\n", err)
 		os.Exit(1)
 	}
 
-	if Strip {
+	if opt.Strip {
 		s := strings.Split(name, ".")
 		name = s[0]
 	}

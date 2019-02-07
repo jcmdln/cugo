@@ -29,25 +29,41 @@ import (
 	"os"
 )
 
-var (
-	// Binary is a boolean that, when true, enables reading in binary
-	// mode.
+type Options struct {
 	Binary bool
-	// Check is a boolean that, when true, reads sums from FILEs and
-	// checks them.
-	Check bool
-	// Text is a bool that, when true, enables reading in binary mode,
-	// though this is the default behavior.
-	Text bool
+	Check  bool
+	Text   bool
+}
 
-	operand  string
-	contents []byte
-	data     []byte
-	err      error
-)
+type Opts func(*Options)
+
+func Binary(binary bool) Opts {
+	return func(opts *Options) {
+		opts.Binary = binary
+	}
+}
+
+func Check(check bool) Opts {
+	return func(opts *Options) {
+		opts.Check = check
+	}
+}
+
+func Text(text bool) Opts {
+	return func(opts *Options) {
+		opts.Text = text
+	}
+}
 
 // Sha256sum ...
-func Sha256sum(operands []string) {
+func (opts *Options) Sha256sum(operands []string) {
+	var (
+		operand  string
+		contents []byte
+		data     []byte
+		err      error
+	)
+
 	for _, operand = range operands {
 		if contents, err = ioutil.ReadFile(operand); err != nil {
 			fmt.Printf("cugo: %s\n", err)

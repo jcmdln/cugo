@@ -37,27 +37,49 @@ import (
 	"os"
 )
 
-var (
+type Options struct {
 	Mode    uint
 	Parents bool
 	Verbose bool
+}
 
-	dir  string
-	mode os.FileMode
-	err  error
-)
+type Opts func(*Options)
 
-func Mkdir(args []string) {
-	mode = os.FileMode(uint32(Mode))
+func Mode(mode uint) Opts {
+	return func(opt *Options) {
+		opt.Mode = mode
+	}
+}
+
+func Parents(unbuffered bool) Opts {
+	return func(opt *Options) {
+		opt.Parents = unbuffered
+	}
+}
+
+func Verbose(verbose bool) Opts {
+	return func(opt *Options) {
+		opt.Verbose = verbose
+	}
+}
+
+func (opt *Options) Mkdir(args []string) {
+	var (
+		dir  string
+		mode os.FileMode
+		err  error
+	)
+
+	mode = os.FileMode(uint32(opt.Mode))
 
 	for _, dir = range args {
-		if Parents {
+		if opt.Parents {
 			if err = os.MkdirAll(dir, mode); err != nil {
 				fmt.Printf("cugo: %s\n", err)
 				os.Exit(1)
 			}
 
-			if Verbose {
+			if opt.Verbose {
 				fmt.Printf("cugo: mkdir: Created %s\n", dir)
 			}
 		} else {
@@ -66,7 +88,7 @@ func Mkdir(args []string) {
 				os.Exit(1)
 			}
 
-			if Verbose {
+			if opt.Verbose {
 				fmt.Printf("cugo: mkdir: Created %s\n", dir)
 			}
 		}

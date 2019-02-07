@@ -16,14 +16,15 @@ type pwdCmd struct {
 	description string
 
 	help bool
+	pwd.Options
 }
 
 func (u *pwdCmd) Prepare(flags *flagger.Flags) {
 	u.name, u.usage = "pwd", "[-LP]"
 	u.description = "return working directory name"
 
-	flags.BoolVar(&pwd.L, "Read current dir from env, including symlinks", "-L")
-	flags.BoolVar(&pwd.P, "Absolute path of current dir without symlinks", "-P")
+	flags.BoolVar(&u.L, "Read current dir from env, including symlinks", "-L")
+	flags.BoolVar(&u.P, "Absolute path of current dir without symlinks", "-P")
 	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
 }
 
@@ -32,7 +33,7 @@ func (u *pwdCmd) Action(s []string, flags *flagger.Flags) error {
 		help.Help(u.name, u.usage, u.description, flags)
 	}
 
-	pwd.Pwd()
+	u.Pwd()
 	return nil
 }
 

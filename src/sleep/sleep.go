@@ -33,13 +33,13 @@ import (
 	"time"
 )
 
-var (
-	opt string
-	dur time.Duration
-	err error
-)
-
 func Sleep(operands string) {
+	var (
+		opt string
+		dur time.Duration
+		err error
+	)
+
 	for _, opt = range strings.Split(operands, " ") {
 		if len(strings.Split(opt, "")) < 2 {
 			opt += "s"

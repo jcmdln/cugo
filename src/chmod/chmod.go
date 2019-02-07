@@ -33,26 +33,34 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
-var (
-	// Recursive is a boolean that, when true, specifies to recursively
-	// change the mode of the directory and all it's children.
+type Options struct {
 	Recursive bool
+}
 
-	mode os.FileMode
-	err  error
-)
+type Opts func(*Options)
 
-// Chmod receives a MODE, the MODE operand, and the files to have their
-// permission bits set to MODE.
-func Chmod(mode os.FileMode, files []string) {
-	for _, target := range files {
-		if ex.Exists(target) {
-			if Recursive {
-				filepath.Walk(target, func(t string, info os.FileInfo, err error) error {
+func (opt *Options) Chmod(operands []string) {
+	var (
+		modeVal uint64
+		mode    os.FileMode
+		err     error
+	)
+
+	if modeVal, err = strconv.ParseUint(operands[0], 8, 32); err != nil {
+		fmt.Printf("cugo: %s\n", err)
+		os.Exit(1)
+	}
+	mode = os.FileMode(modeVal)
+
+	for _, operand := range operands[1:] {
+		if ex.Exists(operand) {
+			if opt.Recursive {
+				filepath.Walk(operand, func(t string, info os.FileInfo, err error) error {
 					if err = os.Chmod(t, mode); err != nil {
 						fmt.Printf("cugo: %s\n", err)
 						os.Exit(1)
@@ -61,7 +69,7 @@ func Chmod(mode os.FileMode, files []string) {
 					return nil
 				})
 			} else {
-				if err = os.Chmod(target, mode); err != nil {
+				if err = os.Chmod(operand, mode); err != nil {
 					fmt.Printf("cugo: %s\n", err)
 					os.Exit(1)
 				}

@@ -16,26 +16,27 @@ type lsCmd struct {
 	description string
 
 	help bool
+	ls.Options
 }
 
 func (u *lsCmd) Prepare(flags *flagger.Flags) {
 	u.name, u.usage = "ls", "[-aR] TARGET ..."
 	u.description = "List directory contents"
 
-	flags.BoolVar(&ls.All, "Include directory entries that begin with '.'", "-a", "--all")
-	flags.BoolVar(&ls.Recursive, "Recursively traverse folders", "-R", "--recursive")
+	flags.BoolVar(&u.All, "Include directory entries that begin with '.'", "-a", "--all")
+	flags.BoolVar(&u.Recursive, "Recursively traverse folders", "-R", "--recursive")
 	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
 }
 
 func (u *lsCmd) Action(s []string, flags *flagger.Flags) error {
 	if data, err := flags.Parse(s); err != nil {
-		ls.Ls([]string{"."})
+		u.Ls([]string{"."})
 	} else {
 		if u.help {
 			help.Help(u.name, u.usage, u.description, flags)
 		}
 
-		ls.Ls(data)
+		u.Ls(data)
 	}
 	return nil
 }

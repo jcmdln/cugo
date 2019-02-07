@@ -1,3 +1,31 @@
+// Copyright 2018 Johnathan C Maudlin
+// Use of this source code is governed by a MIT-style
+// license that can be found in the LICENSE file.
+
+// concatenate and print files
+//
+// SYNOPSIS
+//
+//     cat [-u] [FILE ...]
+//
+// DESCRIPTION
+//
+// cat reads files sequentially, writing them to standard out. the FILE
+// operands are processed in the provided order. If FILE is a single
+// dash ('-') or absent, cat reads from standard in.
+//
+// The options are as follows:
+//
+//     -u        Unbuffered output
+//
+// SEE ALSO
+//
+// tbd
+//
+// REFERENCES
+//
+//     http://man.openbsd.org/cat
+//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/cat.html
 package cat
 
 import (
@@ -6,19 +34,19 @@ import (
 	"os"
 )
 
-type CatOptions struct {
+type Options struct {
 	Unbuffered bool
 }
 
-type CatOpts func(*CatOptions)
+type Opts func(*Options)
 
-func Unbuffered(unbuffered bool) CatOpts {
-	return func(opts *CatOptions) {
+func Unbuffered(unbuffered bool) Opts {
+	return func(opts *Options) {
 		opts.Unbuffered = unbuffered
 	}
 }
 
-func (c *CatOptions) Cat(operands []string) {
+func (opt *Options) Cat(operands []string) {
 	var (
 		operand string
 		file    io.Reader
@@ -27,7 +55,7 @@ func (c *CatOptions) Cat(operands []string) {
 		err     error
 	)
 
-	if c.Unbuffered {
+	if opt.Unbuffered {
 		buffer = buff
 	} else {
 		buffer = make([]byte, 4096)

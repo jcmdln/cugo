@@ -16,6 +16,7 @@ type sha384sumCmd struct {
 	description string
 
 	help bool
+	sha384sum.Options
 }
 
 func (u *sha384sumCmd) Prepare(flags *flagger.Flags) {
@@ -27,13 +28,13 @@ func (u *sha384sumCmd) Prepare(flags *flagger.Flags) {
 
 func (u *sha384sumCmd) Action(s []string, flags *flagger.Flags) error {
 	if data, err := flags.Parse(s); err != nil {
-		sha384sum.Sha384sum(data)
+		u.Sha384sum(data)
 	} else {
 		if u.help {
 			help.Help(u.name, u.usage, u.description, flags)
 		}
 
-		sha384sum.Sha384sum(data)
+		u.Sha384sum(data)
 	}
 
 	return nil

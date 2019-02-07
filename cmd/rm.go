@@ -16,17 +16,18 @@ type rmCmd struct {
 	description string
 
 	help bool
+	rm.Options
 }
 
 func (u *rmCmd) Prepare(flags *flagger.Flags) {
 	u.name, u.usage = "rm", "[-dfiPRrv] FILE ..."
 	u.description = "Remove directory entries"
 
-	flags.BoolVar(&rm.Dir, "Remove empty directories", "-d")
-	flags.BoolVar(&rm.Force, "Skip prompts and ignore warnings", "-f")
-	flags.BoolVar(&rm.Interactive, "Prompt before each removal", "-i")
-	flags.BoolVar(&rm.Recursive, "Remove directories and their contents recursively", "-r", "-R")
-	flags.BoolVar(&rm.Verbose, "Print a message when actions are taken", "-v")
+	flags.BoolVar(&u.Dir, "Remove empty directories", "-d")
+	flags.BoolVar(&u.Force, "Skip prompts and ignore warnings", "-f")
+	flags.BoolVar(&u.Interactive, "Prompt before each removal", "-i")
+	flags.BoolVar(&u.Recursive, "Remove directories and their contents recursively", "-r", "-R")
+	flags.BoolVar(&u.Verbose, "Print a message when actions are taken", "-v")
 	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
 }
 
@@ -38,7 +39,7 @@ func (u *rmCmd) Action(s []string, flags *flagger.Flags) error {
 			help.Help(u.name, u.usage, u.description, flags)
 		}
 
-		rm.Rm(data)
+		u.Rm(data)
 	}
 	return nil
 }

@@ -40,35 +40,39 @@ import (
 	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
-var (
+type Options struct {
 	All       bool
 	Recursive bool
-
-	operand string
-	items   []os.FileInfo
-	item    os.FileInfo
-	err     error
-)
-
-func list(target string) {
-	if items, err = ioutil.ReadDir(target); err != nil {
-		fmt.Println("cugo: rm:", err)
-		os.Exit(1)
-	}
-
-	for _, item = range items {
-		if !All && strings.HasPrefix(item.Name(), ".") {
-		} else {
-			fmt.Printf(item.Name() + " ")
-		}
-	}
-
-	fmt.Printf("\n")
 }
+
+type Opts func(*Options)
 
 // Ls will list all targets and their children in the order provided,
 // and will recursively list children if specified.
-func Ls(args []string) {
+func (opt *Options) Ls(args []string) {
+	var (
+		operand string
+		items   []os.FileInfo
+		item    os.FileInfo
+		err     error
+	)
+
+	list := func(target string) {
+		if items, err = ioutil.ReadDir(target); err != nil {
+			fmt.Println("cugo: rm:", err)
+			os.Exit(1)
+		}
+
+		for _, item = range items {
+			if !opt.All && strings.HasPrefix(item.Name(), ".") {
+			} else {
+				fmt.Printf(item.Name() + " ")
+			}
+		}
+
+		fmt.Printf("\n")
+	}
+
 	if len(args) == 0 {
 		list(".")
 	} else {

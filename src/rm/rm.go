@@ -51,43 +51,77 @@ import (
 	pr "github.com/jcmdln/cugo/lib/prompt"
 )
 
-var (
+type Options struct {
 	Dir         bool
 	Force       bool
 	Interactive bool
 	Recursive   bool
 	Verbose     bool
+}
 
-	operand string
-	ostat   os.FileInfo
-	err     error
-)
+type Opts func(*Options)
 
-func remove(target string) {
-	if !Force && Interactive {
-		if pr.Prompt("Remove '" + target + "'?") {
+func Dir(dir bool) Opts {
+	return func(opt *Options) {
+		opt.Dir = dir
+	}
+}
+
+func Force(force bool) Opts {
+	return func(opt *Options) {
+		opt.Force = force
+	}
+}
+
+func Interactive(interactive bool) Opts {
+	return func(opt *Options) {
+		opt.Interactive = interactive
+	}
+}
+
+func Recursive(recursive bool) Opts {
+	return func(opt *Options) {
+		opt.Recursive = recursive
+	}
+}
+
+func Verbose(verbose bool) Opts {
+	return func(opt *Options) {
+		opt.Verbose = verbose
+	}
+}
+
+func (opt *Options) Rm(args []string) {
+	var (
+		operand string
+		ostat   os.FileInfo
+		err     error
+	)
+
+	remove := func(target string) {
+		if !opt.Force && opt.Interactive {
+			if pr.Prompt("Remove '" + target + "'?") {
+				if err = os.Remove(target); err != nil {
+					fmt.Printf("cugo: rm: %s\n", err)
+					os.Exit(1)
+				}
+
+				if opt.Verbose {
+					fmt.Printf("cugo: rm: Removed '%s'\n", target)
+				}
+			}
+		} else {
 			if err = os.Remove(target); err != nil {
 				fmt.Printf("cugo: rm: %s\n", err)
 				os.Exit(1)
 			}
 
-			if Verbose {
+			if opt.Verbose {
 				fmt.Printf("cugo: rm: Removed '%s'\n", target)
 			}
 		}
-	} else {
-		if err = os.Remove(target); err != nil {
-			fmt.Printf("cugo: rm: %s\n", err)
-			os.Exit(1)
-		}
-
-		if Verbose {
-			fmt.Printf("cugo: rm: Removed '%s'\n", target)
-		}
 	}
-}
 
-func Rm(args []string) {
 	for _, operand = range args {
 		if ostat, err = os.Stat(operand); os.IsNotExist(err) {
 			fmt.Printf("cugo: rm %s: no such file or directory\n", operand)
@@ -95,11 +129,11 @@ func Rm(args []string) {
 		}
 
 		if ostat.IsDir() {
-			if Dir && em.Empty(operand) {
+			if opt.Dir && em.Empty(operand) {
 				remove(operand)
 			}
 
-			if Recursive {
+			if opt.Recursive {
 				for !em.Empty(operand) {
 					filepath.Walk(operand, func(target string, info os.FileInfo, err error) error {
 						if info.IsDir() {

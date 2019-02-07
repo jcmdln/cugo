@@ -16,14 +16,15 @@ type rmdirCmd struct {
 	description string
 
 	help bool
+	rmdir.Options
 }
 
 func (u *rmdirCmd) Prepare(flags *flagger.Flags) {
 	u.name, u.usage = "rmdir", "[-pv] DIRECTORY ..."
 	u.description = "Remove directories"
 
-	flags.BoolVar(&rmdir.Parents, "Remove parent directories", "-p", "--parents")
-	flags.BoolVar(&rmdir.Verbose, "Print a message when actions are taken", "-v", "--verbose")
+	flags.BoolVar(&u.Parents, "Remove parent directories", "-p", "--parents")
+	flags.BoolVar(&u.Verbose, "Print a message when actions are taken", "-v", "--verbose")
 	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
 }
 
@@ -35,7 +36,7 @@ func (u *rmdirCmd) Action(s []string, flags *flagger.Flags) error {
 			help.Help(u.name, u.usage, u.description, flags)
 		}
 
-		rmdir.Rmdir(data)
+		u.Rmdir(data)
 	}
 
 	return nil

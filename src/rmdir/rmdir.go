@@ -41,26 +41,42 @@ import (
 	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
-var (
+type Options struct {
 	Parents bool
 	Verbose bool
+}
 
-	operand string
-	err     error
-)
+type Opts func(*Options)
 
-func rmdir(dir string) {
-	if err = os.Remove(dir); err != nil {
-		fmt.Printf("cugo: %s\n", err)
-		os.Exit(1)
-	}
-
-	if Verbose {
-		fmt.Printf("cugo: rm: Removed '%s'\n", dir)
+func Parents(parents bool) Opts {
+	return func(opt *Options) {
+		opt.Parents = parents
 	}
 }
 
-func Rmdir(operands []string) {
+func Verbose(verbose bool) Opts {
+	return func(opt *Options) {
+		opt.Verbose = verbose
+	}
+}
+
+func (opt *Options) Rmdir(operands []string) {
+	var (
+		operand string
+		err     error
+	)
+
+	rmdir := func(dir string) {
+		if err = os.Remove(dir); err != nil {
+			fmt.Printf("cugo: %s\n", err)
+			os.Exit(1)
+		}
+
+		if opt.Verbose {
+			fmt.Printf("cugo: rm: Removed '%s'\n", dir)
+		}
+	}
+
 	for _, operand = range operands {
 		if !ex.Exists(operand) {
 			fmt.Printf("cugo: rmdir: no such file or directory %s\n", operand)
@@ -69,7 +85,7 @@ func Rmdir(operands []string) {
 
 		if em.Empty(operand) {
 			rmdir(operand)
-		} else if Parents {
+		} else if opt.Parents {
 			for !em.Empty(operand) {
 				filepath.Walk(operand, func(dir string, info os.FileInfo, err error) error {
 					if info.IsDir() && em.Empty(dir) {
