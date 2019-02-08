@@ -12,3 +12,6 @@ For more information about each utility, please visit
 [godoc.org](https://godoc.org/github.com/jcmdln/cugo/src) which also
 refers to the primary Go standard library components used as well as the
 reference manuals used to define the utility.
+
+For an example of using a utility in an external project, please see
+[cugo-mkdir-example](https://github.com/jcmdln/cugo-mkdir-example).
