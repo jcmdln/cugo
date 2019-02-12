@@ -32,6 +32,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"syscall"
 )
 
 type Options struct {
@@ -52,17 +53,25 @@ func (opt *Options) Hostname(hostname string) {
 		err  error
 	)
 
-	if name, err = os.Hostname(); err != nil {
-		fmt.Printf("cugo: %s\n", err)
-		os.Exit(1)
-	}
+	if len(hostname) == 0 {
+		if name, err = os.Hostname(); err != nil {
+			fmt.Printf("cugo: %s\n", err)
+			os.Exit(1)
+		}
 
-	if opt.Strip {
-		s := strings.Split(name, ".")
-		name = s[0]
-	}
+		if opt.Strip {
+			s := strings.Split(name, ".")
+			name = s[0]
+		}
 
-	fmt.Printf("%s\n", name)
+		fmt.Printf("%s\n", name)
+	} else {
+		if uid := syscall.Getuid(); uid != 0 {
+			fmt.Println("cugo: hostname: you must be root to change the hostname")
+		} else {
+			syscall.Sethostname([]byte(hostname))
+		}
+	}
 
 	os.Exit(0)
 }
