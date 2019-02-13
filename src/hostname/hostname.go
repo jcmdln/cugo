@@ -2,8 +2,6 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// +build linux
-
 // set or print the system hostname
 //
 // SYNOPSIS
@@ -34,7 +32,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"syscall"
+
+	"golang.org/x/sys/unix"
 )
 
 type Options struct {
@@ -68,10 +67,10 @@ func (opt *Options) Hostname(hostname string) {
 
 		fmt.Printf("%s\n", name)
 	} else {
-		if uid := syscall.Getuid(); uid != 0 {
+		if uid := unix.Getuid(); uid != 0 {
 			fmt.Println("cugo: hostname: you must be root to change the hostname")
 		} else {
-			syscall.Sethostname([]byte(hostname))
+			unix.Sethostname([]byte(hostname))
 		}
 	}
 
