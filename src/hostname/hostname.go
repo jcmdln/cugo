@@ -2,6 +2,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+// +build linux
+
 // set or print the system hostname
 //
 // SYNOPSIS
