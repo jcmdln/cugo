@@ -32,6 +32,8 @@ func (opt *Options) Hostname(hostname string) {
 		fmt.Printf("%s\n", name)
 	} else {
 		// Setting the hostname is not implemented in OpenBSD
+		fmt.Println("cugo: hostname: setting the hostname is not implemented in OpenBSD")
+		os.Exit(1)
 	}
 
 	os.Exit(0)
