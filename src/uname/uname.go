@@ -27,12 +27,12 @@
 //
 // SEE ALSO
 //
-//     https://golang.org/pkg/path/filepath/#Base
+//     WIP
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/basename
-//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/basename.html
+//     http://man.openbsd.org/uname
+//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/uname.html
 package uname
 
 import (
