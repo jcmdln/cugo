@@ -23,7 +23,7 @@ func main() {
 		commands := cmd.Command.List()
 		sort.Strings(commands)
 
-		fmt.Printf("cugo: %s\nAvailable commands: %s\n",
-			err, strings.Join(commands, " "))
+		fmt.Println("cugo:", err)
+		fmt.Println("Available commands:", strings.Join(commands, " "))
 	}
 }
