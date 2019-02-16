@@ -2,7 +2,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// print operating system name
+// print operating system information
 //
 // SYNOPSIS
 //
@@ -16,10 +16,15 @@
 // The options are as follows:
 //
 //     -a        Behave as though all options were specified
+//
 //     -m        Print the machine hardware name
+//
 //     -n        Print the nodename (aka network name)
+//
 //     -r        Print the operating system release
+//
 //     -s        Print the operating system name
+//
 //     -v        Print the operating system version
 //
 // If no options are specified, uname prints the operating system name
