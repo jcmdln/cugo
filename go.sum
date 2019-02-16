@@ -1,4 +1,4 @@
-github.com/jcmdln/flagger v0.0.0-20190202014003-7807e0300c48 h1:GOjy/8J4/KAtLb5MsaZNFTRDfFgqiiGo1L4ZxZYRZrc=
-github.com/jcmdln/flagger v0.0.0-20190202014003-7807e0300c48/go.mod h1:vk24Og8pXwOiinf7IH8+M/Qiy2kDaU/eAUZuf2Of8yA=
-golang.org/x/sys v0.0.0-20190209173611-3b5209105503 h1:5SvYFrOM3W8Mexn9/oA44Ji7vhXAZQ9hiP+1Q/DMrWg=
-golang.org/x/sys v0.0.0-20190209173611-3b5209105503/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
+github.com/jcmdln/flagger v0.0.0-20190216011340-d490350b4480 h1:w0tETY7Pzhzz/zTLAUAodamzdxZKQJzqUqRMBM+cHjE=
+github.com/jcmdln/flagger v0.0.0-20190216011340-d490350b4480/go.mod h1:vk24Og8pXwOiinf7IH8+M/Qiy2kDaU/eAUZuf2Of8yA=
+golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a h1:1BGLXjeY4akVXGgbC9HugT3Jv3hCI0z56oJR5vAMgBU=
+golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=

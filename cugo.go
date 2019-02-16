@@ -7,23 +7,23 @@
 // `cugo` provides common Unix core utilities in the form of a multi-call
 // binary, with a focus on broad support for various Unix and Unix-like
 // operating systems.
-//
-// Cugo was inspired by Rob Landley's `toybox` project with a goal of
-// using Go, which allows for a much simpler build system. Go's standard
-// library is feature complete enough to make many utilities trivial to
-// implement, sometimes with little more than writing glue code as a
-// wrapper for existing functionality.
 package main
 
 import (
 	"fmt"
 	"os"
+	"sort"
+	"strings"
 
 	"github.com/jcmdln/cugo/cmd"
 )
 
 func main() {
 	if err := cmd.Command.Parse(os.Args[1:]); err != nil {
-		fmt.Println(err)
+		commands := cmd.Command.List()
+		sort.Strings(commands)
+
+		fmt.Printf("cugo: %s\nAvailable commands: %s\n",
+			err, strings.Join(commands, " "))
 	}
 }
