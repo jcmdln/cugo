@@ -3,6 +3,9 @@ cugo
 cugo.exe
 
 
-# Emacs stuff
+# Emacs
 \#*#
 .#*
+
+# VS Code
+.vscode
