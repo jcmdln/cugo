@@ -30,15 +30,20 @@ func (u *mkdirCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *mkdirCmd) Action(s []string, flags *flagger.Flags) error {
-	if data, err := flags.Parse(s); err != nil {
-		return err
-	} else {
-		if u.help {
-			help.Help(u.name, u.usage, u.description, flags)
-		}
+	var (
+		data []string
+		err  error
+	)
 
-		u.Mkdir(data)
+	if data, err = flags.Parse(s); err != nil {
+		return err
 	}
+
+	if u.help {
+		help.Help(u.name, u.usage, u.description, flags)
+	}
+
+	u.Mkdir(data)
 
 	return nil
 }

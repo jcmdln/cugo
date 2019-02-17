@@ -28,15 +28,20 @@ func (u *sleepCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *sleepCmd) Action(s []string, flags *flagger.Flags) error {
-	if data, err := flags.Parse(s); err != nil {
-		return err
-	} else {
-		if u.help {
-			help.Help(u.name, u.usage, u.description, flags)
-		}
+	var (
+		data []string
+		err  error
+	)
 
-		sleep.Sleep(strings.Join(data, " "))
+	if data, err = flags.Parse(s); err != nil {
+		return err
 	}
+
+	if u.help {
+		help.Help(u.name, u.usage, u.description, flags)
+	}
+
+	sleep.Sleep(strings.Join(data, " "))
 
 	return nil
 }

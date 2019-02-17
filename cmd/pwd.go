@@ -34,6 +34,7 @@ func (u *pwdCmd) Action(s []string, flags *flagger.Flags) error {
 	}
 
 	u.Pwd()
+
 	return nil
 }
 
