@@ -1,50 +1,54 @@
 [Homepage](https://cugo.io) | [GitHub](https://github.com/jcmdln/cugo)
 
 
-NOTE: `cugo` is currently pre-alpha software that has no tests and
-little documentation. Please review this repository in its entirety
-before usage, as you may experience undesired or undocumented behavior!
+`cugo` is a prototypical project to implement Unix/Linux core utilities
+in the form of a multi-call binary, primarily using the Go standard 
+library. Each utility is written from scratch using only the reference 
+manuals for the target utility and the Go standard library. Third-party
+code use by `cugo` is intentionally rare, currently relying on the
+following:
+
+* [hlfstr/flagger](https://github.com/hlfstr/flagger) for the optional
+command line interface that resides within the `cmd` folder.
+* [x/sys](https://godoc.org/golang.org/x/sys) for various system calls.
 
 
 ## About
-`cugo` is a pet project to re-implement Unix/Linux core utilities in the
-form of a multi-call binary. Each utility is written from scratch using
-only the reference manuals for the target utility, and the Go standard
-library.
-
 Please visit [godoc](https://godoc.org/github.com/jcmdln/cugo) for the
-latest documentation.
+latest documentation, or the `doc.go` files within _most_ directories.
 
-See [README](cmd/README.md) for information on the command line
+* See [cmd/README](cmd/README.md) for information on the command line
 interface provided by `cugo`.
-
-See [README](src/README.md) for information on how to import a single
-utility.
-
-See [README](lib/README.md) for information on the libraries written for
-`cugo`.
+* See [src/README](src/README.md) for information on how to import a 
+single utility.
+* See [lib/README](lib/README.md) for information on the libraries 
+written for `cugo`.
 
 
-## Building and Installing
-First, check out the command line and the available commands:
+## Usage
+This repository may have a somewhat odd structure, though it has made
+the process of building `cugo` or importing an individual utility into
+external projects trivial. No `Makefile`'s or other tools needed.
 
-	go run cugo.go -h
+### Building
 
-You may build `cugo` using the following:
+	$ git clone git@github.com:jcmdln/cugo.git
+	$ cd ./cugo
+	$ go run cugo.go
+	# OR 
+	$ go build
 
-	go build cugo.co
+### Installing
 
-If you want a smaller binary and don't care about debugging, try the
-following:
+	$ go get -u github.com/jcmdln/cugo
 
-	go build -ldflags="-w -s" cugo.go
-
-Once compiled, the utilities run fairly quick and shouldn't be painful
-compared to the performance of GNU bin-utils or other core utilities. I
-am of the opinion that "more faster is more better" but `cugo` isn't at
-the point where investigating avenues for optimization is a high
-priority. If you have some suggestions, reach out any way you see fit.
+### Importing
+If you want an example of importing a single utility into another 
+project, please see [cugo-mkdir-example](https://github.com/jcmdln/cugo-mkdir-example)
+which implements `mkdir` using Go's `flag` package.
 
 
 ## Contributing
-Please see the [CONTRIBUTING](CONTRIBUTING.md) file for more information.
+If you would like to contribute a utility, improve documentation, or
+write tests please see the [CONTRIBUTING](CONTRIBUTING.md) file for more
+information.
