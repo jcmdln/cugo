@@ -10,8 +10,8 @@
 //
 // DESCRIPTION
 //
-// sha384sum prints or checks SHA384 checksums. If no file is given in the
-// operands, read standard input.
+// sha384sum prints or checks SHA384 checksums. If no file is given in
+// the operands, read standard input.
 //
 // SEE ALSO
 //

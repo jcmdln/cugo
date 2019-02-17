@@ -10,8 +10,8 @@
 //
 // DESCRIPTION
 //
-// sha512sum prints or checks SHA512 checksums. If no file is given in the
-// operands, read standard input.
+// sha512sum prints or checks SHA512 checksums. If no file is given in
+// the operands, read standard input.
 //
 // SEE ALSO
 //

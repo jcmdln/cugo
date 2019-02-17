@@ -4,9 +4,9 @@
 
 // Unix utilities as a multi-call binary
 //
-// `cugo` provides common Unix core utilities in the form of a multi-call
-// binary, with a focus on broad support for various Unix and Unix-like
-// operating systems.
+// `cugo` provides common Unix core utilities in the form of a
+// multi-call binary, with a focus on broad support for various Unix
+// and Unix-like operating systems.
 package main
 
 import (
