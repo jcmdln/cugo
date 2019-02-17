@@ -5,8 +5,6 @@
 package cmd
 
 import (
-	"strings"
-
 	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/sleep"
 	"github.com/jcmdln/flagger"
@@ -41,7 +39,7 @@ func (u *sleepCmd) Action(s []string, flags *flagger.Flags) error {
 		help.Help(u.name, u.usage, u.description, flags)
 	}
 
-	sleep.Sleep(strings.Join(data, " "))
+	sleep.Sleep(data)
 
 	return nil
 }
