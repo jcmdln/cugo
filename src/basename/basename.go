@@ -31,8 +31,8 @@ import (
 	"path/filepath"
 )
 
-func Basename(target string) {
-	fmt.Printf("%s\n", filepath.Base(target))
+func Basename(operand string) {
+	fmt.Printf("%s\n", filepath.Base(operand))
 
 	os.Exit(0)
 }

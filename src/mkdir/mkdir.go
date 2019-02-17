@@ -63,7 +63,7 @@ func Verbose(verbose bool) Opts {
 	}
 }
 
-func (opt *Options) Mkdir(args []string) {
+func (opt *Options) Mkdir(operands []string) {
 	var (
 		dir  string
 		mode os.FileMode
@@ -72,7 +72,7 @@ func (opt *Options) Mkdir(args []string) {
 
 	mode = os.FileMode(uint32(opt.Mode))
 
-	for _, dir = range args {
+	for _, dir = range operands {
 		if opt.Parents {
 			if err = os.MkdirAll(dir, mode); err != nil {
 				fmt.Printf("cugo: %s\n", err)

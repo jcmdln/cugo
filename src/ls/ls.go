@@ -49,7 +49,7 @@ type Opts func(*Options)
 
 // Ls will list all targets and their children in the order provided,
 // and will recursively list children if specified.
-func (opt *Options) Ls(args []string) {
+func (opt *Options) Ls(operands []string) {
 	var (
 		operand string
 		items   []os.FileInfo
@@ -73,10 +73,10 @@ func (opt *Options) Ls(args []string) {
 		fmt.Printf("\n")
 	}
 
-	if len(args) == 0 {
+	if len(operands) == 0 {
 		list(".")
 	} else {
-		for _, operand = range args {
+		for _, operand = range operands {
 			if !ex.Exists(operand) {
 				fmt.Printf("cugo: ls: '%s': No such file or directory\n", operand)
 				os.Exit(1)

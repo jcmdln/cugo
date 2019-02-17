@@ -30,13 +30,13 @@ import (
 )
 
 // Count prints the number of arguments passed to it.
-func Count(args []string) {
-	if len(args) < 1 {
+func Count(operands []string) {
+	if len(operands) < 1 {
 		os.Exit(1)
 	}
 
 	var total int
-	for i := range args {
+	for i := range operands {
 		total = i + 1
 	}
 

@@ -91,7 +91,7 @@ func Verbose(verbose bool) Opts {
 	}
 }
 
-func (opt *Options) Rm(args []string) {
+func (opt *Options) Rm(operands []string) {
 	var (
 		operand string
 		ostat   os.FileInfo
@@ -122,7 +122,7 @@ func (opt *Options) Rm(args []string) {
 		}
 	}
 
-	for _, operand = range args {
+	for _, operand = range operands {
 		if ostat, err = os.Stat(operand); os.IsNotExist(err) {
 			fmt.Printf("cugo: rm %s: no such file or directory\n", operand)
 			os.Exit(1)

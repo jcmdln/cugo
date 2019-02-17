@@ -28,13 +28,13 @@ import (
 	"strings"
 )
 
-func Yes(args []string) {
-	if len(args) == 0 {
+func Yes(operands []string) {
+	if len(operands) == 0 {
 		for {
 			fmt.Printf("y\n")
 		}
 	} else {
-		out := strings.Join(args, " ")
+		out := strings.Join(operands, " ")
 		for {
 			fmt.Printf("%s\n", out)
 		}
