@@ -14,13 +14,6 @@ import (
 	"github.com/jcmdln/cugo/lib/term"
 )
 
-type Options struct {
-	All       bool
-	Recursive bool
-}
-
-type Opts func(*Options)
-
 // Ls will list all targets and their children in the order provided,
 // and will recursively list children if specified.
 func (opt *Options) Ls(operands []string) {

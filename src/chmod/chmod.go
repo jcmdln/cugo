@@ -13,12 +13,6 @@ import (
 	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
-type Options struct {
-	Recursive bool
-}
-
-type Opts func(*Options)
-
 func (opt *Options) Chmod(operands []string) {
 	var (
 		modeVal uint64

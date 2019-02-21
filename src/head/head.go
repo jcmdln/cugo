@@ -11,18 +11,6 @@ import (
 	"os"
 )
 
-type Options struct {
-	Number int
-}
-
-type Opts func(*Options)
-
-func Number(num int) Opts {
-	return func(opt *Options) {
-		opt.Number = num
-	}
-}
-
 func (opt *Options) Head(operands []string) {
 	var (
 		f    io.Reader
