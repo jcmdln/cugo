@@ -14,6 +14,7 @@ import (
 func (opt *Options) Head(operands []string) {
 	var (
 		f    io.Reader
+		nl   bool
 		line string
 		err  error
 	)
@@ -32,13 +33,22 @@ func (opt *Options) Head(operands []string) {
 		read := bufio.NewReader(f)
 
 		for i := 0; i <= opt.Number; i++ {
-			if line, err = read.ReadString('\n'); err != nil && err != io.EOF {
-				fmt.Println("cugo: head:", err)
-				os.Exit(1)
+			line, err = read.ReadString('\n')
+			if err != nil {
+				if err == io.EOF {
+					nl = true
+				} else {
+					fmt.Println("cugo: head:", err)
+					os.Exit(1)
+				}
 			}
 
 			fmt.Printf(line)
 		}
+	}
+
+	if nl {
+		fmt.Printf("\n")
 	}
 
 	os.Exit(0)
