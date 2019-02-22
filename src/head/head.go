@@ -20,7 +20,7 @@ func (opt *Options) Head(operands []string) {
 	)
 
 	if opt.Number <= 0 {
-		fmt.Println("cugo: head: ")
+		fmt.Println("cugo: head: NUMBER can not be less than zero")
 		os.Exit(1)
 	}
 
