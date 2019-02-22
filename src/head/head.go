@@ -32,7 +32,7 @@ func (opt *Options) Head(operands []string) {
 		read := bufio.NewReader(f)
 
 		for i := 0; i <= opt.Number; i++ {
-			if line, err = read.ReadString('\n'); err != nil {
+			if line, err = read.ReadString('\n'); err != nil && err != io.EOF {
 				fmt.Println("cugo: head:", err)
 				os.Exit(1)
 			}
