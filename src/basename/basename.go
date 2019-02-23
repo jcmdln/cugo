@@ -6,12 +6,11 @@ package basename
 
 import (
 	"fmt"
-	"os"
 	"path/filepath"
 )
 
-func Basename(operand string) {
-	fmt.Printf("%s\n", filepath.Base(operand))
-
-	os.Exit(0)
+func Basename(operand string) error {
+	base := filepath.Base(operand)
+	fmt.Printf("%s\n", base)
+	return nil
 }
