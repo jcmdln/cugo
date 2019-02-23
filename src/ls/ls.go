@@ -2,6 +2,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+// +build todo
+
 package ls
 
 import (
@@ -13,13 +15,6 @@ import (
 	ex "github.com/jcmdln/cugo/lib/exists"
 	"github.com/jcmdln/cugo/lib/term"
 )
-
-type Options struct {
-	All       bool
-	Recursive bool
-}
-
-type Opts func(*Options)
 
 // Ls will list all targets and their children in the order provided,
 // and will recursively list children if specified.

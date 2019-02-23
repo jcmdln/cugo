@@ -10,18 +10,6 @@ import (
 	"os"
 )
 
-type Options struct {
-	Unbuffered bool
-}
-
-type Opts func(*Options)
-
-func Unbuffered(unbuffered bool) Opts {
-	return func(opts *Options) {
-		opts.Unbuffered = unbuffered
-	}
-}
-
 func (opt *Options) Cat(operands []string) {
 	var (
 		operand string
