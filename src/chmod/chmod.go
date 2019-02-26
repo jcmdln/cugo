@@ -5,7 +5,6 @@
 package chmod
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -13,7 +12,7 @@ import (
 	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
-func (opt *Options) Chmod(operands []string) {
+func (opt *Options) Chmod(operands []string) error {
 	var (
 		modeVal uint64
 		mode    os.FileMode
@@ -21,30 +20,30 @@ func (opt *Options) Chmod(operands []string) {
 	)
 
 	if modeVal, err = strconv.ParseUint(operands[0], 8, 32); err != nil {
-		fmt.Printf("cugo: %s\n", err)
-		os.Exit(1)
+		return err
 	}
 	mode = os.FileMode(modeVal)
 
 	for _, operand := range operands[1:] {
-		if ex.Exists(operand) {
+		if err = ex.Exists(operand); err != nil {
+			return err
+		} else {
 			if opt.Recursive {
-				filepath.Walk(operand, func(t string, info os.FileInfo, err error) error {
-					if err = os.Chmod(t, mode); err != nil {
-						fmt.Printf("cugo: %s\n", err)
-						os.Exit(1)
+				if err = filepath.Walk(operand, func(s string, i os.FileInfo, err error) error {
+					if err = os.Chmod(s, mode); err != nil {
+						return err
 					}
-
 					return nil
-				})
+				}); err != nil {
+					return err
+				}
 			} else {
 				if err = os.Chmod(operand, mode); err != nil {
-					fmt.Printf("cugo: %s\n", err)
-					os.Exit(1)
+					return err
 				}
 			}
 		}
 	}
 
-	os.Exit(0)
+	return nil
 }

@@ -5,43 +5,45 @@
 package cat
 
 import (
-	"fmt"
 	"io"
 	"os"
 )
 
-func (opt *Options) Cat(operands []string) {
+func (opt *Options) Cat(operands []string) error {
 	var (
 		operand string
 		file    io.Reader
 		buffer  []byte
-		buff    = make([]byte, 1)
+		buff    = make([]byte, 4096)
+		unbuff  = make([]byte, 1)
 		err     error
 	)
 
 	if opt.Unbuffered {
-		buffer = buff
+		buffer = unbuff
 	} else {
-		buffer = make([]byte, 4096)
+		buffer = buff
 	}
 
 	if len(operands) == 0 {
-		io.CopyBuffer(os.Stdout, os.Stdin, buffer)
+		if _, err := io.CopyBuffer(os.Stdout, os.Stdin, buffer); err != nil {
+			return err
+		}
 	} else {
 		for _, operand = range operands {
 			if file, err = os.Open(operand); err != nil {
-				fmt.Printf("cugo: %s", err)
-				os.Exit(1)
+				return err
 			}
 
 			if _, err = file.Read(buff); err != nil {
-				fmt.Printf("cugo: %s", err)
-				os.Exit(1)
+				return err
 			}
 
-			io.CopyBuffer(os.Stdout, file, buffer)
+			if _, err := io.CopyBuffer(os.Stdout, file, buffer); err != nil {
+				return err
+			}
 		}
 	}
 
-	os.Exit(0)
+	return nil
 }

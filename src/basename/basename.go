@@ -10,7 +10,6 @@ import (
 )
 
 func Basename(operand string) error {
-	base := filepath.Base(operand)
-	fmt.Printf("%s\n", base)
+	fmt.Printf("%s\n", filepath.Base(operand))
 	return nil
 }

@@ -29,20 +29,17 @@ func (u *rmdirCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *rmdirCmd) Action(s []string, flags *flagger.Flags) error {
-	var (
-		data []string
-		err  error
-	)
-
-	if data, err = flags.Parse(s); err != nil {
+	if data, err := flags.Parse(s); err != nil {
 		return err
-	}
+	} else {
+		if u.help {
+			help.Help(u.name, u.usage, u.description, flags)
+		}
 
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
+		if err := u.Rmdir(data); err != nil {
+			return err
+		}
 	}
-
-	u.Rmdir(data)
 
 	return nil
 }

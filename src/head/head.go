@@ -6,12 +6,13 @@ package head
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"io"
 	"os"
 )
 
-func (opt *Options) Head(operands []string) {
+func (opt *Options) Head(operands []string) error {
 	var (
 		f    io.Reader
 		nl   bool
@@ -20,14 +21,13 @@ func (opt *Options) Head(operands []string) {
 	)
 
 	if opt.Number <= 0 {
-		fmt.Println("cugo: head: NUMBER can not be less than zero")
-		os.Exit(1)
+		err = errors.New("head: NUMBER can not be less than zero")
+		return err
 	}
 
 	for _, operand := range operands {
 		if f, err = os.Open(operand); err != nil {
-			fmt.Println("cugo: head:", err)
-			os.Exit(1)
+			return err
 		}
 
 		read := bufio.NewReader(f)
@@ -39,7 +39,7 @@ func (opt *Options) Head(operands []string) {
 					nl = true
 				} else {
 					fmt.Println("cugo: head:", err)
-					os.Exit(1)
+					return err
 				}
 			}
 
@@ -51,5 +51,5 @@ func (opt *Options) Head(operands []string) {
 		fmt.Printf("\n")
 	}
 
-	os.Exit(0)
+	return nil
 }

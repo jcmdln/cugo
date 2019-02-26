@@ -7,34 +7,10 @@
 package hostname
 
 import (
-	"fmt"
-	"os"
-	"strings"
+	"errors"
 )
 
-func (opt *Options) Hostname(hostname string) {
-	var (
-		name string
-		err  error
-	)
-
-	if len(hostname) == 0 {
-		if name, err = os.Hostname(); err != nil {
-			fmt.Printf("cugo: %s\n", err)
-			os.Exit(1)
-		}
-
-		if opt.Strip {
-			s := strings.Split(name, ".")
-			name = s[0]
-		}
-
-		fmt.Printf("%s\n", name)
-	} else {
-		// Setting the hostname is not implemented in OpenBSD
-		fmt.Println("cugo: hostname: setting the hostname is not implemented in OpenBSD")
-		os.Exit(1)
-	}
-
-	os.Exit(0)
+func SetHostname(hostname []byte) error {
+	err := errors.New("hostname: setting the hostname is not available on this platform")
+	return err
 }

@@ -29,13 +29,17 @@ func (u *headCmd) Prepare(flags *flagger.Flags) {
 
 func (u *headCmd) Action(s []string, flags *flagger.Flags) error {
 	if data, err := flags.Parse(s); err != nil {
-		u.Head(data)
+		if err := u.Head(data); err != nil {
+			return err
+		}
 	} else {
 		if u.help {
 			help.Help(u.name, u.usage, u.description, flags)
 		}
 
-		u.Head(data)
+		if err := u.Head(data); err != nil {
+			return err
+		}
 	}
 
 	return nil

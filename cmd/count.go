@@ -26,20 +26,17 @@ func (u *countCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *countCmd) Action(s []string, flags *flagger.Flags) error {
-	var (
-		data []string
-		err  error
-	)
-
-	if data, err = flags.Parse(s); err != nil {
+	if data, err := flags.Parse(s); err != nil {
 		return err
-	}
+	} else {
+		if u.help {
+			help.Help(u.name, u.usage, u.description, flags)
+		}
 
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
+		if err := count.Count(data); err != nil {
+			return err
+		}
 	}
-
-	count.Count(data)
 
 	return nil
 }

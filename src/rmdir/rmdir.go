@@ -5,6 +5,7 @@
 package rmdir
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -13,47 +14,54 @@ import (
 	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
-func (opt *Options) Rmdir(operands []string) {
+func (opt *Options) Rmdir(operands []string) error {
 	var (
 		operand string
 		err     error
 	)
 
-	rmdir := func(dir string) {
+	rmdir := func(dir string) error {
 		if err = os.Remove(dir); err != nil {
-			fmt.Printf("cugo: %s\n", err)
-			os.Exit(1)
+			return err
 		}
 
 		if opt.Verbose {
 			fmt.Printf("cugo: rm: Removed '%s'\n", dir)
 		}
+		return nil
 	}
 
 	for _, operand = range operands {
-		if !ex.Exists(operand) {
-			fmt.Printf("cugo: rmdir: no such file or directory %s\n", operand)
-			os.Exit(1)
+		if ex.Exists(operand) != nil {
+			err = errors.New("rmdir: " + operand + ": no such file or directory")
+			return err
 		}
 
 		if em.Empty(operand) {
-			rmdir(operand)
+			if err = rmdir(operand); err != nil {
+				return err
+			}
 		} else if opt.Parents {
 			for !em.Empty(operand) {
-				filepath.Walk(operand, func(dir string, info os.FileInfo, err error) error {
+				if err = filepath.Walk(operand, func(dir string, info os.FileInfo, err error) error {
 					if info.IsDir() && em.Empty(dir) {
-						rmdir(dir)
+						if err = rmdir(operand); err != nil {
+							return err
+						}
 					}
-
 					return nil
-				})
+				}); err != nil {
+					return err
+				}
 			}
 
 			if em.Empty(operand) {
-				rmdir(operand)
+				if err = rmdir(operand); err != nil {
+					return err
+				}
 			}
 		}
 	}
 
-	os.Exit(0)
+	return nil
 }

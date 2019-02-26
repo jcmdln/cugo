@@ -26,13 +26,13 @@ func (u *falseCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *falseCmd) Action(s []string, flags *flagger.Flags) error {
-	if _, err := flags.Parse(s); err != nil {
-		false.False()
-	}
+	_, _ = flags.Parse(s)
 
 	if u.help {
 		help.Help(u.name, u.usage, u.description, flags)
 	}
+
+	false.False()
 
 	return nil
 }

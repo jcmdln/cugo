@@ -5,7 +5,6 @@
 package touch
 
 import (
-	"fmt"
 	"os"
 	"syscall"
 	"time"
@@ -14,7 +13,7 @@ import (
 )
 
 // Touch ...
-func (opt *Options) Touch(operands []string) {
+func (opt *Options) Touch(operands []string) error {
 	var (
 		operand    string
 		finfo      os.FileInfo
@@ -30,19 +29,17 @@ func (opt *Options) Touch(operands []string) {
 	for _, operand = range operands {
 		if !opt.Create {
 			if _, err = os.Create(operand); err != nil {
-				fmt.Printf("cugo: %s\n", err)
-				os.Exit(1)
+				return err
 			}
 		}
 
-		if ex.Exists(operand) {
+		if ex.Exists(operand) != nil {
 			finfo, _ = os.Stat(operand)
 			fstat = finfo.Sys().(*syscall.Stat_t)
 
 			if len(opt.Reference) > 0 {
 				if rinfo, err = os.Stat(opt.Reference); err != nil {
-					fmt.Printf("cugo: %s\n", err)
-					os.Exit(1)
+					return err
 				}
 
 				rstat = rinfo.Sys().(*syscall.Stat_t)
@@ -50,8 +47,7 @@ func (opt *Options) Touch(operands []string) {
 				modifyTime = rinfo.ModTime()
 			} else if len(opt.Date) > 0 {
 				if date, err = time.Parse(time.RFC3339Nano, opt.Date); err != nil {
-					fmt.Printf("cugo: %s\n", err)
-					os.Exit(1)
+					return err
 				}
 
 				accessTime = date
@@ -62,11 +58,10 @@ func (opt *Options) Touch(operands []string) {
 			}
 
 			if err = os.Chtimes(operand, accessTime, modifyTime); err != nil {
-				fmt.Printf("cugo: %s\n", err)
-				os.Exit(1)
+				return err
 			}
 		}
 	}
 
-	os.Exit(0)
+	return nil
 }

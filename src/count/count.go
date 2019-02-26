@@ -5,22 +5,22 @@
 package count
 
 import (
+	"errors"
 	"fmt"
-	"os"
 )
 
 // Count prints the number of arguments passed to it.
-func Count(operands []string) {
+func Count(operands []string) error {
 	if len(operands) < 1 {
-		os.Exit(1)
+		err := errors.New("count: too few operands")
+		return err
 	}
 
 	var total int
 	for i := range operands {
 		total = i + 1
 	}
-
 	fmt.Printf("%v\n", total)
 
-	os.Exit(0)
+	return nil
 }

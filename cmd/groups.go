@@ -28,7 +28,9 @@ func (u *groupsCmd) Prepare(flags *flagger.Flags) {
 func (u *groupsCmd) Action(s []string, flags *flagger.Flags) error {
 	if data, err := flags.Parse(s); err != nil {
 		if len(s) == 0 {
-			groups.Groups("")
+			if err := groups.Groups(""); err != nil {
+				return err
+			}
 		} else {
 			return err
 		}
@@ -37,7 +39,9 @@ func (u *groupsCmd) Action(s []string, flags *flagger.Flags) error {
 			help.Help(u.name, u.usage, u.description, flags)
 		}
 
-		groups.Groups(data[0])
+		if err := groups.Groups(data[0]); err != nil {
+			return err
+		}
 	}
 
 	return nil
