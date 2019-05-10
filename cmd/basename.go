@@ -26,16 +26,17 @@ func (u *basenameCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *basenameCmd) Action(s []string, flags *flagger.Flags) error {
-	if data, err := flags.Parse(s); err != nil {
+	data, err := flags.Parse(s)
+	if err != nil {
 		return err
-	} else {
-		if u.help {
-			help.Help(u.name, u.usage, u.description, flags)
-		}
+	}
 
-		if err := basename.Basename(data[0]); err != nil {
-			return err
-		}
+	if u.help {
+		help.Help(u.name, u.usage, u.description, flags)
+	}
+
+	if err := basename.Basename(data); err != nil {
+		return err
 	}
 
 	return nil
