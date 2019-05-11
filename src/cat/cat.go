@@ -2,8 +2,6 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// +build testing
-
 package cat
 
 import (
@@ -28,7 +26,7 @@ func (opt *Options) Cat(operands []string) error {
 	}
 
 	if len(operands) == 0 {
-		if _, err := io.CopyBuffer(os.Stdout, os.Stdin, buffer); err != nil {
+		if _, err = io.CopyBuffer(os.Stdout, os.Stdin, buffer); err != nil {
 			return err
 		}
 	} else {
@@ -37,11 +35,7 @@ func (opt *Options) Cat(operands []string) error {
 				return err
 			}
 
-			if _, err = file.Read(buff); err != nil {
-				return err
-			}
-
-			if _, err := io.CopyBuffer(os.Stdout, file, buffer); err != nil {
+			if _, err = io.CopyBuffer(os.Stdout, file, buffer); err != nil {
 				return err
 			}
 		}

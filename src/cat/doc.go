@@ -24,6 +24,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/cat
-//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/cat.html
+//     https://man.openbsd.org/cat
+//     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/cat.html
 package cat

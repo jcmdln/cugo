@@ -2,8 +2,6 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// +build testing
-
 package cmd
 
 import (
@@ -30,18 +28,19 @@ func (u *catCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *catCmd) Action(s []string, flags *flagger.Flags) error {
-	if data, err := flags.Parse(s); err != nil {
+	data, err := flags.Parse(s)
+	if err != nil {
 		if err := u.Cat(data); err != nil {
 			return err
 		}
-	} else {
-		if u.help {
-			help.Help(u.name, u.usage, u.description, flags)
-		}
+	}
 
-		if err := u.Cat(data); err != nil {
-			return err
-		}
+	if u.help {
+		help.Help(u.name, u.usage, u.description, flags)
+	}
+
+	if err := u.Cat(data); err != nil {
+		return err
 	}
 
 	return nil
