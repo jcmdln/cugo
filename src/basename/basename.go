@@ -12,7 +12,6 @@ import (
 // Basename receives any number of operands, but only passes the first
 // item of the []string to filepath.Base to mimic the behavior of other
 // implementations.
-
 func Basename(operand []string) error {
 	// If an empty string is passed, it causes a panic. Catch whether
 	// the length of 'operand' is 0, and print a newline.
