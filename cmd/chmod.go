@@ -28,16 +28,17 @@ func (u *chmodCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *chmodCmd) Action(s []string, flags *flagger.Flags) error {
-	if data, err := flags.Parse(s); err != nil {
+	data, err := flags.Parse(s)
+	if err != nil {
 		return err
-	} else {
-		if u.help {
-			help.Help(u.name, u.usage, u.description, flags)
-		}
+	}
 
-		if err := u.Chmod(data); err != nil {
-			return err
-		}
+	if u.help {
+		help.Help(u.name, u.usage, u.description, flags)
+	}
+
+	if err := u.Chmod(data); err != nil {
+		return err
 	}
 
 	return nil

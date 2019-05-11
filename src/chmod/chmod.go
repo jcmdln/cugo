@@ -27,20 +27,20 @@ func (opt *Options) Chmod(operands []string) error {
 	for _, operand := range operands[1:] {
 		if err = ex.Exists(operand); err != nil {
 			return err
+		}
+
+		if opt.Recursive {
+			if err = filepath.Walk(operand, func(s string, i os.FileInfo, err error) error {
+				if err = os.Chmod(s, mode); err != nil {
+					return err
+				}
+				return nil
+			}); err != nil {
+				return err
+			}
 		} else {
-			if opt.Recursive {
-				if err = filepath.Walk(operand, func(s string, i os.FileInfo, err error) error {
-					if err = os.Chmod(s, mode); err != nil {
-						return err
-					}
-					return nil
-				}); err != nil {
-					return err
-				}
-			} else {
-				if err = os.Chmod(operand, mode); err != nil {
-					return err
-				}
+			if err = os.Chmod(operand, mode); err != nil {
+				return err
 			}
 		}
 	}
