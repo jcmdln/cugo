@@ -14,29 +14,28 @@ import (
 
 func (opt *Options) Head(operands []string) error {
 	var (
-		f    io.Reader
-		nl   bool
-		line string
-		err  error
+		operand string
+		file    io.Reader
+		read    *bufio.Reader
+		newline bool
+		line    string
+
+		index int
+		err   error
 	)
 
-	if opt.Number <= 0 {
+	if opt.Number < 0 {
 		err = errors.New("head: NUMBER can not be less than zero")
 		return err
 	}
 
-	for _, operand := range operands {
-		if f, err = os.Open(operand); err != nil {
-			return err
-		}
-
-		read := bufio.NewReader(f)
-
-		for i := 0; i <= opt.Number; i++ {
+	readlines := func(t *bufio.Reader) error {
+		for index = 1; index <= opt.Number; index++ {
 			line, err = read.ReadString('\n')
+
 			if err != nil {
 				if err == io.EOF {
-					nl = true
+					newline = true
 				} else {
 					fmt.Println("cugo: head:", err)
 					return err
@@ -45,9 +44,29 @@ func (opt *Options) Head(operands []string) error {
 
 			fmt.Printf(line)
 		}
+
+		return nil
 	}
 
-	if nl {
+	if len(operands) < 1 {
+		read = bufio.NewReader(os.Stdout)
+		if err := readlines(read); err != nil {
+			return err
+		}
+	} else {
+		for _, operand = range operands {
+			if file, err = os.Open(operand); err != nil {
+				return err
+			}
+
+			read = bufio.NewReader(file)
+			if err := readlines(read); err != nil {
+				return err
+			}
+		}
+	}
+
+	if newline {
 		fmt.Printf("\n")
 	}
 
