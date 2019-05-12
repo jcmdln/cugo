@@ -12,34 +12,42 @@ import (
 // Groups ...
 func Groups(username string) error {
 	var (
-		gid       string
-		gids      []string
-		gname     *user.Group
-		usr       *user.User
-		usrGroups string
+		gid   string
+		gids  []string
+		group *user.Group
+		usr   *user.User
 
 		err error
+		out string
 	)
 
-	if len(username) == 0 {
-		if usr, err = user.Current(); err != nil {
+	if len(username) < 1 {
+		usr, err = user.Current()
+		if err != nil {
+			return err
+		}
+	} else {
+		usr, err = user.Lookup(username)
+		if err != nil {
 			return err
 		}
 
-		if gids, err = usr.GroupIds(); err != nil {
-			return err
-		}
-
-		for _, gid = range gids {
-			if gname, err = user.LookupGroupId(gid); err != nil {
-				return err
-			}
-
-			usrGroups += gname.Name + " "
-		}
-
-		fmt.Printf("%s\n", usrGroups)
+		out = username + " : "
 	}
+
+	if gids, err = usr.GroupIds(); err != nil {
+		return err
+	}
+
+	for _, gid = range gids {
+		if group, err = user.LookupGroupId(gid); err != nil {
+			return err
+		}
+
+		out += group.Name + " "
+	}
+
+	fmt.Printf("%s\n", out)
 
 	return nil
 }

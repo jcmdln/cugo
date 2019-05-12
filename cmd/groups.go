@@ -20,28 +20,29 @@ type groupsCmd struct {
 
 func (u *groupsCmd) Prepare(flags *flagger.Flags) {
 	u.name, u.usage = "groups", "[-bct] [FILE ...]"
-	u.description = "Compute and check SHA1 message digest"
+	u.description = ""
 
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+	flags.BoolVar(&u.help, "show group memberships", "-h", "--help")
 }
 
 func (u *groupsCmd) Action(s []string, flags *flagger.Flags) error {
-	if data, err := flags.Parse(s); err != nil {
-		if len(s) == 0 {
-			if err := groups.Groups(""); err != nil {
-				return err
-			}
-		} else {
-			return err
-		}
-	} else {
-		if u.help {
-			help.Help(u.name, u.usage, u.description, flags)
-		}
+	var (
+		user string
+	)
 
-		if err := groups.Groups(data[0]); err != nil {
-			return err
-		}
+	users, _ := flags.Parse(s)
+	if len(users) < 1 {
+		user = ""
+	} else {
+		user = users[0]
+	}
+
+	if u.help {
+		help.Help(u.name, u.usage, u.description, flags)
+	}
+
+	if err := groups.Groups(user); err != nil {
+		return err
 	}
 
 	return nil
