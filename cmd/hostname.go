@@ -28,29 +28,24 @@ func (u *hostnameCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *hostnameCmd) Action(s []string, flags *flagger.Flags) error {
-	var d string
+	var (
+		hostname string
+	)
 
-	lenCheck := func(data []string) {
-		if len(data) > 1 {
-			help.Help(u.name, u.usage, u.description, flags)
-		} else if len(data) == 0 {
-			d = ""
-		} else {
-			d = data[0]
-		}
+	data, _ := flags.Parse(s)
+
+	if len(data) == 0 {
+		hostname = ""
+	} else {
+		hostname = data[0]
 	}
 
-	if data, err := flags.Parse(s); err != nil {
-		lenCheck(data)
-		u.Hostname(d)
-	} else {
-		lenCheck(data)
+	if u.help {
+		help.Help(u.name, u.usage, u.description, flags)
+	}
 
-		if u.help {
-			help.Help(u.name, u.usage, u.description, flags)
-		}
-
-		u.Hostname(d)
+	if err := u.Hostname(hostname); err != nil {
+		return err
 	}
 
 	return nil
