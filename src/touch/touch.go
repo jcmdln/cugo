@@ -33,7 +33,7 @@ func (opt *Options) Touch(operands []string) error {
 			}
 		}
 
-		if ex.Exists(operand) != nil {
+		if err = ex.Exists(operand); err != nil {
 			finfo, _ = os.Stat(operand)
 			fstat = finfo.Sys().(*syscall.Stat_t)
 

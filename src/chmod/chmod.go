@@ -14,6 +14,7 @@ import (
 
 func (opt *Options) Chmod(operands []string) error {
 	var (
+		operand string
 		modeVal uint64
 		mode    os.FileMode
 		err     error
@@ -24,7 +25,7 @@ func (opt *Options) Chmod(operands []string) error {
 	}
 	mode = os.FileMode(modeVal)
 
-	for _, operand := range operands[1:] {
+	for _, operand = range operands[1:] {
 		if err = ex.Exists(operand); err != nil {
 			return err
 		}
