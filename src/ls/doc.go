@@ -17,9 +17,31 @@
 //
 // The options are as follows:
 //
-//     -a        Include directory entries that start with a dot ('.').
+//     -A        Show all entries other than '.' and '..'.
 //
-//     -R        Recursively list encountered subdirectories.
+//     -a        Show all entries including those starting with '.'.
+//
+//     -F        Add '/' after each directory, '*' after executables,
+//               '@' after symlinks, '=' after sockets, and '|' after FIFO.
+//
+//     -H        Follow symlinks.
+//
+//     -h        Use human-readable units.
+//
+//     -L        Evaluate symlinks as physical references, but use the
+//               name of the symlink rather than the referenced file.
+//
+//     -l        Show entries in a list using long format, one entry
+//               per line.
+//
+//     -P        Add '/' after each directory name.
+//
+//     -R        Recursively list directories and their entries.
+//
+//     -r        Reverse the sorting order.
+//
+//     -S        Sort by size, largest file first.
+//
 //
 // SEE ALSO
 //
@@ -27,6 +49,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/ls
-//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/ls.html
+//     https://man.openbsd.org/ls
+//     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/ls.html
 package ls

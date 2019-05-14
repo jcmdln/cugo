@@ -2,11 +2,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// +build testing
-
 package ls
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -18,25 +17,26 @@ import (
 
 // Ls will list all targets and their children in the order provided,
 // and will recursively list children if specified.
-func (opt *Options) Ls(operands []string) {
+func (opt *Options) Ls(operands []string) error {
 	var (
 		operand string
+		index   int
 		items   []os.FileInfo
 		item    os.FileInfo
-		err     error
 
 		width int
+		err   error
 	)
 
-	list := func(target string) {
+	list := func(target string) error {
 		if items, err = ioutil.ReadDir(target); err != nil {
-			fmt.Println("cugo: rm:", err)
-			os.Exit(1)
+			return err
 		}
 
 		tw, _, _ := term.Size(int(os.Stdin.Fd()))
-		for _, item = range items {
+		for index, item = range items {
 			if !opt.All && strings.HasPrefix(item.Name(), ".") {
+				// Do nothing
 			} else {
 				if len(item.Name())+width > int(tw) {
 					fmt.Printf("\n")
@@ -46,23 +46,31 @@ func (opt *Options) Ls(operands []string) {
 				fmt.Printf("%s ", item.Name())
 				width += len(item.Name()) + len(" ")
 			}
+
+			if index+1 == len(items) {
+				fmt.Printf("\n")
+			}
 		}
 
-		fmt.Printf("\n")
+		return nil
 	}
 
-	if len(operands) == 0 {
-		list(".")
+	if len(operands) < 1 {
+		if err = list("."); err != nil {
+			return err
+		}
 	} else {
 		for _, operand = range operands {
-			if !ex.Exists(operand) {
-				fmt.Printf("cugo: ls: '%s': No such file or directory\n", operand)
-				os.Exit(1)
+			if err = ex.Exists(operand); err != nil {
+				err = errors.New("ls: " + operand + ": No such file or directory")
+				return err
 			}
 
-			list(operand)
+			if err = list(operand); err != nil {
+				return err
+			}
 		}
 	}
 
-	os.Exit(0)
+	return nil
 }
