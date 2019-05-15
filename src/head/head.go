@@ -51,15 +51,13 @@ func (opt *Options) Head(operands []string) error {
 
 	if len(operands) < 1 {
 		if _, err = os.Stdin.Stat(); err != nil {
-			stdout := bufio.NewReader(os.Stdout)
-			if err = readlines(stdout); err != nil {
-				return err
-			}
+			read = bufio.NewReader(os.Stdout)
 		} else {
-			stdin := bufio.NewReader(os.Stdin)
-			if err = readlines(stdin); err != nil {
-				return err
-			}
+			read = bufio.NewReader(os.Stdin)
+		}
+
+		if err = readlines(read); err != nil {
+			return err
 		}
 	} else {
 		for _, operand = range operands {
@@ -68,7 +66,7 @@ func (opt *Options) Head(operands []string) error {
 			}
 
 			read = bufio.NewReader(file)
-			if err := readlines(read); err != nil {
+			if err = readlines(read); err != nil {
 				return err
 			}
 		}
