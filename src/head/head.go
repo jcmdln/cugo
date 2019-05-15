@@ -15,10 +15,11 @@ import (
 func (opt *Options) Head(operands []string) error {
 	var (
 		operand string
-		file    io.Reader
-		read    *bufio.Reader
 		newline bool
 		line    string
+
+		file io.Reader
+		read *bufio.Reader
 
 		index int
 		err   error
@@ -31,7 +32,7 @@ func (opt *Options) Head(operands []string) error {
 
 	readlines := func(t *bufio.Reader) error {
 		for index = 1; index <= opt.Number; index++ {
-			line, err = read.ReadString('\n')
+			line, err = t.ReadString('\n')
 
 			if err != nil {
 				if err == io.EOF {
@@ -49,9 +50,16 @@ func (opt *Options) Head(operands []string) error {
 	}
 
 	if len(operands) < 1 {
-		read = bufio.NewReader(os.Stdout)
-		if err := readlines(read); err != nil {
-			return err
+		if _, err = os.Stdin.Stat(); err != nil {
+			stdout := bufio.NewReader(os.Stdout)
+			if err = readlines(stdout); err != nil {
+				return err
+			}
+		} else {
+			stdin := bufio.NewReader(os.Stdin)
+			if err = readlines(stdin); err != nil {
+				return err
+			}
 		}
 	} else {
 		for _, operand = range operands {
