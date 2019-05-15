@@ -23,6 +23,7 @@ func (opt *Options) Ls(operands []string) error {
 		index   int
 		items   []os.FileInfo
 		item    os.FileInfo
+		entries string
 
 		width int
 		err   error
@@ -33,25 +34,26 @@ func (opt *Options) Ls(operands []string) error {
 			return err
 		}
 
-		tw, _, _ := term.Size(int(os.Stdin.Fd()))
+		tw, _, _ := term.Size(int(os.Stdout.Fd()))
 		for index, item = range items {
 			if !opt.All && strings.HasPrefix(item.Name(), ".") {
 				// Do nothing
 			} else {
 				if len(item.Name())+width > int(tw) {
-					fmt.Printf("\n")
+					entries += "\n"
 					width = 0
 				}
 
-				fmt.Printf("%s ", item.Name())
+				entries += item.Name() + " "
 				width += len(item.Name()) + len(" ")
 			}
 
 			if index+1 == len(items) {
-				fmt.Printf("\n")
+				entries += "\n"
 			}
 		}
 
+		fmt.Printf("%s", entries)
 		return nil
 	}
 

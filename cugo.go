@@ -30,7 +30,7 @@ func main() {
 		list := cmd.Command.List()
 		sort.Strings(list)
 
-		tw, _, _ := term.Size(int(os.Stdin.Fd()))
+		tw, _, _ := term.Size(int(os.Stdout.Fd()))
 		for i, c := range list {
 			if len(c)+width > int(tw) {
 				fmt.Printf("\n")
