@@ -14,15 +14,12 @@ import (
 
 func (opt *Options) Head(operands []string) error {
 	var (
-		operand string
-		newline bool
+		err     error
+		file    io.Reader
+		index   int
 		line    string
-
-		file io.Reader
-		read *bufio.Reader
-
-		index int
-		err   error
+		operand string
+		read    *bufio.Reader
 	)
 
 	if opt.Number < 0 {
@@ -32,18 +29,13 @@ func (opt *Options) Head(operands []string) error {
 
 	readlines := func(t *bufio.Reader) error {
 		for index = 1; index <= opt.Number; index++ {
-			line, err = t.ReadString('\n')
-
-			if err != nil {
-				if err == io.EOF {
-					newline = true
-				} else {
-					fmt.Println("cugo: head:", err)
-					return err
-				}
+			if line, err = t.ReadString('\n'); err != nil && err != io.EOF {
+				return err
 			}
 
-			fmt.Printf(line)
+			if _, err = fmt.Printf(line); err != nil {
+				return err
+			}
 		}
 
 		return nil
@@ -70,10 +62,6 @@ func (opt *Options) Head(operands []string) error {
 				return err
 			}
 		}
-	}
-
-	if newline {
-		fmt.Printf("\n")
 	}
 
 	return nil

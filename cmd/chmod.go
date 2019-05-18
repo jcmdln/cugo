@@ -5,6 +5,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/chmod"
 	"github.com/jcmdln/flagger"
@@ -28,8 +30,13 @@ func (u *chmodCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *chmodCmd) Action(s []string, flags *flagger.Flags) error {
-	data, err := flags.Parse(s)
-	if err != nil {
+	var (
+		err  error
+		data []string
+	)
+
+	if data, err = flags.Parse(s); err != nil {
+		err = fmt.Errorf("%s: %s", u.name, err)
 		return err
 	}
 
@@ -37,7 +44,7 @@ func (u *chmodCmd) Action(s []string, flags *flagger.Flags) error {
 		help.Help(u.name, u.usage, u.description, flags)
 	}
 
-	if err := u.Chmod(data); err != nil {
+	if err = u.Chmod(data); err != nil {
 		return err
 	}
 

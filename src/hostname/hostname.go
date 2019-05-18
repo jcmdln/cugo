@@ -14,9 +14,14 @@ import (
 )
 
 func (opt *Options) Hostname(hostname string) error {
+	var (
+		err  error
+		name string
+		uid  int
+	)
+
 	if len(hostname) < 1 {
-		name, err := os.Hostname()
-		if err != nil {
+		if name, err = os.Hostname(); err != nil {
 			return err
 		}
 
@@ -25,15 +30,16 @@ func (opt *Options) Hostname(hostname string) error {
 			name = s[0]
 		}
 
-		fmt.Printf("%s\n", name)
+		if _, err = fmt.Printf("%s\n", name); err != nil {
+			return err
+		}
 	} else {
-		uid := unix.Getuid()
-		if uid != 0 {
-			err := errors.New("hostname: you must be root to change the hostname")
+		if uid = unix.Getuid(); uid != 0 {
+			err = errors.New("hostname: you must be root to change the hostname")
 			return err
 		}
 
-		if err := SetHostname([]byte(hostname)); err != nil {
+		if err = SetHostname([]byte(hostname)); err != nil {
 			return err
 		}
 	}

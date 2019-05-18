@@ -5,37 +5,46 @@
 package cat
 
 import (
+	"errors"
 	"io"
 	"os"
 )
 
 func (opt *Options) Cat(operands []string) error {
 	var (
-		operand string
-		file    io.Reader
 		buffer  []byte
-		buff    = make([]byte, 4096)
-		unbuff  = make([]byte, 1)
 		err     error
+		file    io.Reader
+		operand string
 	)
 
 	if opt.Unbuffered {
-		buffer = unbuff
+		buffer = make([]byte, 1)
 	} else {
-		buffer = buff
+		buffer = make([]byte, 4096)
+	}
+
+	cat := func(in io.Reader) error {
+		if _, err = io.CopyBuffer(os.Stdout, in, buffer); err != nil {
+			err = errors.New("cat: /: is a directory")
+			return err
+		}
+
+		return nil
 	}
 
 	if len(operands) == 0 {
-		if _, err = io.CopyBuffer(os.Stdout, os.Stdin, buffer); err != nil {
+		if err = cat(os.Stdin); err != nil {
 			return err
 		}
 	} else {
 		for _, operand = range operands {
 			if file, err = os.Open(operand); err != nil {
+				err = errors.New("cat: no such file or directory")
 				return err
 			}
 
-			if _, err = io.CopyBuffer(os.Stdout, file, buffer); err != nil {
+			if err = cat(file); err != nil {
 				return err
 			}
 		}

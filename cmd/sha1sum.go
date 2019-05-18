@@ -5,6 +5,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/sha1sum"
 	"github.com/jcmdln/flagger"
@@ -27,14 +29,24 @@ func (u *sha1sumCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *sha1sumCmd) Action(s []string, flags *flagger.Flags) error {
-	if data, err := flags.Parse(s); err != nil {
-		u.Sha1sum(data)
-	} else {
-		if u.help {
-			help.Help(u.name, u.usage, u.description, flags)
-		}
+	var (
+		err  error
+		data []string
+	)
 
-		u.Sha1sum(data)
+	if data, err = flags.Parse(s); err != nil {
+		if err.Error() != "missing operand" {
+			err = fmt.Errorf("%s: %s", u.name, err)
+			return err
+		}
+	}
+
+	if u.help {
+		help.Help(u.name, u.usage, u.description, flags)
+	}
+
+	if err = u.Sha1sum(data); err != nil {
+		return err
 	}
 
 	return nil

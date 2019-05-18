@@ -5,6 +5,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/cat"
 	"github.com/jcmdln/flagger"
@@ -28,9 +30,14 @@ func (u *catCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *catCmd) Action(s []string, flags *flagger.Flags) error {
-	data, err := flags.Parse(s)
-	if err != nil {
-		if err := u.Cat(data); err != nil {
+	var (
+		err  error
+		data []string
+	)
+
+	if data, err = flags.Parse(s); err != nil {
+		if err.Error() != "missing operand" {
+			err = fmt.Errorf("%s: %s", u.name, err)
 			return err
 		}
 	}
@@ -39,7 +46,7 @@ func (u *catCmd) Action(s []string, flags *flagger.Flags) error {
 		help.Help(u.name, u.usage, u.description, flags)
 	}
 
-	if err := u.Cat(data); err != nil {
+	if err = u.Cat(data); err != nil {
 		return err
 	}
 

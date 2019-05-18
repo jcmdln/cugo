@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-func (opt *Options) Mkdir(operands []string) {
+func (opt *Options) Mkdir(operands []string) error {
 	var (
 		dir  string
 		mode os.FileMode
@@ -21,24 +21,21 @@ func (opt *Options) Mkdir(operands []string) {
 	for _, dir = range operands {
 		if opt.Parents {
 			if err = os.MkdirAll(dir, mode); err != nil {
-				fmt.Printf("cugo: %s\n", err)
-				os.Exit(1)
-			}
-
-			if opt.Verbose {
-				fmt.Printf("cugo: mkdir: Created %s\n", dir)
+				return err
 			}
 		} else {
 			if err = os.Mkdir(dir, mode); err != nil {
-				fmt.Printf("cugo: %s\n", err)
-				os.Exit(1)
+				return err
 			}
+		}
 
-			if opt.Verbose {
-				fmt.Printf("cugo: mkdir: Created %s\n", dir)
+		if opt.Verbose {
+			_, err = fmt.Printf("cugo: mkdir: Created %s\n", dir)
+			if err != nil {
+				return err
 			}
 		}
 	}
 
-	os.Exit(0)
+	return nil
 }

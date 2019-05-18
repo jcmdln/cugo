@@ -5,6 +5,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/touch"
 	"github.com/jcmdln/flagger"
@@ -32,18 +34,22 @@ func (u *touchCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *touchCmd) Action(s []string, flags *flagger.Flags) error {
-	if data, err := flags.Parse(s); err != nil {
-		if err := u.Touch(data); err != nil {
-			return err
-		}
-	} else {
-		if u.help {
-			help.Help(u.name, u.usage, u.description, flags)
-		}
+	var (
+		err  error
+		data []string
+	)
 
-		if err := u.Touch(data); err != nil {
-			return err
-		}
+	if data, err = flags.Parse(s); err != nil {
+		err = fmt.Errorf("%s: %s", err)
+		return err
+	}
+
+	if u.help {
+		help.Help(u.name, u.usage, u.description, flags)
+	}
+
+	if err := u.Touch(data); err != nil {
+		return err
 	}
 
 	return nil

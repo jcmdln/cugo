@@ -12,23 +12,20 @@ import (
 // Groups ...
 func Groups(username string) error {
 	var (
+		err   error
 		gid   string
 		gids  []string
 		group *user.Group
+		out   string
 		usr   *user.User
-
-		err error
-		out string
 	)
 
 	if len(username) < 1 {
-		usr, err = user.Current()
-		if err != nil {
+		if usr, err = user.Current(); err != nil {
 			return err
 		}
 	} else {
-		usr, err = user.Lookup(username)
-		if err != nil {
+		if usr, err = user.Lookup(username); err != nil {
 			return err
 		}
 
@@ -47,7 +44,9 @@ func Groups(username string) error {
 		out += group.Name + " "
 	}
 
-	fmt.Printf("%s\n", out)
+	if _, err = fmt.Printf("%s\n", out); err != nil {
+		return err
+	}
 
 	return nil
 }

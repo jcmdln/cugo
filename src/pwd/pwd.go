@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 )
 
-func (opt *Options) Pwd() {
+func (opt *Options) Pwd() error {
 	var (
 		cwd string
 		dir string
@@ -19,19 +19,19 @@ func (opt *Options) Pwd() {
 
 	if !opt.L || opt.P {
 		if cwd, err = os.Getwd(); err != nil {
-			fmt.Printf("cugo: %s\n", err)
-			os.Exit(1)
+			return err
 		}
 
 		if dir, err = filepath.EvalSymlinks(cwd); err != nil {
-			fmt.Printf("cugo: %s\n", err)
-			os.Exit(1)
+			return err
 		}
 	} else {
 		dir = os.Getenv("PWD")
 	}
 
-	fmt.Printf("%s\n", dir)
+	if _, err = fmt.Printf("%s\n", dir); err != nil {
+		return err
+	}
 
-	os.Exit(0)
+	return nil
 }

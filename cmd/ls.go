@@ -5,6 +5,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/ls"
 	"github.com/jcmdln/flagger"
@@ -29,13 +31,23 @@ func (u *lsCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *lsCmd) Action(s []string, flags *flagger.Flags) error {
-	data, _ := flags.Parse(s)
+	var (
+		err  error
+		data []string
+	)
+
+	if data, err = flags.Parse(s); err != nil {
+		if err.Error() != "missing operand" {
+			err = fmt.Errorf("%s: %s", u.name, err)
+			return err
+		}
+	}
 
 	if u.help {
 		help.Help(u.name, u.usage, u.description, flags)
 	}
 
-	if err := u.Ls(data); err != nil {
+	if err = u.Ls(data); err != nil {
 		return err
 	}
 

@@ -13,73 +13,88 @@ import (
 	pr "github.com/jcmdln/cugo/lib/prompt"
 )
 
-func (opt *Options) Rm(operands []string) {
+func (opt *Options) Rm(operands []string) error {
 	var (
+		err     error
 		operand string
 		ostat   os.FileInfo
-		err     error
 	)
 
-	remove := func(target string) {
+	remove := func(target string) error {
 		if !opt.Force && opt.Interactive {
 			if pr.Prompt("Remove '" + target + "'?") {
 				if err = os.Remove(target); err != nil {
-					fmt.Printf("cugo: rm: %s\n", err)
-					os.Exit(1)
-				}
-
-				if opt.Verbose {
-					fmt.Printf("cugo: rm: Removed '%s'\n", target)
+					err = fmt.Errorf("rm: %s: ", err)
+					return err
 				}
 			}
 		} else {
 			if err = os.Remove(target); err != nil {
-				fmt.Printf("cugo: rm: %s\n", err)
-				os.Exit(1)
-			}
-
-			if opt.Verbose {
-				fmt.Printf("cugo: rm: Removed '%s'\n", target)
+				err = fmt.Errorf("rm: %s: ", err)
+				return err
 			}
 		}
+
+		if opt.Verbose {
+			fmt.Printf("cugo: rm: Removed '%s'\n", target)
+		}
+
+		return nil
 	}
 
 	for _, operand = range operands {
 		if ostat, err = os.Stat(operand); os.IsNotExist(err) {
-			fmt.Printf("cugo: rm %s: no such file or directory\n", operand)
-			os.Exit(1)
+			err = fmt.Errorf("rm: %s: no such file or directory", operand)
+			return err
 		}
 
 		if ostat.IsDir() {
 			if opt.Dir && em.Empty(operand) {
-				remove(operand)
+				if err = remove(operand); err != nil {
+					return err
+				}
 			}
 
 			if opt.Recursive {
 				for !em.Empty(operand) {
-					filepath.Walk(operand, func(target string, info os.FileInfo, err error) error {
+					if err = filepath.Walk(operand, func(target string, info os.FileInfo, err error) error {
 						if info.IsDir() {
 							if em.Empty(target) {
-								remove(target)
+								if err = remove(operand); err != nil {
+									return err
+								}
 							}
 						} else {
-							remove(target)
+							if err = remove(operand); err != nil {
+								err = fmt.Errorf("rm: %s: directory not empty", err)
+								return err
+							}
 						}
 
 						return nil
-					})
+					}); err != nil {
+						//err = fmt.Errorf("rm: walking filepath failed")
+						return err
+					}
 				}
 
 				if em.Empty(operand) {
-					remove(operand)
+					if err = remove(operand); err != nil {
+						err = fmt.Errorf("rm: %s", err)
+						return err
+					}
 				}
 			} else {
-				fmt.Printf("cugo: rm: '%s' is a directory\n", operand)
+				err = fmt.Errorf("rm: %s: is a directory", operand)
+				return err
 			}
 		} else {
-			remove(operand)
+			if err = remove(operand); err != nil {
+				err = fmt.Errorf("rm: %s: ", err)
+				return err
+			}
 		}
 	}
 
-	os.Exit(0)
+	return nil
 }

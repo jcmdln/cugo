@@ -12,23 +12,35 @@ import (
 )
 
 // Sha1sum ...
-func (opt *Options) Sha1sum(operands []string) {
+func (opt *Options) Sha1sum(operands []string) error {
 	var (
-		operand  string
 		contents []byte
 		data     []byte
 		err      error
+		operand  string
 	)
 
-	for _, operand = range operands {
-		if contents, err = ioutil.ReadFile(operand); err != nil {
-			fmt.Printf("cugo: %s\n", err)
-			os.Exit(1)
+	if len(operands) < 1 {
+		if contents, err = ioutil.ReadAll(os.Stdin); err != nil {
+			return err
 		}
 
 		data = []byte(contents)
-		fmt.Printf("%x  %s\n", sha1.Sum(data), operand)
+		if _, err = fmt.Printf("%x  -\n", sha1.Sum(data)); err != nil {
+			return err
+		}
+	} else {
+		for _, operand = range operands {
+			if contents, err = ioutil.ReadFile(operand); err != nil {
+				return err
+			}
+
+			data = []byte(contents)
+			if _, err = fmt.Printf("%x  %s\n", sha1.Sum(data), operand); err != nil {
+				return err
+			}
+		}
 	}
 
-	os.Exit(0)
+	return nil
 }

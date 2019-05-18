@@ -11,16 +11,24 @@ import (
 
 // Count prints the number of arguments passed to it.
 func Count(operands []string) error {
+	var (
+		err   error
+		index int
+		total int
+	)
+
 	if len(operands) < 1 {
-		err := errors.New("count: too few operands")
+		err = errors.New("count: too few operands")
 		return err
 	}
 
-	var total int
-	for i := range operands {
-		total = i + 1
+	for index = range operands {
+		total = index + 1
 	}
-	fmt.Printf("%v\n", total)
+
+	if _, err = fmt.Printf("%v\n", total); err != nil {
+		return err
+	}
 
 	return nil
 }

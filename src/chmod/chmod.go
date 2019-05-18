@@ -14,15 +14,16 @@ import (
 
 func (opt *Options) Chmod(operands []string) error {
 	var (
-		operand string
-		modeVal uint64
-		mode    os.FileMode
 		err     error
+		mode    os.FileMode
+		modeVal uint64
+		operand string
 	)
 
 	if modeVal, err = strconv.ParseUint(operands[0], 8, 32); err != nil {
 		return err
 	}
+
 	mode = os.FileMode(modeVal)
 
 	for _, operand = range operands[1:] {
@@ -35,6 +36,7 @@ func (opt *Options) Chmod(operands []string) error {
 				if err = os.Chmod(s, mode); err != nil {
 					return err
 				}
+
 				return nil
 			}); err != nil {
 				return err

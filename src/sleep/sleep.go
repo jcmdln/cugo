@@ -5,17 +5,15 @@
 package sleep
 
 import (
-	"fmt"
-	"os"
 	"strings"
 	"time"
 )
 
-func Sleep(operands []string) {
+func Sleep(operands []string) error {
 	var (
-		opt string
 		dur time.Duration
 		err error
+		opt string
 	)
 
 	for _, opt = range operands {
@@ -24,12 +22,11 @@ func Sleep(operands []string) {
 		}
 
 		if dur, err = time.ParseDuration(opt); err != nil {
-			fmt.Printf("cugo: %s\n", err)
-			os.Exit(1)
+			return err
 		}
 
 		time.Sleep(dur)
 	}
 
-	os.Exit(0)
+	return nil
 }

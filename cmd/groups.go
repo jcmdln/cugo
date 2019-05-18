@@ -5,6 +5,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/groups"
 	"github.com/jcmdln/flagger"
@@ -27,21 +29,29 @@ func (u *groupsCmd) Prepare(flags *flagger.Flags) {
 
 func (u *groupsCmd) Action(s []string, flags *flagger.Flags) error {
 	var (
+		data []string
+		err  error
 		user string
 	)
 
-	users, _ := flags.Parse(s)
-	if len(users) < 1 {
+	if data, err = flags.Parse(s); err != nil {
+		if err.Error() != "missing operand" {
+			err = fmt.Errorf("%s: %s", u.name, err)
+			return err
+		}
+	}
+
+	if len(data) < 1 {
 		user = ""
 	} else {
-		user = users[0]
+		user = data[0]
 	}
 
 	if u.help {
 		help.Help(u.name, u.usage, u.description, flags)
 	}
 
-	if err := groups.Groups(user); err != nil {
+	if err = groups.Groups(user); err != nil {
 		return err
 	}
 

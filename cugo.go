@@ -12,39 +12,13 @@ package main
 import (
 	"fmt"
 	"os"
-	"sort"
 
 	"github.com/jcmdln/cugo/cmd"
-	"github.com/jcmdln/cugo/lib/term"
 )
 
 func main() {
-	var (
-		width int
-	)
-
 	if err := cmd.Command.Parse(os.Args[1:]); err != nil {
-		fmt.Println("cugo: error:", err)
-		fmt.Printf("\nAvailable Commands:\n")
-
-		list := cmd.Command.List()
-		sort.Strings(list)
-
-		tw, _, _ := term.Size(int(os.Stdout.Fd()))
-		for i, c := range list {
-			if len(c)+width > int(tw) {
-				fmt.Printf("\n")
-				width = 0
-			}
-
-			fmt.Printf("%s ", c)
-			width += len(c) + len(" ")
-
-			if i+1 == len(list) {
-				fmt.Println()
-			}
-		}
-
+		fmt.Println(err)
 		os.Exit(1)
 	}
 

@@ -10,7 +10,6 @@ import (
 	"os"
 )
 
-func (opt *Options) Tail(operands []string) {
-
-	os.Exit(0)
+func (opt *Options) Tail(operands []string) error {
+	return nil
 }

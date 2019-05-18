@@ -6,51 +6,53 @@ package uname
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"golang.org/x/sys/unix"
 )
 
-func (opt *Options) Uname() {
+func (opt *Options) Uname() error {
 	var (
+		err   error
+		out   []string
 		uname unix.Utsname
-		list  []string
 	)
 
-	if err := unix.Uname(&uname); err != nil {
-		fmt.Printf("cugo: uname: %s\n", err)
+	if err = unix.Uname(&uname); err != nil {
+		return err
 	}
 
-	if opt.All {
-		fmt.Printf("%s %s %s %s %s\n", uname.Sysname, uname.Nodename,
-			uname.Release, uname.Version, uname.Machine)
-		os.Exit(0)
-	}
-
-	if !opt.All && !opt.Sysname && !opt.Nodename &&
-		!opt.Release && !opt.Version && !opt.Machine {
-		fmt.Printf("%s\n", uname.Sysname)
-		os.Exit(0)
+	if !opt.All && !opt.Nodename && !opt.Release && !opt.Version && !opt.Machine {
+		opt.Sysname = true
+	} else {
+		if opt.All {
+			opt.Sysname = true
+			opt.Nodename = true
+			opt.Release = true
+			opt.Version = true
+			opt.Machine = true
+		}
 	}
 
 	if opt.Sysname {
-		list = append(list, string(uname.Sysname[:]))
+		out = append(out, string(uname.Sysname[:]))
 	}
 	if opt.Nodename {
-		list = append(list, string(uname.Nodename[:]))
+		out = append(out, string(uname.Nodename[:]))
 	}
 	if opt.Release {
-		list = append(list, string(uname.Release[:]))
+		out = append(out, string(uname.Release[:]))
 	}
 	if opt.Version {
-		list = append(list, string(uname.Version[:]))
+		out = append(out, string(uname.Version[:]))
 	}
 	if opt.Machine {
-		list = append(list, string(uname.Machine[:]))
+		out = append(out, string(uname.Machine[:]))
 	}
 
-	fmt.Printf("%s\n", strings.Join(list, " "))
+	if _, err = fmt.Printf("%s\n", strings.Join(out, " ")); err != nil {
+		return err
+	}
 
-	os.Exit(0)
+	return nil
 }

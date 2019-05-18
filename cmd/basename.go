@@ -5,6 +5,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/basename"
 	"github.com/jcmdln/flagger"
@@ -26,8 +28,13 @@ func (u *basenameCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *basenameCmd) Action(s []string, flags *flagger.Flags) error {
-	data, err := flags.Parse(s)
-	if err != nil {
+	var (
+		err  error
+		data []string
+	)
+
+	if data, err = flags.Parse(s); err != nil {
+		err = fmt.Errorf("%s: %s", u.name, err)
 		return err
 	}
 
@@ -35,7 +42,7 @@ func (u *basenameCmd) Action(s []string, flags *flagger.Flags) error {
 		help.Help(u.name, u.usage, u.description, flags)
 	}
 
-	if err := basename.Basename(data); err != nil {
+	if err = basename.Basename(data); err != nil {
 		return err
 	}
 

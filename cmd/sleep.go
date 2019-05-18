@@ -5,6 +5,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/sleep"
 	"github.com/jcmdln/flagger"
@@ -27,11 +29,12 @@ func (u *sleepCmd) Prepare(flags *flagger.Flags) {
 
 func (u *sleepCmd) Action(s []string, flags *flagger.Flags) error {
 	var (
-		data []string
 		err  error
+		data []string
 	)
 
 	if data, err = flags.Parse(s); err != nil {
+		err = fmt.Errorf("%s: %s", u.name, err)
 		return err
 	}
 
@@ -39,7 +42,9 @@ func (u *sleepCmd) Action(s []string, flags *flagger.Flags) error {
 		help.Help(u.name, u.usage, u.description, flags)
 	}
 
-	sleep.Sleep(data)
+	if err = sleep.Sleep(data); err != nil {
+		return err
+	}
 
 	return nil
 }

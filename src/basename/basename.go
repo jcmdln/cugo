@@ -14,9 +14,9 @@ import (
 // implementations.
 func Basename(operand []string) error {
 	// If an empty string is passed, it causes a panic. Catch whether
-	// the length of 'operand' is 0, and print a newline.
+	// the length of 'operand' is less than one, and print a newline.
 	if len(operand) < 1 {
-		fmt.Println("")
+		fmt.Printf("\n")
 	} else {
 		s := filepath.Base(operand[0])
 		if _, err := fmt.Printf("%s\n", s); err != nil {

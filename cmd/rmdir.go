@@ -5,6 +5,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/rmdir"
 	"github.com/jcmdln/flagger"
@@ -29,16 +31,22 @@ func (u *rmdirCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *rmdirCmd) Action(s []string, flags *flagger.Flags) error {
-	if data, err := flags.Parse(s); err != nil {
-		return err
-	} else {
-		if u.help {
-			help.Help(u.name, u.usage, u.description, flags)
-		}
+	var (
+		data []string
+		err  error
+	)
 
-		if err := u.Rmdir(data); err != nil {
-			return err
-		}
+	if data, err = flags.Parse(s); err != nil {
+		err = fmt.Errorf("%s: %s", u.name, err)
+		return err
+	}
+
+	if u.help {
+		help.Help(u.name, u.usage, u.description, flags)
+	}
+
+	if err = u.Rmdir(data); err != nil {
+		return err
 	}
 
 	return nil
