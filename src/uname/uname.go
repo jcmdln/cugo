@@ -29,7 +29,7 @@ func (opt *Options) Uname() error {
 			opt.Sysname = true
 			opt.Nodename = true
 			opt.Release = true
-			//opt.Version = true
+			opt.Version = true
 			opt.Machine = true
 		}
 	}
