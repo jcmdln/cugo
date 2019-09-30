@@ -11,7 +11,7 @@
 // DESCRIPTION
 //
 // ls receives operands and may display the name (or other information)
-// of the provided file or directory. For each named directory, ls
+// of the provided file or directory.  For each named directory, ls
 // displays the names of files contained within that directory as well
 // as any requested, associated information.
 //

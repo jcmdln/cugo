@@ -11,7 +11,7 @@
 // DESCRIPTION
 //
 // touch sets the modification and access times of files to the current
-// time of day. If the file doesn't exist, it is created with default
+// time of day.  If the file doesn't exist, it is created with default
 // permissions.
 //
 // The options are as follows:

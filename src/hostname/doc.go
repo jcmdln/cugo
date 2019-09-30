@@ -11,7 +11,7 @@
 // DESCRIPTION
 //
 // hostname utility is used to set or print the name of the current
-// host. If no argument is given, the name of the current host is
+// host.  If no argument is given, the name of the current host is
 // printed.
 //
 // The options are as follows:

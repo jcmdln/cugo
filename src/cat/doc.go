@@ -10,9 +10,9 @@
 //
 // DESCRIPTION
 //
-// cat reads files sequentially, writing them to standard out. the FILE
-// operands are processed in the provided order. If FILE is a single
-// dash ('-') or absent, cat reads from standard in.
+// cat reads files sequentially, writing them to stdout.  The FILE
+// operands are processed in the provided order.  If FILE is a single
+// dash ('-') or absent, cat reads from stdin.
 //
 // The options are as follows:
 //

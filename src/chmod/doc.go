@@ -11,9 +11,9 @@
 // DESCRIPTION
 //
 // Chmod changes the file mode bits of provided files as specified by
-// the mode operand. The mode of a file dictates its permissions, among
-// other attributes. Currently the only supported mode operand uses
-// octal numbers from 0 to 7.
+// the MODE operand.  The MODE of a file determines the permissions and
+// attributes of the file in question.  Currently the only supported
+// MODE operand format requires using octal numbers from 0 to 7.
 //
 // The options are as follows:
 //

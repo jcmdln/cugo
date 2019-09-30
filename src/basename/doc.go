@@ -11,9 +11,9 @@
 // DESCRIPTION
 //
 // basename deletes any prefix ending with the last slash (‘/’)
-// character present in string, and a suffix, if given. The resulting
-// filename is written to the standard output. A non-existent suffix is
-// ignored.
+// character present in string, and a suffix, if given.  The resulting
+// filename is written to the standard output.  A non-existent suffix
+// is ignored.
 //
 // SEE ALSO
 //

@@ -10,8 +10,8 @@
 //
 // DESCRIPTION
 //
-// groups displays the groups to which you (or the optionally specified
-// user) belong.
+// groups displays the groups to which yourself, or a USER if
+// optionally specified, belong.
 //
 // SEE ALSO
 //

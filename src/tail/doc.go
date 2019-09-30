@@ -21,7 +21,7 @@
 //     -c        The location is NUMBER bytes.
 //
 //     -f        When reaching EOF, wait for additional data to be
-//               appended to the input. If the file is replaced, tail
+//               appended to the input.  If the file is replaced, tail
 //               will re-open the file and continue.
 //
 //     -n        The location is NUMBER lines.

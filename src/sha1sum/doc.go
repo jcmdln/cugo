@@ -10,7 +10,7 @@
 //
 // DESCRIPTION
 //
-// sha1sum prints or checks SHA1 checksums. If no file is given in the
+// sha1sum prints or checks SHA1 checksums.  If no file is given in the
 // operands, read standard input.
 //
 // SEE ALSO

@@ -10,7 +10,7 @@
 //
 // DESCRIPTION
 //
-// sha256sum prints or checks SHA256 checksums. If no file is given in
+// sha256sum prints or checks SHA256 checksums.  If no file is given in
 // the operands, read standard input.
 //
 // SEE ALSO

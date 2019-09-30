@@ -13,7 +13,7 @@ import (
 // item of the []string to filepath.Base to mimic the behavior of other
 // implementations.
 func Basename(operand []string) error {
-	// If an empty string is passed, it causes a panic. Catch whether
+	// If an empty string is passed, it causes a panic.  Catch whether
 	// the length of 'operand' is less than one, and print a newline.
 	if len(operand) < 1 {
 		fmt.Printf("\n")

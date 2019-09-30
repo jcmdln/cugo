@@ -10,7 +10,7 @@
 //
 // DESCRIPTION
 //
-// true always returns with exit code 0.
+// true always returns a zero exit code.
 //
 // SEE ALSO
 //

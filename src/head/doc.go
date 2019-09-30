@@ -11,7 +11,7 @@
 // DESCRIPTION
 //
 // head copies the first NUMBER of lines of each specified FILE to
-// stdout. If no files are named, head copies lines from stdin. If
+// stdout.  If no files are named, head copies lines from stdin.  If
 // NUMBER is omitted, it defaults to 10.
 //
 // The options are as follows:
