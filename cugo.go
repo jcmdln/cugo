@@ -12,13 +12,30 @@ package main
 import (
 	"fmt"
 	"os"
+	"sort"
 
 	"github.com/jcmdln/cugo/cmd"
 )
 
 func main() {
 	if err := cmd.Command.Parse(os.Args[1:]); err != nil {
-		fmt.Println(err)
+		var (
+			s, c string
+			l    []string
+			i    int
+		)
+
+		l = cmd.Command.List()
+		sort.Strings(l)
+
+		for i, c = range l {
+			s += c
+			if i != len(l)-1 {
+				s += " "
+			}
+		}
+
+		fmt.Printf("%s\n\nAvailable commands:\n%s\n", err, s)
 		os.Exit(1)
 	}
 
