@@ -21,6 +21,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/basename
-//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/basename.html
+//     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/basename.html
+//
 package basename

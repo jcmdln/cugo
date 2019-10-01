@@ -18,6 +18,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/true
-//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/true.html
+//     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/true.html
+//
 package true

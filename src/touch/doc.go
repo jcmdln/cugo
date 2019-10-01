@@ -37,6 +37,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/touch
-//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/touch.html
+//     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/touch.html
+//
 package touch

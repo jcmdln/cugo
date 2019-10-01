@@ -2,7 +2,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// display first few lines of files
+// display the first few lines of files
 //
 // SYNOPSIS
 //
@@ -24,6 +24,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/head
-//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/head.html
+//     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/head.html
+//
 package head

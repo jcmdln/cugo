@@ -19,6 +19,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/whoami
 //     https://linux.die.net/man/1/whoami
+//
 package whoami

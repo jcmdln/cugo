@@ -19,6 +19,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/yes
 //     https://linux.die.net/man/1/yes
+//
 package yes

@@ -24,6 +24,7 @@
 //
 // REFERENCES
 //
-//     https://man.openbsd.org/cat
 //     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/cat.html
+//     http://harmful.cat-v.org/cat-v/
+//
 package cat

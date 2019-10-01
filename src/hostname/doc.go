@@ -24,6 +24,7 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/hostname
-//     https://linux.die.net/man/1/hostname
+//     https://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/hostname.html
+//     https://man.openbsd.org/hostname.1
+//
 package hostname

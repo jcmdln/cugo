@@ -32,6 +32,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/tail
-//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/tail.html
+//     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/tail.html
+//
 package tail

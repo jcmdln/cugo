@@ -20,4 +20,5 @@
 // REFERENCES
 //
 //     https://linux.die.net/man/1/sha512sum
+//
 package sha512sum

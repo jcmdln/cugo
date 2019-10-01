@@ -49,6 +49,6 @@
 //
 // REFERENCES
 //
-//     https://man.openbsd.org/ls
 //     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/ls.html
+//
 package ls

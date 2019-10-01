@@ -22,6 +22,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/sleep
-//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/sleep.html
+//     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/sleep.html
+//
 package sleep

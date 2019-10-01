@@ -25,6 +25,6 @@
 //
 // REFERENCES
 //
-// 	   http://man.openbsd.org/chmod
-// 	   http://pubs.opengroup.org/onlinepubs/9699919799/utilities/chmod.html
+// 	   https://pubs.opengroup.org/onlinepubs/9699919799/utilities/chmod.html
+//
 package chmod

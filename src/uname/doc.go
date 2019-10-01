@@ -36,6 +36,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/uname
-//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/uname.html
+//     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/uname.html
+//
 package uname

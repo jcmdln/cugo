@@ -28,6 +28,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/mkdir
-//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/mkdir.html
+//     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/mkdir.html
+//
 package mkdir

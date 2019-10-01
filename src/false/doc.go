@@ -10,7 +10,7 @@
 //
 // DESCRIPTION
 //
-// false always exits with a non-zero exit code.
+// false returns a non-zero exit code.
 //
 // SEE ALSO
 //
@@ -18,6 +18,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/false
-//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/false.html
+//     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/false.html
+//
 package false

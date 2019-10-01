@@ -10,8 +10,8 @@
 //
 // DESCRIPTION
 //
-// groups displays the groups to which yourself, or a USER if
-// optionally specified, belong.
+// groups displays the groups to which yourself, or a USER if 
+// specified, belong.
 //
 // SEE ALSO
 //
@@ -19,6 +19,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/groups
-//     http://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/groups.html
+//     https://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/groups.html
+//
 package groups

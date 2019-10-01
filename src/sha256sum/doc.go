@@ -20,4 +20,5 @@
 // REFERENCES
 //
 //     https://linux.die.net/man/1/sha256sum
+//
 package sha256sum

@@ -26,6 +26,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/pwd
-//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/pwd.html
+//     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/pwd.html
+//
 package pwd

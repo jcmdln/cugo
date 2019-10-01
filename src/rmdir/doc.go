@@ -28,6 +28,6 @@
 //
 // REFERENCES
 //
-//     http://man.openbsd.org/rmdir
-//     http://pubs.opengroup.org/onlinepubs/9699919799/utilities/rmdir.html
+//     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/rmdir.html
+//
 package rmdir
