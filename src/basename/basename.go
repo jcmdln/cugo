@@ -26,7 +26,7 @@ func Basename(operand string, suffix string) (string, error) {
 		s = filepath.Base(operand)
 
 		if len(suffix) > 0 {
-			s = strings.Trim(s, suffix)[0]
+			s = strings.Trim(s, suffix)
 		}
 
 		s += "\n"
