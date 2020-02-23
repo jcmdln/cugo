@@ -29,8 +29,11 @@ func (u *basenameCmd) Prepare(flags *flagger.Flags) {
 
 func (u *basenameCmd) Action(s []string, flags *flagger.Flags) error {
 	var (
-		err  error
-		data []string
+		data    []string
+		err     error
+		operand string
+		suffix  string
+		ret     string
 	)
 
 	if data, err = flags.Parse(s); err != nil {
@@ -42,9 +45,27 @@ func (u *basenameCmd) Action(s []string, flags *flagger.Flags) error {
 		help.Help(u.name, u.usage, u.description, flags)
 	}
 
-	if err = basename.Basename(data); err != nil {
+	dataLen := len(data)
+	switch {
+	case dataLen < 1:
+		err = fmt.Errorf("%s: missing operand", u.name)
+		return err
+	case dataLen > 2:
+		err = fmt.Errorf("%s: extra operands", u.name)
+		return err
+	case dataLen == 2:
+		operand = data[0]
+		suffix = data[1]
+	default:
+		operand = data[0]
+		suffix = ""
+	}
+
+	if ret, err = basename.Basename(operand, suffix); err != nil {
 		return err
 	}
+
+	fmt.Printf("%s", ret)
 
 	return nil
 }

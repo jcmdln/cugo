@@ -5,24 +5,32 @@
 package basename
 
 import (
-	"fmt"
 	"path/filepath"
+	"strings"
 )
 
-// Basename receives any number of operands, but only passes the first
-// item of the []string to filepath.Base to mimic the behavior of other
-// implementations.
-func Basename(operand []string) error {
-	// If an empty string is passed, it causes a panic.  Catch whether
-	// the length of 'operand' is less than one, and print a newline.
+// Basename returns the non-directory portion of a pathname by
+// deleting any prefix ending with the last slash (‘/’), and a suffix
+// if given which may be an empty string if not required.
+func Basename(operand string, suffix string) (string, error) {
+	var (
+		s string
+	)
+
+	// If an empty string is passed as the operand, it causes a panic.
+	// Catch whether the length of 'operand' is less than one, and
+	// print a newline.
 	if len(operand) < 1 {
-		fmt.Printf("\n")
+		s = "\n"
 	} else {
-		s := filepath.Base(operand[0])
-		if _, err := fmt.Printf("%s\n", s); err != nil {
-			return err
+		s = filepath.Base(operand)
+
+		if len(suffix) > 0 {
+			s = strings.Trim(s, suffix)[0]
 		}
+
+		s += "\n"
 	}
 
-	return nil
+	return s, nil
 }
