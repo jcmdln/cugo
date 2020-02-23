@@ -6,12 +6,12 @@
 //
 // SYNOPSIS
 //
-//     basename string [suffix]
+//     basename STRING [suffix]
 //
 // DESCRIPTION
 //
 // basename deletes any prefix ending with the last slash (‘/’)
-// character present in string, and a suffix, if given.  The resulting
+// character present in STRING, and a suffix, if given.  The resulting
 // filename is written to the standard output.  A non-existent suffix
 // is ignored.
 //
