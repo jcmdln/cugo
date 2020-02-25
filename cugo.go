@@ -32,29 +32,30 @@ func main() {
 	if err = cmd.Command.Parse(os.Args[1:]); err != nil {
 		fmt.Printf("error: %s\n", err)
 
-		if termWidth, _, err = term.Size(int(os.Stdin.Fd())); err != nil {
-			fmt.Print(err)
-			os.Exit(1)
-		}
+		if len(os.Args) < 2 {
+			fmt.Printf("\nAvailable commands:\n")
 
-		commandList = cmd.Command.List()
-		sort.Strings(commandList)
-
-		fmt.Printf("\nAvailable commands:\n")
-
-		for index, command = range commandList {
-			if len(currentLine)+len(command) >= termWidth {
-				fmt.Printf("%s\n", currentLine)
-				currentLine = ""
+			if termWidth, _, err = term.Size(int(os.Stdin.Fd())); err != nil {
+				fmt.Print(err)
+				os.Exit(1)
 			}
 
-			currentLine += command
-			if index != len(commandList)-1 {
-				currentLine += " "
-			}
-		}
+			commandList = cmd.Command.List()
+			sort.Strings(commandList)
 
-		fmt.Printf("%s\n", currentLine)
+			for index, command = range commandList {
+				if len(currentLine)+len(command) >= termWidth {
+					fmt.Printf("%s\n", currentLine)
+					currentLine = ""
+				}
+
+				currentLine += command
+				if index != len(commandList)-1 {
+					currentLine += " "
+				}
+			}
+			fmt.Printf("%s\n", currentLine)
+		}
 
 		os.Exit(1)
 	}
