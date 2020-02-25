@@ -23,7 +23,6 @@ type basenameCmd struct {
 func (u *basenameCmd) Prepare(flags *flagger.Flags) {
 	u.name, u.usage = "basename", "STRING [SUFFIX]"
 	u.description = "Return non-directory portion of a pathname"
-
 	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
 }
 
@@ -65,7 +64,9 @@ func (u *basenameCmd) Action(s []string, flags *flagger.Flags) error {
 		return err
 	}
 
-	fmt.Printf("%s", ret)
+	if _, err = fmt.Printf("%s", ret); err != nil {
+		return err
+	}
 
 	return nil
 }
