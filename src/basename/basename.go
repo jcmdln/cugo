@@ -13,24 +13,9 @@ import (
 // deleting any prefix ending with the last slash (‘/’), and a suffix
 // if given which may be an empty string if not required.
 func Basename(operand string, suffix string) (string, error) {
-	var (
-		s string
-	)
-
-	// If an empty string is passed as the operand, it causes a panic.
-	// Catch whether the length of 'operand' is less than one, and
-	// print a newline.
-	if len(operand) < 1 {
-		s = "\n"
-	} else {
-		s = filepath.Base(operand)
-
-		if len(suffix) > 0 {
-			s = strings.Trim(s, suffix)
-		}
-
-		s += "\n"
-	}
-
+	var s string
+	s = filepath.Base(operand)
+	s = strings.Trim(s, suffix)
+	s += "\n"
 	return s, nil
 }
