@@ -23,10 +23,8 @@ func (opt *Options) Mkdir(operands []string) error {
 			if err = os.MkdirAll(dir, mode); err != nil {
 				return err
 			}
-		} else {
-			if err = os.Mkdir(dir, mode); err != nil {
-				return err
-			}
+		} else if err = os.Mkdir(dir, mode); err != nil {
+			return err
 		}
 
 		if opt.Verbose {
