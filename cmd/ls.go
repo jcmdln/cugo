@@ -25,8 +25,10 @@ func (u *lsCmd) Prepare(flags *flagger.Flags) {
 	u.name, u.usage = "ls", "[-aR] TARGET ..."
 	u.description = "List directory contents"
 
-	flags.BoolVar(&u.All, "Show all entries other than '.' and '..'", "-A")
-	flags.BoolVar(&u.Recursive, "Recursively list directories and their entries", "-R")
+	flags.BoolVar(&u.All,
+		"Show all entries other than '.' and '..'", "-A")
+	flags.BoolVar(&u.Recursive,
+		"Recursively list directories and their entries", "-R")
 	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
 }
 
@@ -36,11 +38,9 @@ func (u *lsCmd) Action(s []string, flags *flagger.Flags) error {
 		data []string
 	)
 
-	if data, err = flags.Parse(s); err != nil {
-		if err.Error() != "missing operand" {
-			err = fmt.Errorf("%s: %s", u.name, err)
-			return err
-		}
+	if data, err = flags.Parse(s); err.Error() != "missing operand" {
+		err = fmt.Errorf("%s: %s", u.name, err)
+		return err
 	}
 
 	if u.help {
