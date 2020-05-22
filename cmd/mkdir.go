@@ -46,7 +46,7 @@ func (u *mkdirCmd) Action(s []string, flags *flagger.Flags) error {
 		help.Help(u.name, u.usage, u.description, flags)
 	}
 
-	if err = u.Mkdir(data); err != nil {
+	if _, err = u.Mkdir(data); err != nil {
 		return err
 	}
 
