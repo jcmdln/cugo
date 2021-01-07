@@ -1,6 +1,6 @@
-// Copyright 2018 Johnathan C Maudlin
-// Use of this source code is governed by an MIT-style license that
-// may be found in the LICENSE file.
+// Copyright 2021 Johnathan C Maudlin
+// Use of this source code is governed by an MIT-style license that may
+// be found in the LICENSE file.
 
 package cmd
 
@@ -64,7 +64,7 @@ func (u *basenameCmd) Action(s []string, flags *flagger.Flags) error {
 		return err
 	}
 
-	if _, err = fmt.Printf("%s", ret); err != nil {
+	if _, err = fmt.Printf("%s\n", ret); err != nil {
 		return err
 	}
 
