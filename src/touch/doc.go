@@ -1,8 +1,8 @@
-// Copyright 2018 Johnathan C Maudlin
+// Copyright 2021 Johnathan C Maudlin
 // Use of this source code is governed by an MIT-style license that
 // may be found in the LICENSE file.
 
-// change file access and modification times
+// change file access and modification times.
 //
 // SYNOPSIS
 //
