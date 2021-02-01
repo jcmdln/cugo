@@ -43,10 +43,10 @@ func (u *trueCmd) Prepare(flags *flagger.Flags) {
 
 func (u *trueCmd) Action(s []string, flags *flagger.Flags) error {
 	var err error
+
 	if _, err = flags.Parse(s); err != nil {
 		if err.Error() != "missing operand" {
-			err = fmt.Errorf("%s: %s", u.name, err)
-			return err
+			return fmt.Errorf("%s: %s", u.name, err)
 		}
 	}
 

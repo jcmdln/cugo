@@ -43,13 +43,12 @@ func (u *sleepCmd) Prepare(flags *flagger.Flags) {
 
 func (u *sleepCmd) Action(s []string, flags *flagger.Flags) error {
 	var (
-		err  error
 		data []string
+		err  error
 	)
 
 	if data, err = flags.Parse(s); err != nil {
-		err = fmt.Errorf("%s: %s", u.name, err)
-		return err
+		return fmt.Errorf("%s: %s", u.name, err)
 	}
 
 	if u.help {

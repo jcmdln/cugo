@@ -45,8 +45,7 @@ func (u *mkdirCmd) Prepare(flags *flagger.Flags) {
 		"Create missing parent directories", "-p", "--parents")
 	flags.BoolVar(&u.Verbose,
 		"Display each created directory", "-v", "--verbose")
-	flags.BoolVar(&u.help,
-		"Show help output", "-h", "--help")
+	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
 }
 
 func (u *mkdirCmd) Action(s []string, flags *flagger.Flags) error {
@@ -56,8 +55,7 @@ func (u *mkdirCmd) Action(s []string, flags *flagger.Flags) error {
 	)
 
 	if data, err = flags.Parse(s); err != nil {
-		err = fmt.Errorf("%s: %s", u.name, err)
-		return err
+		return fmt.Errorf("%s: %s", u.name, err)
 	}
 
 	if u.help {

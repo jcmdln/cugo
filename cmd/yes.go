@@ -40,15 +40,20 @@ func (u *yesCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *yesCmd) Action(s []string, flags *flagger.Flags) error {
-	if data, err := flags.Parse(s); err != nil {
-		yes.Yes([]string{})
-	} else {
-		if u.help {
-			help.Help(u.name, u.usage, u.description, flags)
-		}
+	var (
+		data []string
+		err  error
+	)
 
-		yes.Yes(data)
+	if data, err = flags.Parse(s); err != nil {
+		yes.Yes([]string{})
 	}
+
+	if u.help {
+		help.Help(u.name, u.usage, u.description, flags)
+	}
+
+	yes.Yes(data)
 
 	return nil
 }

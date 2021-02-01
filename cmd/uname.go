@@ -53,8 +53,7 @@ func (u *unameCmd) Action(s []string, flags *flagger.Flags) error {
 
 	if _, err = flags.Parse(s); err != nil {
 		if err.Error() != "missing operand" {
-			err = fmt.Errorf("%s: %s", u.name, err)
-			return err
+			return fmt.Errorf("%s: %s", u.name, err)
 		}
 	}
 

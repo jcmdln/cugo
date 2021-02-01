@@ -43,6 +43,14 @@ func (u *whoamiCmd) Prepare(flags *flagger.Flags) {
 }
 
 func (u *whoamiCmd) Action(s []string, flags *flagger.Flags) error {
+	var err error
+
+	if _, err = flags.Parse(s); err != nil {
+		if err.Error() != "missing operand" {
+			return fmt.Errorf("%s: %s", u.name, err)
+		}
+	}
+
 	if u.help {
 		help.Help(u.name, u.usage, u.description, flags)
 	}

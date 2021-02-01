@@ -48,13 +48,14 @@ func (u *lsCmd) Prepare(flags *flagger.Flags) {
 
 func (u *lsCmd) Action(s []string, flags *flagger.Flags) error {
 	var (
-		err  error
 		data []string
+		err  error
 	)
 
-	if data, err = flags.Parse(s); err.Error() != "missing operand" {
-		err = fmt.Errorf("%s: %s", u.name, err)
-		return err
+	if data, err = flags.Parse(s); err != nil {
+		if err.Error() != "missing operand" {
+			return fmt.Errorf("%s: %s", u.name, err)
+		}
 	}
 
 	if u.help {

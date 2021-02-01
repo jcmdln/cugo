@@ -54,8 +54,7 @@ func (u *touchCmd) Action(s []string, flags *flagger.Flags) error {
 	)
 
 	if data, err = flags.Parse(s); err != nil {
-		err = fmt.Errorf("%s: %s", u.name, err)
-		return err
+		return fmt.Errorf("%s: %s", u.name, err)
 	}
 
 	if u.help {
