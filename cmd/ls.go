@@ -16,7 +16,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-// +build testing
+//go:build testing
 
 package cmd
 
@@ -25,46 +25,23 @@ import (
 
 	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/ls"
-	"github.com/jcmdln/flagger"
 )
 
 type lsCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 	ls.Options
 }
 
-func (u *lsCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "ls", "[-aR] TARGET ..."
-	u.description = "List directory contents"
-
-	flags.BoolVar(&u.All,
+func (u *lsCmd) Init() *flag.FlagSet {
+	ls := flag.NewFlagSet("ls", flag.ExitOnError)
+	ls.BoolVar(&u.All,
 		"Show all entries other than '.' and '..'", "-A")
-	flags.BoolVar(&u.Recursive,
-		"Recursively list directories and their entries", "-R")
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+	ls.BoolVar(&u.Recursive, "R",
+		"Recursively list directories and their entries")
+	return ls
 }
 
-func (u *lsCmd) Action(s []string, flags *flagger.Flags) error {
-	var (
-		data []string
-		err  error
-	)
-
-	if data, err = flags.Parse(s); err != nil {
-		if err.Error() != "missing operand" {
-			return fmt.Errorf("%s: %s", u.name, err)
-		}
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	if err = u.Ls(data); err != nil {
+func (u *lsCmd) Run(s []string) error {
+	if err := u.Ls(data); err != nil {
 		return err
 	}
 

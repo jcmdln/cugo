@@ -19,11 +19,9 @@
 package cmd
 
 import (
-	"fmt"
+	"flag"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/touch"
-	"github.com/jcmdln/flagger"
 )
 
 type touchCmd struct {
@@ -35,33 +33,20 @@ type touchCmd struct {
 	touch.Options
 }
 
-func (u *touchCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "touch", "[-acm] [-d ccyy-mm-ddTHH:MM:SS[.frac][Z]] [-r FILE] FILE ..."
-	u.description = "Change file access and modification times"
-
-	flags.BoolVar(&u.Access, "Change the access time", "-a")
-	flags.BoolVar(&u.Create, "Do not create missing files", "-c")
-	flags.StringVar(&u.Date, "", "Change access and modified time as RFC3339Nano", "-d")
-	flags.BoolVar(&u.Modified, "Change the modified time", "-m")
-	flags.StringVar(&u.Reference, "", "Use access and modified time of file", "-r")
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+func (u *touchCmd) Init() *flag.FlagSet {
+	touch := flag.NewFlagSet("touch", flag.ExitOnError)
+	touch.BoolVar(&u.Access, "a", false, "Change the access time")
+	touch.BoolVar(&u.Create, "c", false, "Do not create missing files")
+	touch.StringVar(&u.Date, "d", "",
+		"Change access and modified time as RFC3339Nano")
+	touch.BoolVar(&u.Modified, "m", false, "Change the modified time")
+	touch.StringVar(&u.Reference, "r", "",
+		"Use access and modified time of file")
+	return touch
 }
 
-func (u *touchCmd) Action(s []string, flags *flagger.Flags) error {
-	var (
-		err  error
-		data []string
-	)
-
-	if data, err = flags.Parse(s); err != nil {
-		return fmt.Errorf("%s: %s", u.name, err)
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	if err := u.Touch(data); err != nil {
+func (u *touchCmd) Run(s []string) error {
+	if err := u.Touch(s); err != nil {
 		return err
 	}
 
@@ -69,5 +54,5 @@ func (u *touchCmd) Action(s []string, flags *flagger.Flags) error {
 }
 
 func init() {
-	Command.Add("touch", &touchCmd{})
+	Commands["touch"] = &touchCmd{}
 }

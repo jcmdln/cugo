@@ -26,20 +26,59 @@ package main
 import (
 	"fmt"
 	"os"
+	"sort"
 
 	"github.com/jcmdln/cugo/cmd"
+	"github.com/jcmdln/cugo/lib/term"
 )
 
-func main() {
-	command := os.Args[1]
+func usage() {
+	var (
+		err         error
+		command     string
+		commands    []string
+		currentLine string
+		index       int
+		termWidth   int
+	)
 
-	if len(command) < 1 {
-		fmt.Println("error: missing subcommand")
+	fmt.Printf("usage: cugo [command] [options]\n\n")
+	fmt.Println("Subcommands:")
+	for k, _ := range cmd.Commands {
+		commands = append(commands, k)
+	}
+
+	sort.Strings(commands)
+
+	if termWidth, _, err = term.Size(int(os.Stdin.Fd())); err != nil {
+		fmt.Print(err)
 		os.Exit(1)
 	}
 
+	for index, command = range commands {
+		if len(currentLine)+len(command) >= termWidth {
+			fmt.Printf("%s\n", currentLine)
+			currentLine = ""
+		}
+
+		currentLine += command
+		if index != len(commands)-1 {
+			currentLine += " "
+		}
+	}
+	fmt.Printf("%s\n", currentLine)
+}
+
+func main() {
+	if len(os.Args) < 2 {
+		fmt.Println("error: missing subcommand")
+		usage()
+		os.Exit(1)
+	}
+
+	command := os.Args[1]
 	if command == "-h" {
-		fmt.Printf("usage: cugo [command] [options]\n")
+		usage()
 		os.Exit(0)
 	}
 

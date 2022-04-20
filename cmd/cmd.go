@@ -20,9 +20,9 @@ package cmd
 
 import "flag"
 
-type Commander interface {
+type Command interface {
 	Init() *flag.FlagSet
 	Run([]string) error
 }
 
-var Commands = make(map[string]Commander)
+var Commands = make(map[string]Command)

@@ -19,46 +19,22 @@
 package cmd
 
 import (
-	"fmt"
+	"flag"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/sha512sum"
-	"github.com/jcmdln/flagger"
 )
 
 type sha512sumCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 	sha512sum.Options
 }
 
-func (u *sha512sumCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "sha512sum", "[-bct] [FILE ...]"
-	u.description = "Compute and check SHA512 message digest"
-
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+func (u *sha512sumCmd) Init() *flag.FlagSet {
+	sha512sum := flag.NewFlagSet("sha512sum", flag.ExitOnError)
+	return sha512sum
 }
 
-func (u *sha512sumCmd) Action(s []string, flags *flagger.Flags) error {
-	var (
-		err  error
-		data []string
-	)
-
-	if data, err = flags.Parse(s); err != nil {
-		if err.Error() != "missing operand" {
-			return fmt.Errorf("%s: %s", u.name, err)
-		}
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	if err = u.Sha512sum(data); err != nil {
+func (u *sha512sumCmd) Run(s []string) error {
+	if err := u.Sha512sum(s); err != nil {
 		return err
 	}
 
@@ -66,5 +42,5 @@ func (u *sha512sumCmd) Action(s []string, flags *flagger.Flags) error {
 }
 
 func init() {
-	Command.Add("sha512sum", &sha512sumCmd{})
+	Commands["sha512sum"] = &sha512sumCmd{}
 }

@@ -19,49 +19,29 @@
 package cmd
 
 import (
-	"fmt"
+	"flag"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/rm"
-	"github.com/jcmdln/flagger"
 )
 
 type rmCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 	rm.Options
 }
 
-func (u *rmCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "rm", "[-dfiPRrv] FILE ..."
-	u.description = "Remove directory entries"
-
-	flags.BoolVar(&u.Dir, "Remove empty directories", "-d")
-	flags.BoolVar(&u.Force, "Skip prompts and ignore warnings", "-f")
-	flags.BoolVar(&u.Interactive, "Prompt before each removal", "-i")
-	flags.BoolVar(&u.Recursive, "Remove directories and their contents recursively", "-r", "-R")
-	flags.BoolVar(&u.Verbose, "Print a message when actions are taken", "-v")
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+func (u *rmCmd) Init() *flag.FlagSet {
+	rm := flag.NewFlagSet("rm", flag.ExitOnError)
+	rm.BoolVar(&u.Dir, "d", false, "Remove empty directories")
+	rm.BoolVar(&u.Force, "f", false, "Skip prompts and ignore warnings")
+	rm.BoolVar(&u.Interactive, "i", false, "Prompt before each removal")
+	rm.BoolVar(&u.Recursive, "r", false,
+		"Remove directories and their contents recursively")
+	rm.BoolVar(&u.Verbose, "v", false,
+		"Print a message when actions are taken")
+	return rm
 }
 
-func (u *rmCmd) Action(s []string, flags *flagger.Flags) error {
-	var (
-		data []string
-		err  error
-	)
-
-	if data, err = flags.Parse(s); err != nil {
-		return fmt.Errorf("%s: %s", u.name, err)
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	if err = u.Rm(data); err != nil {
+func (u *rmCmd) Run(s []string) error {
+	if err := u.Rm(s); err != nil {
 		return err
 	}
 
@@ -69,5 +49,5 @@ func (u *rmCmd) Action(s []string, flags *flagger.Flags) error {
 }
 
 func init() {
-	Command.Add("rm", &rmCmd{})
+	Commands["rm"] = &rmCmd{}
 }

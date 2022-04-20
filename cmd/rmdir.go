@@ -19,46 +19,25 @@
 package cmd
 
 import (
-	"fmt"
+	"flag"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/rmdir"
-	"github.com/jcmdln/flagger"
 )
 
 type rmdirCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 	rmdir.Options
 }
 
-func (u *rmdirCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "rmdir", "[-pv] DIRECTORY ..."
-	u.description = "Remove directories"
-
-	flags.BoolVar(&u.Parents, "Remove parent directories", "-p", "--parents")
-	flags.BoolVar(&u.Verbose, "Print a message when actions are taken", "-v", "--verbose")
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+func (u *rmdirCmd) Init() *flag.FlagSet {
+	rmdir := flag.NewFlagSet("rmdir", flag.ExitOnError)
+	rmdir.BoolVar(&u.Parents, "p", false, "Remove parent directories")
+	rmdir.BoolVar(&u.Verbose, "v", false,
+		"Print a message when actions are taken")
+	return rmdir
 }
 
-func (u *rmdirCmd) Action(s []string, flags *flagger.Flags) error {
-	var (
-		data []string
-		err  error
-	)
-
-	if data, err = flags.Parse(s); err != nil {
-		return fmt.Errorf("%s: %s", u.name, err)
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	if err = u.Rmdir(data); err != nil {
+func (u *rmdirCmd) Run(s []string) error {
+	if err := u.Rmdir(s); err != nil {
 		return err
 	}
 
@@ -66,5 +45,5 @@ func (u *rmdirCmd) Action(s []string, flags *flagger.Flags) error {
 }
 
 func init() {
-	Command.Add("rmdir", &rmdirCmd{})
+	Commands["rmdir"] = &rmdirCmd{}
 }

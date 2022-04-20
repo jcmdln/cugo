@@ -19,45 +19,24 @@
 package cmd
 
 import (
-	"github.com/jcmdln/cugo/lib/help"
+	"flag"
+
 	"github.com/jcmdln/cugo/src/yes"
-	"github.com/jcmdln/flagger"
 )
 
 type yesCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 }
 
-func (u *yesCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "yes", ""
-	u.description = "Be repetitively affirmative"
-
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+func (u *yesCmd) Init() *flag.FlagSet {
+	yes := flag.NewFlagSet("yes", flag.ExitOnError)
+	return yes
 }
 
-func (u *yesCmd) Action(s []string, flags *flagger.Flags) error {
-	var (
-		data []string
-		err  error
-	)
-
-	if data, err = flags.Parse(s); err != nil {
-		yes.Yes([]string{})
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	yes.Yes(data)
-
+func (u *yesCmd) Run(s []string) error {
+	yes.Yes(s)
 	return nil
 }
 
 func init() {
-	Command.Add("yes", &yesCmd{})
+	Commands["yes"] = &yesCmd{}
 }

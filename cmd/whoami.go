@@ -19,42 +19,22 @@
 package cmd
 
 import (
+	"flag"
 	"fmt"
 	"strings"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/whoami"
-	"github.com/jcmdln/flagger"
 )
 
 type whoamiCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 }
 
-func (u *whoamiCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "whoami", ""
-	u.description = "Display effective user ID"
-
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+func (u *whoamiCmd) Init() *flag.FlagSet {
+	whoami := flag.NewFlagSet("whoami", flag.ExitOnError)
+	return whoami
 }
 
-func (u *whoamiCmd) Action(s []string, flags *flagger.Flags) error {
-	var err error
-
-	if _, err = flags.Parse(s); err != nil {
-		if err.Error() != "missing operand" {
-			return fmt.Errorf("%s: %s", u.name, err)
-		}
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
+func (u *whoamiCmd) Run(s []string) error {
 	if len(s) > 0 {
 		t := strings.Join(s, " ")
 		fmt.Printf("cugo: whoami: extra operand '%s'\n", t)
@@ -66,5 +46,5 @@ func (u *whoamiCmd) Action(s []string, flags *flagger.Flags) error {
 }
 
 func init() {
-	Command.Add("whoami", &whoamiCmd{})
+	Commands["whoami"] = &whoamiCmd{}
 }

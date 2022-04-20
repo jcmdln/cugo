@@ -19,43 +19,21 @@
 package cmd
 
 import (
-	"fmt"
+	"flag"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/sleep"
-	"github.com/jcmdln/flagger"
 )
 
 type sleepCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 }
 
-func (u *sleepCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "sleep", "DURATION ..."
-	u.description = "Suspend execution for an interval of time"
-
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+func (u *sleepCmd) Init() *flag.FlagSet {
+	sleep := flag.NewFlagSet("sleep", flag.ExitOnError)
+	return sleep
 }
 
-func (u *sleepCmd) Action(s []string, flags *flagger.Flags) error {
-	var (
-		data []string
-		err  error
-	)
-
-	if data, err = flags.Parse(s); err != nil {
-		return fmt.Errorf("%s: %s", u.name, err)
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	if err = sleep.Sleep(data); err != nil {
+func (u *sleepCmd) Run(s []string) error {
+	if err := sleep.Sleep(s); err != nil {
 		return err
 	}
 
@@ -63,5 +41,5 @@ func (u *sleepCmd) Action(s []string, flags *flagger.Flags) error {
 }
 
 func init() {
-	Command.Add("sleep", &sleepCmd{})
+	Commands["sleep"] = &sleepCmd{}
 }

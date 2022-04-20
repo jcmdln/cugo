@@ -19,46 +19,24 @@
 package cmd
 
 import (
-	"fmt"
+	"flag"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/false"
-	"github.com/jcmdln/flagger"
 )
 
 type falseCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 }
 
-func (u *falseCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "false", ""
-	u.description = "Return false value"
-
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+func (u *falseCmd) Init() *flag.FlagSet {
+	False := flag.NewFlagSet("false", flag.ExitOnError)
+	return False
 }
 
-func (u *falseCmd) Action(s []string, flags *flagger.Flags) error {
-	var err error
-
-	if _, err = flags.Parse(s); err != nil {
-		if err.Error() != "missing operand" {
-			return fmt.Errorf("%s: %s", u.name, err)
-		}
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
+func (u *falseCmd) Run(s []string) error {
 	false.False()
-
 	return nil
 }
 
 func init() {
-	Command.Add("false", &falseCmd{})
+	Commands["false"] = &falseCmd{}
 }

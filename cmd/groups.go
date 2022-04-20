@@ -19,52 +19,29 @@
 package cmd
 
 import (
-	"fmt"
+	"flag"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/groups"
-	"github.com/jcmdln/flagger"
 )
 
 type groupsCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 }
 
-func (u *groupsCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "groups", "[-bct] [FILE ...]"
-	u.description = ""
-
-	flags.BoolVar(&u.help, "show group memberships", "-h", "--help")
+func (u *groupsCmd) Init() *flag.FlagSet {
+	groups := flag.NewFlagSet("groups", flag.ExitOnError)
+	return groups
 }
 
-func (u *groupsCmd) Action(s []string, flags *flagger.Flags) error {
-	var (
-		data []string
-		err  error
-		user string
-	)
+func (u *groupsCmd) Run(s []string) error {
+	var user string
 
-	if data, err = flags.Parse(s); err != nil {
-		if err.Error() != "missing operand" {
-			return fmt.Errorf("%s: %s", u.name, err)
-		}
-	}
-
-	if len(data) < 1 {
+	if len(s) < 1 {
 		user = ""
 	} else {
-		user = data[0]
+		user = s[0]
 	}
 
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	if err = groups.Groups(user); err != nil {
+	if err := groups.Groups(user); err != nil {
 		return err
 	}
 
@@ -72,5 +49,5 @@ func (u *groupsCmd) Action(s []string, flags *flagger.Flags) error {
 }
 
 func init() {
-	Command.Add("groups", &groupsCmd{})
+	Commands["groups"] = &groupsCmd{}
 }

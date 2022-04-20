@@ -19,49 +19,29 @@
 package cmd
 
 import (
-	"fmt"
+	"flag"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/uname"
-	"github.com/jcmdln/flagger"
 )
 
 type unameCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 	uname.Options
 }
 
-func (u *unameCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "uname", "[-amnprsv]"
-	u.description = "print operating system name"
-
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
-	flags.BoolVar(&u.All, "Behave as though all options were specified", "-a")
-	flags.BoolVar(&u.Machine, "Print the machine hardware name", "-m")
-	flags.BoolVar(&u.Nodename, "Print the nodename (aka network name)", "-n")
-	flags.BoolVar(&u.Release, "Print the operating system release", "-r")
-	flags.BoolVar(&u.Sysname, "Print the operating system name", "-s")
-	flags.BoolVar(&u.Version, "Print the operating system version", "-v")
+func (u *unameCmd) Init() *flag.FlagSet {
+	uname := flag.NewFlagSet("uname", flag.ExitOnError)
+	uname.BoolVar(&u.All, "a", false,
+		"Behave as though all options were specified")
+	uname.BoolVar(&u.Machine, "m", false, "Print the machine hardware name")
+	uname.BoolVar(&u.Nodename, "n", false, "Print the nodename / network name")
+	uname.BoolVar(&u.Release, "r", false, "Print the operating system release")
+	uname.BoolVar(&u.Sysname, "s", false, "Print the operating system name")
+	uname.BoolVar(&u.Version, "v", false, "Print the operating system version")
+	return uname
 }
 
-func (u *unameCmd) Action(s []string, flags *flagger.Flags) error {
-	var err error
-
-	if _, err = flags.Parse(s); err != nil {
-		if err.Error() != "missing operand" {
-			return fmt.Errorf("%s: %s", u.name, err)
-		}
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	if err = u.Uname(); err != nil {
+func (u *unameCmd) Run(s []string) error {
+	if err := u.Uname(); err != nil {
 		return err
 	}
 
@@ -69,5 +49,5 @@ func (u *unameCmd) Action(s []string, flags *flagger.Flags) error {
 }
 
 func init() {
-	Command.Add("uname", &unameCmd{})
+	Commands["uname"] = &unameCmd{}
 }

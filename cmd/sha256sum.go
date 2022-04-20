@@ -19,46 +19,22 @@
 package cmd
 
 import (
-	"fmt"
+	"flag"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/sha256sum"
-	"github.com/jcmdln/flagger"
 )
 
 type sha256sumCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 	sha256sum.Options
 }
 
-func (u *sha256sumCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "sha256sum", "[-bct] [FILE ...]"
-	u.description = "Compute and check SHA256 message digest"
-
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+func (u *sha256sumCmd) Init() *flag.FlagSet {
+	sha256sum := flag.NewFlagSet("sha256sum", flag.ExitOnError)
+	return sha256sum
 }
 
-func (u *sha256sumCmd) Action(s []string, flags *flagger.Flags) error {
-	var (
-		err  error
-		data []string
-	)
-
-	if data, err = flags.Parse(s); err != nil {
-		if err.Error() != "missing operand" {
-			return fmt.Errorf("%s: %s", u.name, err)
-		}
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	if err = u.Sha256sum(data); err != nil {
+func (u *sha256sumCmd) Run(s []string) error {
+	if err := u.Sha256sum(s); err != nil {
 		return err
 	}
 
@@ -66,5 +42,5 @@ func (u *sha256sumCmd) Action(s []string, flags *flagger.Flags) error {
 }
 
 func init() {
-	Command.Add("sha256sum", &sha256sumCmd{})
+	Commands["sha256sum"] = &sha256sumCmd{}
 }

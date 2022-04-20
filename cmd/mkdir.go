@@ -19,50 +19,25 @@
 package cmd
 
 import (
-	"fmt"
+	"flag"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/mkdir"
-	"github.com/jcmdln/flagger"
 )
 
 type mkdirCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 	mkdir.Options
 }
 
-func (u *mkdirCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "mkdir", "[-pv] [-m MODE] DIRECTORY ..."
-	u.description = "Make directories"
-
-	flags.UintVar(&u.Mode, 0755,
-		"Set permissions to MODE value", "-m", "--mode")
-	flags.BoolVar(&u.Parents,
-		"Create missing parent directories", "-p", "--parents")
-	flags.BoolVar(&u.Verbose,
-		"Display each created directory", "-v", "--verbose")
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+func (u *mkdirCmd) Init() *flag.FlagSet {
+	mkdir := flag.NewFlagSet("mkdir", flag.ExitOnError)
+	mkdir.UintVar(&u.Mode, "m", 0755, "Set permissions to MODE value")
+	mkdir.BoolVar(&u.Parents, "p", false, "Create missing parent directories")
+	mkdir.BoolVar(&u.Verbose, "v", false, "Display each created directory")
+	return mkdir
 }
 
-func (u *mkdirCmd) Action(s []string, flags *flagger.Flags) error {
-	var (
-		data []string
-		err  error
-	)
-
-	if data, err = flags.Parse(s); err != nil {
-		return fmt.Errorf("%s: %s", u.name, err)
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	if _, err = u.Mkdir(data); err != nil {
+func (u *mkdirCmd) Run(s []string) error {
+	if _, err := u.Mkdir(s); err != nil {
 		return err
 	}
 
@@ -70,5 +45,5 @@ func (u *mkdirCmd) Action(s []string, flags *flagger.Flags) error {
 }
 
 func init() {
-	Command.Add("mkdir", &mkdirCmd{})
+	Commands["mkdir"] = &mkdirCmd{}
 }

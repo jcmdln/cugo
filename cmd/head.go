@@ -19,47 +19,24 @@
 package cmd
 
 import (
-	"fmt"
+	"flag"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/head"
-	"github.com/jcmdln/flagger"
 )
 
 type headCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 	head.Options
 }
 
-func (u *headCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "head", "[-s] HEAD"
-	u.description = "Set or print name of current host system"
-
-	flags.IntVar(&u.Number, 10, "Copy the first NUMBER of lines of each file", "-n")
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+func (u *headCmd) Init() *flag.FlagSet {
+	head := flag.NewFlagSet("head", flag.ExitOnError)
+	head.IntVar(&u.Number, "n", 0,
+		"Copy the first NUMBER of lines of each file")
+	return head
 }
 
-func (u *headCmd) Action(s []string, flags *flagger.Flags) error {
-	var (
-		data []string
-		err  error
-	)
-
-	if data, err = flags.Parse(s); err != nil {
-		if err.Error() != "missing operand" {
-			return fmt.Errorf("%s: %s", u.name, err)
-		}
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	if err = u.Head(data); err != nil {
+func (u *headCmd) Run(s []string) error {
+	if err := u.Head(s); err != nil {
 		return err
 	}
 
@@ -67,5 +44,5 @@ func (u *headCmd) Action(s []string, flags *flagger.Flags) error {
 }
 
 func init() {
-	Command.Add("head", &headCmd{})
+	Commands["head"] = &headCmd{}
 }
