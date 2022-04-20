@@ -36,17 +36,16 @@ func (opt *Options) Uname() error {
 		return err
 	}
 
-	if !opt.All && !opt.Nodename && !opt.Release && !opt.Version && !opt.Machine {
-		opt.Sysname = true
-	} else {
-		if opt.All {
-			opt.Sysname = true
-			opt.Nodename = true
-			opt.Release = true
-			opt.Version = true
-			opt.Machine = true
-		}
+    if !opt.Nodename && !opt.Release && !opt.Version && !opt.Machine {
+        opt.Sysname = true
 	}
+
+    if opt.All {
+        opt.Nodename = true
+        opt.Release = true
+        opt.Version = true
+        opt.Machine = true
+    }
 
 	if opt.Sysname {
 		out = append(out, strings.Trim(string(uname.Sysname[:]), "\x00"))
