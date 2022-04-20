@@ -26,51 +26,29 @@ package main
 import (
 	"fmt"
 	"os"
-	"sort"
 
 	"github.com/jcmdln/cugo/cmd"
-	"github.com/jcmdln/cugo/lib/term"
 )
 
 func main() {
-	var (
-		err         error
-		command     string
-		commandList []string
-		currentLine string
-		index       int
-		termWidth   int
-	)
+	command := os.Args[1]
 
-	if err = cmd.Command.Parse(os.Args[1:]); err != nil {
-		fmt.Printf("error: %s\n", err)
-
-		if len(os.Args) < 2 {
-			fmt.Printf("\nAvailable commands:\n")
-
-			if termWidth, _, err = term.Size(int(os.Stdin.Fd())); err != nil {
-				fmt.Print(err)
-				os.Exit(1)
-			}
-
-			commandList = cmd.Command.List()
-			sort.Strings(commandList)
-
-			for index, command = range commandList {
-				if len(currentLine)+len(command) >= termWidth {
-					fmt.Printf("%s\n", currentLine)
-					currentLine = ""
-				}
-
-				currentLine += command
-				if index != len(commandList)-1 {
-					currentLine += " "
-				}
-			}
-			fmt.Printf("%s\n", currentLine)
-		}
-
+	if len(command) < 1 {
+		fmt.Println("error: missing subcommand")
 		os.Exit(1)
+	}
+
+	if command == "-h" {
+		fmt.Printf("usage: cugo [command] [options]\n")
+		os.Exit(0)
+	}
+
+	for k, v := range cmd.Commands {
+		if command == k {
+			f := v.Init()
+			f.Parse(os.Args[2:])
+			v.Run(f.Args())
+		}
 	}
 
 	os.Exit(0)

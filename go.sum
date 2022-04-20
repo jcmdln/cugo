@@ -1,4 +1,2 @@
-github.com/jcmdln/flagger v0.0.0-20190223140557-0631b9e06f43 h1:JfF0/dst3Qf9mo26r+LGsI2ctu+KZzSNCypzjRgv1us=
-github.com/jcmdln/flagger v0.0.0-20190223140557-0631b9e06f43/go.mod h1:vk24Og8pXwOiinf7IH8+M/Qiy2kDaU/eAUZuf2Of8yA=
 golang.org/x/sys v0.0.0-20210105210732-16f7687f5001 h1:/dSxr6gT0FNI1MO5WLJo8mTmItROeOKTkDn+7OwWBos=
 golang.org/x/sys v0.0.0-20210105210732-16f7687f5001/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=

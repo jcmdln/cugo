@@ -19,45 +19,28 @@
 package cmd
 
 import (
-	"fmt"
+	"flag"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/chmod"
-	"github.com/jcmdln/flagger"
 )
 
 type chmodCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 	chmod.Options
 }
 
-func (u *chmodCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "chmod", "[-R] MODE FILE ..."
-	u.description = "Change file modes"
-
-	flags.BoolVar(&u.Recursive, "Change files and directories recursively", "-R", "--recursive")
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+func (u *chmodCmd) Init() *flag.FlagSet {
+	chmod := flag.NewFlagSet("chmod", flag.ExitOnError)
+	chmod.BoolVar(&u.Recursive, "r", false,
+		"Change files and directories recursively")
+	return chmod
 }
 
-func (u *chmodCmd) Action(s []string, flags *flagger.Flags) error {
+func (u *chmodCmd) Run(s []string) error {
 	var (
-		data []string
-		err  error
+		err error
 	)
 
-	if data, err = flags.Parse(s); err != nil {
-		return fmt.Errorf("%s: %s", u.name, err)
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	if err = u.Chmod(data); err != nil {
+	if err = u.Chmod(s); err != nil {
 		return err
 	}
 
@@ -65,5 +48,5 @@ func (u *chmodCmd) Action(s []string, flags *flagger.Flags) error {
 }
 
 func init() {
-	Command.Add("chmod", &chmodCmd{})
+	Commands["chmod"] = &chmodCmd{}
 }

@@ -1,11 +1,9 @@
 `cugo` implements Unix/Linux core utilities as a multi-call binary. Each
-utility is written from scratch using the reference manuals and the Go standard
-library. Use of external modules is intentionally rare and currently consists
-of the following:
+utility is written from scratch using the reference manuals and the Go
+standard library. Use of external modules is intentionally rare and currently
+consists of the following:
 
-* [jcmdln/flagger](https://github.com/jcmdln/flagger) is the command line
-inferface forked from [hlfstr/flagger](https://github.com/hlfstr/flagger)
-* [x/sys](https://godoc.org/golang.org/x/sys) for various system calls
+* [golang.org/x/sys](https://pkg.go.dev/golang.org/x/sys)
 
 
 About

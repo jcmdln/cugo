@@ -1,6 +1,6 @@
-// options.go
+// cmd.go
 //
-// Copyright 2021 Johnathan C. Maudlin
+// Copyright 2022 Johnathan C. Maudlin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -16,26 +16,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-//go:build testing
-// +build testing
+package cmd
 
-package ls
+import "flag"
 
-type Options struct {
-	All       bool
-	Recursive bool
+type Commander interface {
+	Init() *flag.FlagSet
+	Run([]string) error
 }
 
-type Opts func(*Options)
-
-func All(all bool) Opts {
-	return func(opt *Options) {
-		opt.All = all
-	}
-}
-
-func Recursive(recursive bool) Opts {
-	return func(opt *Options) {
-		opt.Recursive = recursive
-	}
-}
+var Commands = make(map[string]Commander)

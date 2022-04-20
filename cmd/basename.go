@@ -19,65 +19,49 @@
 package cmd
 
 import (
+	"flag"
 	"fmt"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/basename"
-	"github.com/jcmdln/flagger"
 )
 
 type basenameCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 }
 
-func (u *basenameCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "basename", "STRING [SUFFIX]"
-	u.description = "Return non-directory portion of a pathname"
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+func (u *basenameCmd) Init() *flag.FlagSet {
+	basename := flag.NewFlagSet("basename", flag.ExitOnError)
+	return basename
 }
 
-func (u *basenameCmd) Action(s []string, flags *flagger.Flags) error {
+func (u *basenameCmd) Run(s []string) error {
 	var (
-		data    []string
 		err     error
 		operand string
 		suffix  string
-		ret     string
+		result  string
 	)
 
-	if data, err = flags.Parse(s); err != nil {
-		return fmt.Errorf("%s: %s", u.name, err)
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	dataLen := len(data)
+	dataLen := len(s)
 	switch {
 	case dataLen < 1:
-		err = fmt.Errorf("%s: missing operand", u.name)
+		err = fmt.Errorf("basename: missing operand")
 		return err
 	case dataLen > 2:
-		err = fmt.Errorf("%s: extra operands", u.name)
+		err = fmt.Errorf("basename: extra operands")
 		return err
 	case dataLen == 2:
-		operand = data[0]
-		suffix = data[1]
+		operand = s[0]
+		suffix = s[1]
 	default:
-		operand = data[0]
+		operand = s[0]
 		suffix = ""
 	}
 
-	if ret, err = basename.Basename(operand, suffix); err != nil {
+	if result, err = basename.Basename(operand, suffix); err != nil {
 		return err
 	}
 
-	if _, err = fmt.Printf("%s\n", ret); err != nil {
+	if _, err = fmt.Printf("%s\n", result); err != nil {
 		return err
 	}
 
@@ -85,5 +69,5 @@ func (u *basenameCmd) Action(s []string, flags *flagger.Flags) error {
 }
 
 func init() {
-	Command.Add("basename", &basenameCmd{})
+	Commands["basename"] = &basenameCmd{}
 }

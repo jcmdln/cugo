@@ -19,47 +19,23 @@
 package cmd
 
 import (
-	"fmt"
+	"flag"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/cat"
-	"github.com/jcmdln/flagger"
 )
 
 type catCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 	cat.Options
 }
 
-func (u *catCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "cat", "[-u] [FILE ...]"
-	u.description = "Concatenate and print files"
-
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
-	flags.BoolVar(&u.Unbuffered, "Unbuffered output", "-u")
+func (u *catCmd) Init() *flag.FlagSet {
+	cat := flag.NewFlagSet("cat", flag.ExitOnError)
+	cat.BoolVar(&u.Unbuffered, "u", false, "Unbuffered output")
+	return cat
 }
 
-func (u *catCmd) Action(s []string, flags *flagger.Flags) error {
-	var (
-		data []string
-		err  error
-	)
-
-	if data, err = flags.Parse(s); err != nil {
-		if err.Error() != "missing operand" {
-			return fmt.Errorf("%s: %s", u.name, err)
-		}
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	if err = u.Cat(data); err != nil {
+func (u *catCmd) Run(s []string) error {
+	if err := u.Cat(s); err != nil {
 		return err
 	}
 
@@ -67,5 +43,5 @@ func (u *catCmd) Action(s []string, flags *flagger.Flags) error {
 }
 
 func init() {
-	Command.Add("cat", &catCmd{})
+	Commands["cat"] = &catCmd{}
 }

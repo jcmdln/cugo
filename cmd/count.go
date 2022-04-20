@@ -19,49 +19,26 @@
 package cmd
 
 import (
-	"fmt"
+	"flag"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/count"
-	"github.com/jcmdln/flagger"
 )
 
 type countCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 }
 
-func (u *countCmd) Prepare(flags *flagger.Flags) {
-	u.name, u.usage = "count", "STRING ..."
-	u.description = "Count the number of elements of an array"
-
-	flags.BoolVar(&u.help, "Show help output", "-h", "--help")
+func (u *countCmd) Init() *flag.FlagSet {
+	count := flag.NewFlagSet("count", flag.ExitOnError)
+	return count
 }
 
-func (u *countCmd) Action(s []string, flags *flagger.Flags) error {
-	var (
-		data []string
-		err  error
-	)
-
-	if data, err = flags.Parse(s); err != nil {
-		return fmt.Errorf("%s: %s", u.name, err)
-	}
-
-	if u.help {
-		help.Help(u.name, u.usage, u.description, flags)
-	}
-
-	if err = count.Count(data); err != nil {
+func (u *countCmd) Run(s []string) error {
+	if err := count.Count(s); err != nil {
 		return err
 	}
-
 	return nil
 }
 
 func init() {
-	Command.Add("count", &countCmd{})
+	Commands["count"] = &countCmd{}
 }
