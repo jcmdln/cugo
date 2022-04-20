@@ -32,19 +32,22 @@ project, please see
 [cugo-mkdir-example](https://github.com/jcmdln/cugo-mkdir-example)
 which implements `mkdir` using Go's `flag` package.
 
-## Building from source
+Building from source
+---
 ```sh
 $ git clone git@github.com:jcmdln/cugo.git
 $ cd ./cugo
 $ go build
 ```
 
-## Installing as a Go module
+Installing as a Go module
+---
 ```sh
 $ go get -u github.com/jcmdln/cugo
 ```
 
-## Contributing
+Contributing
+===
 If you would like to contribute a utility, improve documentation, or
 write tests please see the [CONTRIBUTING](CONTRIBUTING.md) file for more
 information.
