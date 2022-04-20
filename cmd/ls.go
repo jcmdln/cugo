@@ -23,7 +23,6 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/jcmdln/cugo/lib/help"
 	"github.com/jcmdln/cugo/src/ls"
 )
 
