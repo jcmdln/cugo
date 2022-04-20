@@ -44,7 +44,7 @@ func usage() {
 
 	fmt.Printf("usage: cugo [command] [options]\n\n")
 	fmt.Println("Subcommands:")
-	for k, _ := range cmd.Commands {
+	for k := range cmd.Commands {
 		commands = append(commands, k)
 	}
 
