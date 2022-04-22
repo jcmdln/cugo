@@ -69,6 +69,8 @@ func usage() {
 }
 
 func main() {
+	var err error
+
 	if len(os.Args) < 2 {
 		fmt.Println("error: missing subcommand")
 		usage()
@@ -81,12 +83,15 @@ func main() {
 		os.Exit(0)
 	}
 
-	for k, v := range cmd.Commands {
-		if command == k {
-			f := v.Init()
-			f.Parse(os.Args[2:])
-			v.Run(f.Args())
-		}
+	c := cmd.Commands[command]
+	f := c.Init()
+	if err = f.Parse(os.Args[2:]); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	if err = c.Run(f.Args()); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
 	}
 
 	os.Exit(0)
