@@ -25,11 +25,6 @@ import (
 )
 
 type touchCmd struct {
-	name        string
-	usage       string
-	description string
-
-	help bool
 	touch.Options
 }
 
