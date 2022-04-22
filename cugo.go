@@ -35,12 +35,15 @@ import (
 func usage() {
 	var (
 		err         error
-		command     string
 		commands    []string
 		currentLine string
-		index       int
 		termWidth   int
 	)
+
+	if termWidth, _, err = term.Size(int(os.Stdin.Fd())); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
 	fmt.Printf("usage: cugo [command] [options]\n\n")
 	fmt.Println("Subcommands:")
@@ -49,14 +52,9 @@ func usage() {
 	}
 	sort.Strings(commands)
 
-	if termWidth, _, err = term.Size(int(os.Stdin.Fd())); err != nil {
-		fmt.Print(err)
-		os.Exit(1)
-	}
-
-	for index, command = range commands {
+	for index, command := range commands {
 		if len(currentLine)+len(command) >= termWidth {
-			fmt.Printf("%s\n", currentLine)
+			fmt.Println(currentLine)
 			currentLine = ""
 		}
 
