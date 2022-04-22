@@ -47,7 +47,6 @@ func usage() {
 	for k := range cmd.Commands {
 		commands = append(commands, k)
 	}
-
 	sort.Strings(commands)
 
 	if termWidth, _, err = term.Size(int(os.Stdin.Fd())); err != nil {

@@ -24,8 +24,7 @@ import (
 	"github.com/jcmdln/cugo/src/false"
 )
 
-type falseCmd struct {
-}
+type falseCmd struct{}
 
 func (u *falseCmd) Init() *flag.FlagSet {
 	False := flag.NewFlagSet("false", flag.ExitOnError)

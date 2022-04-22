@@ -24,8 +24,7 @@ import (
 	"github.com/jcmdln/cugo/src/groups"
 )
 
-type groupsCmd struct {
-}
+type groupsCmd struct{}
 
 func (u *groupsCmd) Init() *flag.FlagSet {
 	groups := flag.NewFlagSet("groups", flag.ExitOnError)

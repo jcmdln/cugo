@@ -24,8 +24,7 @@ import (
 	"github.com/jcmdln/cugo/src/true"
 )
 
-type trueCmd struct {
-}
+type trueCmd struct{}
 
 func (u *trueCmd) Init() *flag.FlagSet {
 	true := flag.NewFlagSet("true", flag.ExitOnError)

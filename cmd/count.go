@@ -24,8 +24,7 @@ import (
 	"github.com/jcmdln/cugo/src/count"
 )
 
-type countCmd struct {
-}
+type countCmd struct{}
 
 func (u *countCmd) Init() *flag.FlagSet {
 	count := flag.NewFlagSet("count", flag.ExitOnError)

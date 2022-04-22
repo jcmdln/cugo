@@ -24,8 +24,7 @@ import (
 	"github.com/jcmdln/cugo/src/sleep"
 )
 
-type sleepCmd struct {
-}
+type sleepCmd struct{}
 
 func (u *sleepCmd) Init() *flag.FlagSet {
 	sleep := flag.NewFlagSet("sleep", flag.ExitOnError)

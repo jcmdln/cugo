@@ -25,8 +25,7 @@ import (
 	"github.com/jcmdln/cugo/src/basename"
 )
 
-type basenameCmd struct {
-}
+type basenameCmd struct{}
 
 func (u *basenameCmd) Init() *flag.FlagSet {
 	basename := flag.NewFlagSet("basename", flag.ExitOnError)

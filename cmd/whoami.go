@@ -26,8 +26,7 @@ import (
 	"github.com/jcmdln/cugo/src/whoami"
 )
 
-type whoamiCmd struct {
-}
+type whoamiCmd struct{}
 
 func (u *whoamiCmd) Init() *flag.FlagSet {
 	whoami := flag.NewFlagSet("whoami", flag.ExitOnError)

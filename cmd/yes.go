@@ -24,8 +24,7 @@ import (
 	"github.com/jcmdln/cugo/src/yes"
 )
 
-type yesCmd struct {
-}
+type yesCmd struct{}
 
 func (u *yesCmd) Init() *flag.FlagSet {
 	yes := flag.NewFlagSet("yes", flag.ExitOnError)
