@@ -30,7 +30,9 @@ func Basename(operand string, suffix string) (string, error) {
 	var s string
 
 	s = filepath.Base(operand)
-	s = strings.TrimSuffix(s, suffix)
+	if len(suffix) > 0 {
+		s = strings.TrimSuffix(s, suffix)
+	}
 
 	return s, nil
 }
