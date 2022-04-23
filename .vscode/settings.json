@@ -1,0 +1,9 @@
+// SPDX-License-Identifier: ISC
+{
+  "editor.wordWrap": "off",
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": [
+      "${workspaceFolder}/.github/**/*.yaml",
+    ],
+  },
+}
