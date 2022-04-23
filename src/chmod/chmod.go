@@ -1,4 +1,4 @@
-// chmod.go
+// SPDX-License-Identifier: ISC
 //
 // ISC License
 //
