@@ -1,11 +1,37 @@
-tags
-cugo
-cugo.exe
+# SPDX-License-Identifier: ISC
 
+# Ignore everything
+*
 
-# Emacs
-\#*#
-.#*
+# Include these specific files
+!.clang-format
+!.clang-tidy
+!.clangd
+!.editorconfig
+!.gitignore
+!LICENSE
+!meson.build
 
-# VS Code
-.vscode
+# Include specific files from specific directories
+!.github/
+!.github/**/
+!.github/**/*.yaml
+
+!.vscode/
+!.vscode/**/
+!.vscode/**/*.json
+
+!cmd/
+!cmd/**/
+!cmd/**/*.go
+!cmd/**/*.md
+
+!lib/
+!lib/**/
+!lib/**/*.go
+!lib/**/*.md
+
+!src/
+!src/**/
+!src/**/*.go
+!src/**/*.md
