@@ -9,7 +9,7 @@ import (
 )
 
 type unameCmd struct {
-	uname.Options
+	uname.Option
 }
 
 func (u *unameCmd) Init() *flag.FlagSet {

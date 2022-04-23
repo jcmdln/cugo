@@ -8,7 +8,12 @@ import (
 	"path/filepath"
 )
 
-func (opt *Options) Pwd() error {
+type Option struct {
+	L bool
+	P bool
+}
+
+func (opt *Option) Pwd() error {
 	var (
 		cwd string
 		dir string

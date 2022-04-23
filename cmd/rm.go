@@ -9,7 +9,7 @@ import (
 )
 
 type rmCmd struct {
-	rm.Options
+	rm.Option
 }
 
 func (u *rmCmd) Init() *flag.FlagSet {

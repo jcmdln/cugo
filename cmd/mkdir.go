@@ -9,7 +9,7 @@ import (
 )
 
 type mkdirCmd struct {
-	mkdir.Options
+	mkdir.Option
 }
 
 func (u *mkdirCmd) Init() *flag.FlagSet {

@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: ISC
 
 //go:build linux
-// +build linux
 
 package hostname
 

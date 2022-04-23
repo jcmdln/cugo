@@ -12,7 +12,12 @@ import (
 	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
-func (opt *Options) Rmdir(operands []string) error {
+type Option struct {
+	Parents bool
+	Verbose bool
+}
+
+func (opt *Option) Rmdir(operands []string) error {
 	var (
 		operand string
 		err     error

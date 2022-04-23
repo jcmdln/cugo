@@ -9,7 +9,16 @@ import (
 	"golang.org/x/sys/unix"
 )
 
-func (opt *Options) Uname() error {
+type Option struct {
+	All      bool
+	Machine  bool
+	Nodename bool
+	Release  bool
+	Sysname  bool
+	Version  bool
+}
+
+func (opt *Option) Uname() error {
 	var (
 		err   error
 		out   []string

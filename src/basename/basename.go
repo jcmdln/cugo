@@ -1,21 +1,26 @@
 // SPDX-License-Identifier: ISC
-//
-// ISC License
-//
-// Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
-//
-// Permission to use, copy, modify, and/or distribute this software for any
-// purpose with or without fee is hereby granted, provided that the above
-// copyright notice and this permission notice appear in all copies.
-//
-// THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-// REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-// AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-// INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-// LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
-// OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-// PERFORMANCE OF THIS SOFTWARE.
 
+// return non-directory portion of a pathname.
+//
+// SYNOPSIS
+//
+//     basename STRING [suffix]
+//
+// DESCRIPTION
+//
+// basename deletes any prefix ending with the last slash ("/")
+// character present in STRING, and a suffix, if given.  The resulting
+// filename is written to the standard output.  A non-existent suffix
+// is ignored.
+//
+// SEE ALSO
+//
+//     https://golang.org/pkg/path/filepath/#Base
+//
+// REFERENCES
+//
+//     https://pubs.opengroup.org/onlinepubs/9699919799/utilities/basename.html
+//
 package basename
 
 import (
@@ -26,10 +31,10 @@ import (
 // Basename returns the non-directory portion of a pathname by deleting
 // any prefix ending with the last forward slash (‘/’), and a suffix if
 // given which may be an empty string if not required.
-func Basename(operand string, suffix string) (string, error) {
+func Basename(path string, suffix string) (string, error) {
 	var s string
 
-	s = filepath.Base(operand)
+	s = filepath.Base(path)
 	if len(suffix) > 0 {
 		s = strings.TrimSuffix(s, suffix)
 	}

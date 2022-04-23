@@ -9,7 +9,7 @@ import (
 )
 
 type hostnameCmd struct {
-	hostname.Options
+	hostname.Option
 }
 
 func (u *hostnameCmd) Init() *flag.FlagSet {

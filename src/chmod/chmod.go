@@ -1,20 +1,4 @@
 // SPDX-License-Identifier: ISC
-//
-// ISC License
-//
-// Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
-//
-// Permission to use, copy, modify, and/or distribute this software for any
-// purpose with or without fee is hereby granted, provided that the above
-// copyright notice and this permission notice appear in all copies.
-//
-// THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-// REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-// AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-// INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-// LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
-// OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-// PERFORMANCE OF THIS SOFTWARE.
 
 package chmod
 
@@ -26,10 +10,13 @@ import (
 	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
-func (opt *Options) Chmod(operands []string) error {
+type Option struct {
+	Recursive bool
+}
+
+func (opt *Option) Chmod(operands []string) error {
 	var (
 		err     error
-		mode    os.FileMode
 		modeVal uint64
 		operand string
 	)
@@ -38,8 +25,7 @@ func (opt *Options) Chmod(operands []string) error {
 		return err
 	}
 
-	mode = os.FileMode(modeVal)
-
+	mode := os.FileMode(modeVal)
 	for _, operand = range operands[1:] {
 		if err = ex.Exists(operand); err != nil {
 			return err
@@ -47,6 +33,10 @@ func (opt *Options) Chmod(operands []string) error {
 
 		if opt.Recursive {
 			if err = filepath.Walk(operand, func(s string, i os.FileInfo, err error) error {
+				if err != nil {
+					return err
+				}
+
 				if err = os.Chmod(s, mode); err != nil {
 					return err
 				}

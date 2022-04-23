@@ -9,7 +9,7 @@ import (
 )
 
 type sha384sumCmd struct {
-	sha384sum.Options
+	sha384sum.Option
 }
 
 func (u *sha384sumCmd) Init() *flag.FlagSet {

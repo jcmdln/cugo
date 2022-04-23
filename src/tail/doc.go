@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: ISC
-
 //go:build testing
-// +build testing
 
 // copy the last part of a file.
 //

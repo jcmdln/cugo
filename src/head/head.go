@@ -10,7 +10,11 @@ import (
 	"os"
 )
 
-func (opt *Options) Head(operands []string) error {
+type Option struct {
+	Number int
+}
+
+func (opt *Option) Head(operands []string) error {
 	var (
 		err     error
 		file    io.Reader
@@ -31,7 +35,7 @@ func (opt *Options) Head(operands []string) error {
 				return err
 			}
 
-			if _, err = fmt.Printf(line); err != nil {
+			if _, err = fmt.Print(line); err != nil {
 				return err
 			}
 		}

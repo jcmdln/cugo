@@ -9,7 +9,7 @@ import (
 )
 
 type chmodCmd struct {
-	chmod.Options
+	chmod.Option
 }
 
 func (u *chmodCmd) Init() *flag.FlagSet {

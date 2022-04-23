@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: ISC
-
 //go:build testing
-// +build testing
 
 package ls
 
@@ -16,9 +14,14 @@ import (
 	"github.com/jcmdln/cugo/lib/term"
 )
 
+type Option struct {
+	All       bool
+	Recursive bool
+}
+
 // Ls will list all targets and their children in the order provided,
 // and will recursively list children if specified.
-func (opt *Options) Ls(operands []string) error {
+func (opt *Option) Ls(operands []string) error {
 	var (
 		operand string
 		index   int

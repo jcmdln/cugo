@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: ISC
 
 //go:build openbsd
-// +build openbsd
 
 package hostname
 

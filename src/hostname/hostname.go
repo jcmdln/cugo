@@ -11,7 +11,11 @@ import (
 	"golang.org/x/sys/unix"
 )
 
-func (opt *Options) Hostname(hostname string) error {
+type Option struct {
+	Strip bool
+}
+
+func (opt *Option) Hostname(hostname string) error {
 	var (
 		err  error
 		name string

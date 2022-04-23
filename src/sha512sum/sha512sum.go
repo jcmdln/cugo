@@ -9,8 +9,14 @@ import (
 	"os"
 )
 
+type Option struct {
+	Binary bool
+	Check  bool
+	Text   bool
+}
+
 // Sha512sum ...
-func (opt *Options) Sha512sum(operands []string) error {
+func (opt *Option) Sha512sum(operands []string) error {
 	var (
 		contents []byte
 		data     []byte

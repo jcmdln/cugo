@@ -9,7 +9,7 @@ import (
 )
 
 type pwdCmd struct {
-	pwd.Options
+	pwd.Option
 }
 
 func (u *pwdCmd) Init() *flag.FlagSet {

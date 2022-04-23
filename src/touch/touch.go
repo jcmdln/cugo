@@ -10,8 +10,16 @@ import (
 	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
+type Option struct {
+	Access    bool
+	Create    bool
+	Date      string
+	Modified  bool
+	Reference string
+}
+
 // Touch ...
-func (opt *Options) Touch(operands []string) error {
+func (opt *Option) Touch(operands []string) error {
 	var (
 		operand    string
 		finfo      os.FileInfo

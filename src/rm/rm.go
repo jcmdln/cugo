@@ -11,7 +11,15 @@ import (
 	pr "github.com/jcmdln/cugo/lib/prompt"
 )
 
-func (opt *Options) Rm(operands []string) error {
+type Option struct {
+	Dir         bool
+	Force       bool
+	Interactive bool
+	Recursive   bool
+	Verbose     bool
+}
+
+func (opt *Option) Rm(operands []string) error {
 	var (
 		err     error
 		operand string

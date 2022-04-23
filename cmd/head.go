@@ -9,7 +9,7 @@ import (
 )
 
 type headCmd struct {
-	head.Options
+	head.Option
 }
 
 func (u *headCmd) Init() *flag.FlagSet {

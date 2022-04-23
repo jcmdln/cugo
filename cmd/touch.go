@@ -9,7 +9,7 @@ import (
 )
 
 type touchCmd struct {
-	touch.Options
+	touch.Option
 }
 
 func (u *touchCmd) Init() *flag.FlagSet {

@@ -9,7 +9,7 @@ import (
 )
 
 type rmdirCmd struct {
-	rmdir.Options
+	rmdir.Option
 }
 
 func (u *rmdirCmd) Init() *flag.FlagSet {

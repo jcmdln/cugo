@@ -7,7 +7,13 @@ import (
 	"os"
 )
 
-func (opt *Options) Mkdir(operands []string) ([]string, error) {
+type Option struct {
+	Mode    uint
+	Parents bool
+	Verbose bool
+}
+
+func (opt *Option) Mkdir(operands []string) ([]string, error) {
 	var (
 		dir  string
 		mode os.FileMode

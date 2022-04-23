@@ -11,7 +11,7 @@ import (
 )
 
 type lsCmd struct {
-	ls.Options
+	ls.Option
 }
 
 func (u *lsCmd) Init() *flag.FlagSet {

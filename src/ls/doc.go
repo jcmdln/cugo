@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: ISC
-
 //go:build testing
-// +build testing
 
 // list directory contents.
 //
