@@ -34,7 +34,7 @@ jobs:
           - name: test
             cmd: go test -v -bench=^$ -run=.
           - name: vet
-            cmd: go vet -v -bench=^$ -run=.
+            cmd: go vet -v
 
     steps:
       - uses: actions/checkout@v3
