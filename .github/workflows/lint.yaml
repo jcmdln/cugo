@@ -1,0 +1,46 @@
+# SPDX-License-Identifier: ISC
+---
+name: lint
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/lint.yml
+      - cmd/**/*.go
+      - lib/**/*.go
+      - src/**/*.go
+      - cugo.go
+      - go.mod
+      - go.sum
+  push:
+    paths:
+      - .github/workflows/lint.yml
+      - cmd/**/*.go
+      - lib/**/*.go
+      - src/**/*.go
+      - cugo.go
+      - go.mod
+      - go.sum
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        include:
+          - name: bench
+            cmd: go test -v -bench=. -benchmem -run=^$
+          - name: test
+            cmd: go test -v -bench=^$ -run=.
+          - name: vet
+            cmd: go vet -v -bench=^$ -run=.
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: "^1.18.1"
+
+      - name: Run ${{ matrix.name }}
+        run: ${{ matrix.cmd }} ./...
