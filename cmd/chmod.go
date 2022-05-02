@@ -4,6 +4,8 @@ package cmd
 
 import (
 	"flag"
+	"fmt"
+	"os"
 
 	"github.com/jcmdln/cugo/src/chmod"
 )
@@ -21,10 +23,23 @@ func (u *chmodCmd) Init() *flag.FlagSet {
 
 func (u *chmodCmd) Run(s []string) error {
 	var (
-		err error
+		err   error
+		file  *os.File
+		files []*os.File
 	)
 
-	if err = u.Chmod(s); err != nil {
+	if len(s) < 2 {
+		return fmt.Errorf("chmod: no MODE given!")
+	}
+
+	for _, f := range s[1:] {
+		if file, err = os.Open(f); err != nil {
+			return err
+		}
+		files = append(files, file)
+	}
+
+	if err = u.Chmod(s[0], files); err != nil {
 		return err
 	}
 
