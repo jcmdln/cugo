@@ -6,8 +6,6 @@ import (
 	"os"
 	"syscall"
 	"time"
-
-	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
 type Option struct {
@@ -39,7 +37,7 @@ func (opt *Option) Touch(operands []string) error {
 			}
 		}
 
-		if err = ex.Exists(operand); err != nil {
+		if _, err = os.Stat(operand); err != nil {
 			finfo, _ = os.Stat(operand)
 			fstat = finfo.Sys().(*syscall.Stat_t)
 

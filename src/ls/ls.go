@@ -10,7 +10,6 @@ import (
 	"os"
 	"strings"
 
-	ex "github.com/jcmdln/cugo/lib/exists"
 	"github.com/jcmdln/cugo/lib/term"
 )
 
@@ -67,7 +66,7 @@ func (opt *Option) Ls(operands []string) error {
 		}
 	} else {
 		for _, operand = range operands {
-			if err = ex.Exists(operand); err != nil {
+			if _, err = os.Stat(operand); err != nil {
 				err = errors.New("ls: " + operand + ": No such file or directory")
 				return err
 			}

@@ -9,7 +9,6 @@ import (
 	"path/filepath"
 
 	em "github.com/jcmdln/cugo/lib/empty"
-	ex "github.com/jcmdln/cugo/lib/exists"
 )
 
 type Option struct {
@@ -35,9 +34,8 @@ func (opt *Option) Rmdir(operands []string) error {
 	}
 
 	for _, operand = range operands {
-		if ex.Exists(operand) != nil {
-			err = errors.New("rmdir: " + operand + ": no such file or directory")
-			return err
+		if _, err = os.Stat(operand); err != nil {
+			return errors.New("rmdir: " + operand + ": no such file or directory")
 		}
 
 		if em.Empty(operand) {
@@ -47,6 +45,10 @@ func (opt *Option) Rmdir(operands []string) error {
 		} else if opt.Parents {
 			for !em.Empty(operand) {
 				if err = filepath.Walk(operand, func(dir string, info os.FileInfo, err error) error {
+					if err != nil {
+						return err
+					}
+
 					if info.IsDir() && em.Empty(dir) {
 						if err = rmdir(operand); err != nil {
 							return err
