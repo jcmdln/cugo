@@ -10,11 +10,17 @@ import (
 // Empty confirms whether the provided directory contains any children,
 // returning 'true' if a child file or directory is present.
 func Empty(dir string) bool {
-	t, err := os.Open(dir)
-	defer t.Close()
+	var (
+		err  error
+		file *os.File
+	)
 
-	_, err = t.Readdirnames(1)
-	if err == io.EOF {
+	if file, err = os.Open(dir); err != nil {
+		return true
+	}
+	defer file.Close()
+
+	if _, err = file.Readdirnames(1); err == io.EOF {
 		return true
 	}
 
