@@ -10,11 +10,18 @@ import (
 )
 
 func BenchmarkCat(b *testing.B) {
-	var err error
+	var (
+		err  error
+		file *os.File
+	)
 
 	u := &Option{}
-	files := []*os.File{os.Stdin}
 
+	if file, err = os.CreateTemp(os.TempDir(), ""); err != nil {
+		b.Error(err)
+	}
+
+	files := []*os.File{file}
 	for i := 0; i < b.N; i++ {
 		if err = u.Cat(files); err != nil {
 			b.Error(err)
@@ -23,13 +30,19 @@ func BenchmarkCat(b *testing.B) {
 }
 
 func BenchmarkCatUnbuffered(b *testing.B) {
-	var err error
+	var (
+		err  error
+		file *os.File
+	)
 
 	u := &Option{}
 	u.Unbuffered = true
 
-	files := []*os.File{os.Stdin}
+	if file, err = os.CreateTemp(os.TempDir(), ""); err != nil {
+		b.Error(err)
+	}
 
+	files := []*os.File{file}
 	for i := 0; i < b.N; i++ {
 		if err = u.Cat(files); err != nil {
 			b.Error(err)
