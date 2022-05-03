@@ -16,8 +16,7 @@ type chmodCmd struct {
 
 func (u *chmodCmd) Init() *flag.FlagSet {
 	chmod := flag.NewFlagSet("chmod", flag.ExitOnError)
-	chmod.BoolVar(&u.Recursive, "r", false,
-		"Change files and directories recursively")
+	chmod.BoolVar(&u.Recursive, "r", false, "Change files and directories recursively")
 	return chmod
 }
 
