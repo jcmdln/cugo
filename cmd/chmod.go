@@ -29,7 +29,7 @@ func (u *chmodCmd) Run(s []string) error {
 	)
 
 	if len(s) < 2 {
-		return fmt.Errorf("chmod: no MODE given!")
+		return fmt.Errorf("chmod: missing required argument MODE")
 	}
 
 	for _, f := range s[1:] {
