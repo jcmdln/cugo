@@ -18,13 +18,12 @@ import (
 
 func usage() {
 	var (
-		err         error
 		commands    []string
 		currentLine string
-		termWidth   int
 	)
 
-	if termWidth, _, err = term.Size(int(os.Stdin.Fd())); err != nil {
+	termWidth, _, err := term.Size(int(os.Stdin.Fd()))
+	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
@@ -47,40 +46,37 @@ func usage() {
 			currentLine += " "
 		}
 	}
-	fmt.Printf("%s\n", currentLine)
+
+	fmt.Println(currentLine)
 }
 
 func main() {
-	var (
-		c   cmd.Command
-		err error
-		ok  bool
-	)
-
 	if len(os.Args) < 2 {
 		fmt.Println("error: missing subcommand")
 		usage()
 		os.Exit(1)
 	}
 
-	command := os.Args[1]
-	if command == "-h" {
+	switch os.Args[1] {
+	case "-h":
 		usage()
 		os.Exit(0)
 	}
 
-	if c, ok = cmd.Commands[command]; !ok {
-		fmt.Println("error: no such command")
+	command := cmd.Commands[os.Args[1]]
+	if command == nil {
+		fmt.Printf("error: no such command '%s'\n", os.Args[1])
 		usage()
 		os.Exit(1)
 	}
 
-	f := c.Init()
-	if err = f.Parse(os.Args[2:]); err != nil {
+	flags := command.Init()
+	if err := flags.Parse(os.Args[2:]); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	if err = c.Run(f.Args()); err != nil {
+
+	if err := command.Run(flags.Args()); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
