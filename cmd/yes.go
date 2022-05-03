@@ -4,6 +4,7 @@ package cmd
 
 import (
 	"flag"
+	"strings"
 
 	"github.com/jcmdln/cugo/src/yes"
 )
@@ -16,7 +17,7 @@ func (u *yesCmd) Init() *flag.FlagSet {
 }
 
 func (u *yesCmd) Run(s []string) error {
-	yes.Yes(s)
+	yes.Yes(strings.Join(s, " "))
 	return nil
 }
 

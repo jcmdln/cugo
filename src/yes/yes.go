@@ -3,19 +3,19 @@
 package yes
 
 import (
-	"fmt"
+	"os"
 	"strings"
 )
 
-func Yes(operands []string) {
-	if len(operands) == 0 {
-		for {
-			fmt.Printf("y\n")
-		}
-	} else {
-		out := strings.Join(operands, " ")
-		for {
-			fmt.Printf("%s\n", out)
-		}
+func Yes(str string) {
+	if len(str) == 0 {
+		str = "y"
+	}
+
+	// Append newline character to string
+	str = strings.Join([]string{str, "\n"}, "")
+
+	for {
+		os.Stdout.WriteString(str)
 	}
 }
