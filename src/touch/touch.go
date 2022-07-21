@@ -37,7 +37,7 @@ func (opt *Option) Touch(operands []string) error {
 			}
 		}
 
-		if _, err = os.Stat(operand); err != nil {
+		if _, err = os.Stat(operand); err == nil {
 			finfo, _ = os.Stat(operand)
 			fstat = finfo.Sys().(*syscall.Stat_t)
 
